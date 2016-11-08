@@ -11,7 +11,6 @@ public class Main {
 		int opcioMenu;
 		
 		inicialitzaDades();
-		
 		mostraMenu();
 		opcioMenu = teclat.nextInt();
 
@@ -26,6 +25,9 @@ public class Main {
 		}
 	}
 	
+	/**Mètode que mostra per pantalla el menú del programa
+	 * 
+	 */
 	public static void mostraMenu(){
 		System.out.print("\nPulsi enter per mostrar el menú\n\n");
 		teclat.nextLine(); 			//Buidem el buffer del teclat
@@ -41,6 +43,9 @@ public class Main {
 		System.out.printf("\n\t\t\tIndica opcio:");
 	}
 	
+	/**Mètode que inicialitza les dades del programa
+	 * 
+	 */
 	public static void inicialitzaDades(){
 		llistaProductes = new Producte[100];
 		llistaClients = new Client[100];
@@ -48,43 +53,53 @@ public class Main {
 		nProductes = 0;
 	}
 	
+	/**Mètode que permet afegir un producte a la llista (plat o beguda).
+	 * 
+	 */
 	public static void afegirProducte(){
 		int opcio;
 		String nom;
 		double preu;
 		
-		System.out.println("Indica que vol afegir: ");
-		System.out.println("1. Plat\n2. Beguda");
-		opcio = teclat.nextInt();
-		while (opcio != 1 && opcio != 2){
-			System.out.println("ERROR!");
+		if (nProductes == llistaProductes.length)
+			System.out.println("No es pot afegir cap producte més!");
+		else{
+			System.out.println("Indica que vol afegir: ");
 			System.out.println("1. Plat\n2. Beguda");
 			opcio = teclat.nextInt();
-		}
-		
-		System.out.print("-Indica el nom: ");
-		nom = teclat.nextLine();
-		System.out.print("\n-Indica el preu: ");
-		preu = teclat.nextDouble();		
-		
-		switch (opcio){
-		case 1:
-			//DEMANAR ENUMS
-			llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu);
-			break;
-		case 2:
-			boolean alcohol= false;
-			System.out.print("\n-Volum: ");
-			int volum = teclat.nextInt();
-			System.out.print("\n- Alcohol SI/NO: ");
-			String portaAlcohol = teclat.nextLine();
-			alcohol = portaAlcohol.equalsIgnoreCase("SI");
-			llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
-			nProductes++;
-			break;
+			while (opcio != 1 && opcio != 2){
+				System.out.println("ERROR!");
+				System.out.println("1. Plat\n2. Beguda");
+				opcio = teclat.nextInt();
+			}
+			
+			System.out.print("-Indica el nom: ");
+			nom = teclat.nextLine();
+			System.out.print("\n-Indica el preu: ");
+			preu = teclat.nextDouble();		
+			
+			switch (opcio){
+			case 1:
+				//DEMANAR ENUMS
+				llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu);
+				break;
+			case 2:
+				boolean alcohol= false;
+				System.out.print("\n-Volum: ");
+				int volum = teclat.nextInt();
+				System.out.print("\n- Alcohol SI/NO: ");
+				String portaAlcohol = teclat.nextLine();
+				alcohol = portaAlcohol.equalsIgnoreCase("SI");
+				llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
+				nProductes++;
+				break;
+			}
 		}
 	}
 	
+	/**Mètode que permet eliminar un producte. L'usuari introduirà el codi del producte
+	 * 
+	 */
 	public static void eliminarProducte(){
 		int codi, posicio;
 		
@@ -104,9 +119,13 @@ public class Main {
 		System.out.println("S'ha eliminat correctament el producte");
 	}
 	
+	/**Mètode que permet consultar un producte. L'usuari introduirà el codi del producte
+	 * 
+	 */
 	public static void consultarProducte(){
 		int codi, posicio;
 		
+		mostraProductes();
 		System.out.println("Indica el codi del producte que vol consultar: ");
 		codi = teclat.nextInt();
 		posicio = buscaProducte(codi);
@@ -133,4 +152,24 @@ public class Main {
 		return -1;
 	}
 
+	/**Mètode que mostra per pantalla el menú de restaurant
+	 * 
+	 */
+	private static void mostraProductes(){
+		int i;
+		
+		System.out.println("********************		[MENÚ]		  ********************");
+		System.out.println("PLATS:");
+		for (i=0; i < nProductes; i++){
+			if (llistaProductes[i] instanceof Plat)
+				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+")");
+		}
+		
+		System.out.println("BEGUDES:");
+		for (i=0; i < nProductes; i++){
+			if (llistaProductes[i] instanceof Beguda)
+				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+")");
+		}
+		System.out.println("**************************************************************");
+	}
 }
