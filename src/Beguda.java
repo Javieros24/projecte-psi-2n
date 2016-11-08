@@ -1,5 +1,5 @@
 
-public class Beguda extends Productes  
+public class Beguda extends Producte  
 {
 	int volum;
 	boolean alcohol;

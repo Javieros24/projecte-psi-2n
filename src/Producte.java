@@ -1,5 +1,5 @@
 
-public class Productes 
+public class Producte 
 {
 	String nom;
 	int codiReferencia;
@@ -7,7 +7,7 @@ public class Productes
 	double descompte;
 	
 	
-	public Productes (String nom, int codiReferencia, double preu, double descompte)
+	public Producte (String nom, int codiReferencia, double preu, double descompte)
 	{
 		this.nom=nom;
 		this.codiReferencia=codiReferencia;

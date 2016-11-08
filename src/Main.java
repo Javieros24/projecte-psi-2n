@@ -4,7 +4,7 @@ public class Main {
 
     static Scanner teclat = new Scanner(System.in);
 	private Beguda[] llistaBegudes;
-	private Plats[] llistaPlats;
+	private Plat[] llistaPlats;
 	private Client[] llistaClients;
 	private int nClients, nBegudes, nPlats;
     
@@ -42,9 +42,9 @@ public class Main {
 		System.out.printf("\n\t\t\tIndica opcio:");
 	}
 	
-	public void inicialitzaDades(){
+	public static void inicialitzaDades(){
 		llistaBegudes = new Beguda[100];
-		llistaPlats = new Plats[100];
+		llistaPlats = new Plat[100];
 		llistaClients = new Client[100];
 		nClients = 0;
 		nBegudes = 0;
