@@ -84,5 +84,53 @@ public class Main {
 			break;
 		}
 	}
+	
+	public static void eliminarProducte(){
+		int codi, posicio;
+		
+		System.out.println("Indica el codi del producte que vol eliminar: ");
+		codi = teclat.nextInt();
+		posicio = buscaProducte(codi);
+		while(posicio == -1){
+			System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
+			codi = teclat.nextInt();
+			posicio = buscaProducte(codi);
+		}
+		
+		for (int i=posicio; i<nProductes-1; i++){
+			llistaProductes[i] = llistaProductes[i-1];
+		}
+		
+		System.out.println("S'ha eliminat correctament el producte");
+	}
+	
+	public static void consultarProducte(){
+		int codi, posicio;
+		
+		System.out.println("Indica el codi del producte que vol consultar: ");
+		codi = teclat.nextInt();
+		posicio = buscaProducte(codi);
+		while(posicio == -1){
+			System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
+			codi = teclat.nextInt();
+			posicio = buscaProducte(codi);
+		}
+		
+		System.out.println(llistaProductes[posicio].toString());
+	}
+	
+	/**Mètode que busca un producte a partir d'un codi, -1 en cas de no trobar-lo
+	 * 
+	 * @param codi codi del producte a buscar
+	 * @return posició de la taula on es troba el producte, -1 en cas de no trobar-lo
+	 */
+	private static int buscaProducte(int codi){
+		
+		for (int i=0; i < nProductes; i++){
+			if (llistaProductes[i].getCodiReferencia() == codi)
+				return i;
+		}
+		return -1;
+	}
 
 }

@@ -17,7 +17,7 @@ public class Client {
 		this.restriccions=restriccions;
 		preferent=false;
 		
-		taulaComandes = new Comanda[20];
+		taulaComandes = new Comanda[100];
 	}
 	
 	/** Afegeix una comanda a l'historial de comandes del client.
@@ -26,7 +26,7 @@ public class Client {
 		taulaComandes[numComandes]=comanda;
 		numComandes++;
 		
-		if (numComandes==6) prefetent=true;
+		if (numComandes==6) preferent=true;
 	}
 	
 	/** Retorna l'historial de comandes del client.
@@ -36,12 +36,18 @@ public class Client {
 	}
 	
 	/** Reb per parametre l'index de la comanda que es vol copiar de l'historial
-	 * i retorna una instancia d'aquesta comanda.
+	 * i es crea una nova comanda amb les mateixes.
 	 * @param numComanda Index de la comanda a la taula.
 	 * @return Comanda **/
 	public Comanda copiar(int numComanda){
+		int i=0;
+		Producte[] p=taulaComandes[numComanda].getLlista();
 		
-		return taulaComandes[numComanda];
+		Comanda copia=new Comanda(taulaComandes[numComanda].getNumProd());
+		while(i<taulaComandes[numComanda].getNumProd())
+			copia.afegirProducte(p[i], 1);
+			i++;
+		return copia;
 	}
 	
 }
