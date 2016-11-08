@@ -184,7 +184,7 @@ public class Main {
 		for (int i=0; i<num; i++)
 		{   
 			System.out.println("Elegeix un producte de la llista") ;
-			mostrarProductes() ;
+			mostraProductes() ;
 			codi = teclat.nextInt();
 			posicio = buscaProducte(codi);
 			while(posicio == -1){
