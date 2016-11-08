@@ -172,4 +172,40 @@ public class Main {
 		}
 		System.out.println("**************************************************************");
 	}
+	
+	public static void afegirComanda(){
+		int num,codi,posicio,quantitat;
+		Comanda c;
+		
+		System.out.println("Cuants productes voldras afegir a la comanda?") ;
+		num=teclat.nextInt() ;
+		c = new Comanda(num) ;
+		
+		for (int i=0; i<num; i++)
+		{   
+			System.out.println("Elegeix un producte de la llista") ;
+			mostrarProductes() ;
+			codi = teclat.nextInt();
+			posicio = buscaProducte(codi);
+			while(posicio == -1){
+				System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
+				codi = teclat.nextInt();
+				posicio = buscaProducte(codi);
+			}
+			System.out.println("Quants productes ("+llistaProductes[posicio].getNom()+") voldras afegir");
+			quantitat = teclat.nextInt();
+			c.afegirProducte(llistaProductes[posicio], quantitat);
+		}
+		System.out.println("La comanda s'ha realitzat amb exit");
+	}
+	
+	public static void eliminarComanda()
+	{
+		
+	}
+	
+	public static void consultarComanda()
+	{
+		
+	}
 }
