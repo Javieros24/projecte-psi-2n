@@ -151,6 +151,20 @@ public class Main {
 		}
 		return -1;
 	}
+	
+	/**Mètode que busca un client a partir d'un codi, -1 en cas de no trobar-lo
+	 * 
+	 * @param codi identificador del client a buscar
+	 * @return posició de la taula on es troba el client, -1 en cas de no trobar-lo
+	 */
+	private static int buscaClient(int codi){
+		
+		for (int i=0; i < nClients; i++){
+			if (llistaClients[i].getIdentificador() == codi)
+				return i;
+		}
+		return -1;
+	}
 
 	/**Mètode que mostra per pantalla el menú de restaurant
 	 * 
@@ -173,7 +187,7 @@ public class Main {
 		System.out.println("**************************************************************");
 	}
 	
-	public static void afegirComanda(){
+	public static void afegirComanda(int codi){
 		int num,codi,posicio,quantitat;
 		Comanda c;
 		
