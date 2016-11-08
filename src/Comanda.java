@@ -17,15 +17,50 @@ public class Comanda {
 	 */
 	public void afegirProducte(Producte p, int quantitat)
 	{
-		llista[numProd] = p ;
-		numProd++;
+		for (int i=quantitat; i>0;i--)
+		{
+			llista[numProd] = p ;
+			numProd++;
+		}
 	}
 	
-	
-	public void eliminarProducte()
+	/** Elimina un producte de la llista
+	 * 
+	 * @param p
+	 */
+	public void eliminarProducte(Producte p)
 	{
-		
+		for (int i=0; i<numProd;i++)
+		{
+			if (llista[i]==p)
+			{
+				numProd--;
+				for (int j=i;j<numProd;i++)
+				{
+					llista[j]=llista[j+1] ;
+				}
+				i--;
+			}
+		}
 	}
+	
+	/** Get llista de productes
+	 * 
+	 * @return llista
+	 */
+	public Producte[] getLlista() {
+		return llista;
+	}
+	
+	/** Get numProd
+	 * 
+	 * @return numProd
+	 */
+	public int getNumProd() {
+		return numProd;
+	}
+	
+	
 	
 	
 }
