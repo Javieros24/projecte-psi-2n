@@ -65,11 +65,12 @@ public class Main {
 		System.out.print("-Indica el nom: ");
 		nom = teclat.nextLine();
 		System.out.print("\n-Indica el preu: ");
-		preu = teclat.nextDouble();
+		preu = teclat.nextDouble();		
 		
 		switch (opcio){
 		case 1:
-			
+			//DEMANAR ENUMS
+			llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu);
 			break;
 		case 2:
 			boolean alcohol= false;
@@ -78,12 +79,10 @@ public class Main {
 			System.out.print("\n- Alcohol SI/NO: ");
 			String portaAlcohol = teclat.nextLine();
 			alcohol = portaAlcohol.equalsIgnoreCase("SI");
-			llistaBegudes[nBegudes] = new Beguda(nom, nBegudes+1, preu, volum, alcohol);
+			llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
+			nProductes++;
 			break;
 		}
-		
-
-		
 	}
 
 }
