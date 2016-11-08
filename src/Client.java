@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Client {
 	
 	private String nom, adreça, nomUsuari, contrasenya;
@@ -49,5 +51,96 @@ public class Client {
 			i++;
 		return copia;
 	}
+
+	/*-------------------GETTERS I SETTERS----------------------------------*/
+	
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getAdreça() {
+		return adreça;
+	}
+
+	public void setAdreça(String adreça) {
+		this.adreça = adreça;
+	}
+
+	public String getNomUsuari() {
+		return nomUsuari;
+	}
+
+	public void setNomUsuari(String nomUsuari) {
+		this.nomUsuari = nomUsuari;
+	}
+
+	public String getContrasenya() {
+		return contrasenya;
+	}
+
+	public void setContrasenya(String contrasenya) {
+		this.contrasenya = contrasenya;
+	}
+
+	public int getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
+	}
+
+	public int getNumTelefon() {
+		return numTelefon;
+	}
+
+	public void setNumTelefon(int numTelefon) {
+		this.numTelefon = numTelefon;
+	}
+
+	public int getNumComandes() {
+		return numComandes;
+	}
+
+	public void setNumComandes(int numComandes) {
+		this.numComandes = numComandes;
+	}
+
+	public Comanda[] getTaulaComandes() {
+		return taulaComandes;
+	}
+
+	public void setTaulaComandes(Comanda[] taulaComandes) {
+		this.taulaComandes = taulaComandes;
+	}
+
+	public boolean isPreferent() {
+		return preferent;
+	}
+
+	public void setPreferent(boolean preferent) {
+		this.preferent = preferent;
+	}
+
+	public RestriccionsAlimentaries getRestriccions() {
+		return restriccions;
+	}
+
+	public void setRestriccions(RestriccionsAlimentaries restriccions) {
+		this.restriccions = restriccions;
+	}
+
+	public String toString() {
+		return "Client [nom=" + nom + ", adreça=" + adreça + ", nomUsuari=" + nomUsuari + ", contrasenya=" + contrasenya
+				+ ", identificador=" + identificador + ", numTelefon=" + numTelefon + ", numComandes=" + numComandes
+				+ ", taulaComandes=" + Arrays.toString(taulaComandes) + ", preferent=" + preferent + ", restriccions="
+				+ restriccions + "]";
+	}
+	
+	
 	
 }

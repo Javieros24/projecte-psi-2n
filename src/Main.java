@@ -208,4 +208,38 @@ public class Main {
 	{
 		
 	}
+	
+	/** Demana totes les dades necessaries per a crear un client i crida al constructor de clients.
+	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. **/
+	public static void crearClient(){
+		String nom, adreça, nomUsuari, contrasenya;
+		int numTelefon;
+		RestriccionsAlimentaries restriccions;
+		
+		System.out.println("Introdueix el nom del nou client: ");
+		nom=teclat.next();
+		System.out.println("Introdueix un nom d'usuari: ");
+		nomUsuari=teclat.next();
+		System.out.println("Introdueix una contrasenya: ");
+		contrasenya=teclat.next();
+		System.out.println("Introdueix la teva adreça: ");
+		adreça=teclat.next();
+		System.out.println("Introdueix el teu numero de telefon: ");
+		numTelefon=teclat.nextInt();
+		
+		llistaClients[nClients]= new Client(nom, adreça, nomUsuari, contrasenya, nClients, numTelefon, restriccions);
+		nClients++;
+	}
+	
+	public static void eliminarClient(){
+		
+	}
+	
+	public static void consultarClient(){
+		System.out.println("");
+	}
+	
+	public static void historialComandes(){
+		
+	}
 }
