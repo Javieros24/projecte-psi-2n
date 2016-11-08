@@ -3,10 +3,9 @@ import java.util.Scanner;
 public class Main {
 
     static Scanner teclat = new Scanner(System.in);
-	private Beguda[] llistaBegudes;
-	private Plat[] llistaPlats;
-	private Client[] llistaClients;
-	private int nClients, nBegudes, nPlats;
+	private static Producte[] llistaProductes;
+	private static Client[] llistaClients;
+	private static int nClients, nProductes;
     
 	public static void main(String[] args) {
 		int opcioMenu;
@@ -43,12 +42,10 @@ public class Main {
 	}
 	
 	public static void inicialitzaDades(){
-		llistaBegudes = new Beguda[100];
-		llistaPlats = new Plat[100];
+		llistaProductes = new Producte[100];
 		llistaClients = new Client[100];
 		nClients = 0;
-		nBegudes = 0;
-		nPlats = 0;
+		nProductes = 0;
 	}
 	
 	public static void afegirProducte(){
