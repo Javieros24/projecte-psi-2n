@@ -1,14 +1,13 @@
 
 public class Beguda extends Producte  
 {
-	int volum;
-	boolean alcohol;
+	private int volum;
+	private boolean alcohol;
 	
-	
-	public Beguda(String nom, int codiReferencia, double preu, double descompte, int volum)
+	public Beguda(String nom, int codiReferencia, double preu, int volum, boolean alcohol)
 	{
-		super(nom, codiReferencia, preu, descompte);
-		alcohol=false;
+		super(nom, codiReferencia, preu);
+		this.alcohol= alcohol;
 		this.volum=volum;
 	}
 

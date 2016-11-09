@@ -1,18 +1,17 @@
 
-public class Producte 
+public abstract class Producte 
 {
-	String nom;
-	int codiReferencia;
-	double preu;
-	double descompte;
+	protected String nom;
+	protected int codiReferencia;
+	protected double preu;
+	protected double descompte;
 	
 	
-	public Producte (String nom, int codiReferencia, double preu, double descompte)
+	public Producte (String nom, int codiReferencia, double preu)
 	{
 		this.nom=nom;
 		this.codiReferencia=codiReferencia;
 		this.preu=preu;
-		this.descompte=descompte;
 		
 	}
 

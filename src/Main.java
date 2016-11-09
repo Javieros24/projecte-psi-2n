@@ -188,7 +188,7 @@ public class Main {
 	}
 	
 	public static void afegirComanda(int codi){
-		int num,codi,posicio,quantitat;
+		int num, posicio, quantitat;
 		Comanda c;
 		
 		System.out.println("Cuants productes voldras afegir a la comanda?") ;
