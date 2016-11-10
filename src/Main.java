@@ -16,15 +16,15 @@ public class Main {
 
 		while (opcioMenu != 10){
 			switch(opcioMenu) {
-			case 1: afegirProducte();		break;
-			case 2: eliminarProducte();		break;
-			case 3: consultarProducte();	break;
-			case 4: crearClient();			break;
-			case 5: historialComandes();	break;
-			case 6: eliminarClient();		break;
-			case 7: afegirComanda();		break;
-			case 8: eliminarComanda();		break;
-			case 9: consultarComandes();	break;
+			case 1: afegirProducte();					break;
+			case 2: eliminarProducte();					break;
+			case 3: consultarProducte();				break;
+			case 4: crearClient();						break;
+			case 5: historialComandes(escullClient());	break;
+			case 6: eliminarClient(escullClient());		break;
+			case 7: afegirComanda(escullClient());		break;
+			case 8: eliminarComanda(escullClient());	break;
+			case 9: consultarComanda(escullClient());	break;
 			default: System.out.println("Aquesta opció no està disponible, comproba que ha introduit correctament el valor desitjat.");
 			}
 			
@@ -40,12 +40,15 @@ public class Main {
 		System.out.print("\nPulsi enter per mostrar el menú\n\n");
 		teclat.nextLine(); 			//Buidem el buffer del teclat
 		System.out.println("\n\n\t****************    [TAKE A BYTE]    ****************");			//TAKE A bitE
-		System.out.println("\n\t1. Afeigr nous productes (plat o beguda)");
+		System.out.println("\n\t1. Afegir nous productes (plat o beguda)");
 		System.out.println("\t2. Eliminar producte");
 		System.out.println("\t3. Consultar producte");
 		System.out.println("\t4. Crear un nou client");
 		System.out.println("\t5. Veure comandes d'un client");
-		System.out.println("\t6. Crear nova comanda");
+		System.out.println("\t6. Eliminar client");
+		System.out.println("\t7. Afegir comanda");
+		System.out.println("\t8. Eliminar comanda");
+		System.out.println("\t9. Consultar comanda");
 		System.out.println("\t10. Sortir");
 		System.out.println("\n\t********************************************************");
 		System.out.printf("\n\t\t\tIndica opcio:");
@@ -59,6 +62,17 @@ public class Main {
 		llistaClients = new Client[100];
 		nClients = 0;
 		nProductes = 0;
+		
+		Beguda p = new Beguda("Un Macarro", 12, 120, true);
+		llistaProductes[0] = p;
+		nProductes++;
+		RestriccionsAlimentaries[] res;
+		
+		res = new RestriccionsAlimentaries[1];
+		res[0] = RestriccionsAlimentaries.CELIACS;
+		Client c = new Client("Roger", "HOla", "buskk", "1234", 977, res);
+		llistaClients[0] = c;
+		nClients++;
 	}
 	
 	/**Mètode que permet afegir un producte a la llista (plat o beguda).
@@ -68,6 +82,7 @@ public class Main {
 		int opcio;
 		String nom;
 		double preu;
+		
 		
 		if (nProductes == llistaProductes.length)
 			System.out.println("No es pot afegir cap producte més!");
@@ -81,9 +96,9 @@ public class Main {
 				opcio = teclat.nextInt();
 			}
 			
-			System.out.print("-Indica el nom: ");
-			nom = teclat.nextLine();
-			System.out.print("\n-Indica el preu: ");
+			System.out.println("-Indica el nom:");
+			nom = teclat.next();
+			System.out.println("-Indica el preu:");
 			preu = teclat.nextDouble();		
 			
 			if (opcio == 1)
@@ -106,25 +121,43 @@ public class Main {
 		nRestriccions = teclat.nextInt();
 		restriccions = new RestriccionsAlimentaries[nRestriccions];
 		
-		System.out.print("\nÉs aquest plat apte per celíacs? (SI/NO): ");
-		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
-			restriccions[cont] = RestriccionsAlimentaries.CELIACS;
-			cont++;
+		if (nRestriccions == 0){
+			llistaProductes[nProductes] = new Plat(nom, preu, restriccions);
+			nProductes++;
 		}
-		
-		System.out.print("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
-		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
-			restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
-			cont++;
+		else{			
+			teclat.nextLine(); 
+			
+
+			if (cont<nRestriccions){
+				System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
+				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+					cont++;
+				}
+			}
+			
+
+			if (cont<nRestriccions){
+				System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
+				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+					cont++;
+				}
+			}
+			
+			
+			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+				System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
+				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+					cont++;
+				}
+			}	
+			
+			llistaProductes[nProductes] = new Plat(nom, preu, restriccions);
+			nProductes++;
 		}
-		
-		System.out.print("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
-		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
-			restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
-			cont++;
-		}	
-		
-		llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu, restriccions);		
 	}
 	
 	/**Mètode privat que afegiex una beguda a la llista de productes
@@ -140,7 +173,7 @@ public class Main {
 		volum = teclat.nextInt();
 		System.out.print("\n- Alcohol SI/NO: ");
 		alcohol = teclat.nextLine().equalsIgnoreCase("SI");		
-		llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
+		llistaProductes[nProductes]= new Beguda(nom, preu, volum, alcohol);
 		nProductes++;
 	}
 	
@@ -150,6 +183,7 @@ public class Main {
 	public static void eliminarProducte(){
 		int codi, posicio;
 		
+		mostraMenu();
 		System.out.println("Indica el codi del producte que vol eliminar: ");
 		codi = teclat.nextInt();
 		posicio = buscaProducte(codi);
@@ -160,8 +194,9 @@ public class Main {
 		}
 		
 		for (int i=posicio; i<nProductes-1; i++){
-			llistaProductes[i] = llistaProductes[i-1];
+			llistaProductes[i] = llistaProductes[i+1];
 		}
+		nProductes--;
 		
 		System.out.println("S'ha eliminat correctament el producte");
 	}
@@ -234,7 +269,7 @@ public class Main {
 		System.out.println("**************************************************************");
 	}
 	
-	public static int buscaComanda(int codiClient,int codiComanda)
+	/**public static int buscaComanda(int codiClient,int codiComanda)
 	{
 		Comanda c;
 		Comanda[] tc;
@@ -268,8 +303,8 @@ public class Main {
 		c = new Comanda(numMax) ;
 		for (int i=0; i<numMax; i++)
 		{   
-			System.out.println("Elegeix un producte de la llista") ;
 			mostraProductes() ;
+			System.out.println("Elegeix un producte de la llista:") ;
 			codiProducte = teclat.nextInt();
 			posicio = buscaProducte(codiProducte);
 			while(posicio == -1){
@@ -277,7 +312,7 @@ public class Main {
 				codiProducte = teclat.nextInt();
 				posicio = buscaProducte(codiProducte);
 			}
-			System.out.println("Elegeix una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
+			System.out.println("Escull una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
 			quantitat = teclat.nextInt();
 			while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
 			{
@@ -285,6 +320,7 @@ public class Main {
 				quantitat = teclat.nextInt();
 			}
 			c.afegirProducte(llistaProductes[posicio], quantitat);		
+			i = i + quantitat-1;
 		}
 		
 		//mostrar i guardar comanda
@@ -293,9 +329,9 @@ public class Main {
 		{
 			System.out.println((i+1)+". "+p[i].getNom());
 		}
-		System.out.println("Confirmar la comanda? (si/no)");
+		System.out.println("Confirmar la comanda? (si/no) ");
 		String s = teclat.next() ;
-		while ((!s.equalsIgnoreCase("SI")|| (!s.equalsIgnoreCase("NO"))))
+		while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
 		{
 			System.out.println("Error, confirmar la comanda? (si/no)");
 			s = teclat.next() ;
@@ -313,22 +349,23 @@ public class Main {
 	{
 		int i = buscaClient(codiClient) ;
 		int num ;
-		System.out.println("Elegeix una comanda per eliminar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+		System.out.println("Escull una comanda per eliminar entre [1-"+ llistaClients[i].getNumComandes()+"]");
 		historialComandes(codiClient) ;
 		num = teclat.nextInt() ;
 		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+			System.out.println("Error, escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
 			num = teclat.nextInt() ;
 		}
-		LlistaClients[i],eliminarComanda(num-1) ;
+		llistaClients[i].eliminaComanda(num-1);
 	}
 	
 	public static void consultarComanda(int codiClient)
 	{
-		int i = buscaClient(codiClient) ;
 		int num ;
-		System.out.println("Elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+		int i = buscaClient(codiClient) ;
+
+		System.out.println("Escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
 		historialComandes(codiClient) ;
 		num = teclat.nextInt() ;
 		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
@@ -352,77 +389,76 @@ public class Main {
 		int numTelefon, numRestriccions;
 		RestriccionsAlimentaries[] restriccions;
 		
-		System.out.println("Introdueix el nom del nou client: ");
-		nom=teclat.next();
-		System.out.println("Introdueix un nom d'usuari: ");
-		nomUsuari=teclat.next();
-		System.out.println("Introdueix una contrasenya: ");
-		contrasenya=teclat.next();
-		System.out.println("Introdueix la teva adreca: ");
-		adreca=teclat.next();
-		System.out.println("Introdueix el teu numero de telefon: ");
-		numTelefon=teclat.nextInt();
-		System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
-		numRestriccions=teclat.nextInt();
-		
-		restriccions=new RestriccionsAlimentaries[numRestriccions];
-		for(int i=0; i<numRestriccions; i++){
-			System.out.println("Escriu la restriccio numero "+ numRestriccions+1 +": ");
-			restriccions[i]=RestriccionsAlimentaries.valueOf(teclat.next());
-		}
-		
-		llistaClients[nClients]= new Client(nom, adreca, nomUsuari, contrasenya, nClients, numTelefon, restriccions);
-		nClients++;
-	}
-	
-	public static void eliminarClient(){
-		int identificador, i;
-		for(i=0; i<nClients-1; i++){
-			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
-		}
-		
-		System.out.println("Escriu l'identificador del client que vulguis eliminar: ");
-		identificador=teclat.nextInt();
-		
-		i=buscaClient(identificador);
-		if (i==-1) System.out.println("No s'ha trobat el client.");
+		if (nClients == llistaClients.length)
+			System.out.println("No s'ha pogut crear un nou client, llista plena!");
 		else{
-			for(; i<nClients-1; i++){
-				llistaClients[i]=llistaClients[i+1];
+			teclat.nextLine(); 			//Buidem el buffer del teclat
+			System.out.println("Introdueix el nom del nou client: ");
+			nom = teclat.nextLine();
+			System.out.println("Introdueix un nom d'usuari: ");
+			nomUsuari = teclat.nextLine();
+			System.out.println("Introdueix una contrasenya: ");
+			contrasenya = teclat.nextLine();
+			System.out.println("Introdueix la teva adreca: ");
+			adreca = teclat.nextLine();
+			System.out.println("Introdueix el teu numero de telefon: ");
+			numTelefon = teclat.nextInt();
+			System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
+			numRestriccions = teclat.nextInt();
+			restriccions = new RestriccionsAlimentaries[numRestriccions];
+			for (int i = 0; i < numRestriccions; i++) {
+				System.out.println("Escriu la restriccio numero " + numRestriccions + 1 + ": ");
+				restriccions[i] = RestriccionsAlimentaries.valueOf(teclat.next());
 			}
-			nClients--;
+			llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+			System.out.println("S'ha creat correctament el client");
+			nClients++;
 		}
-		
 	}
 	
-	public static void consultarClient(){
+	public static void eliminarClient(int codiClient){
+		int  i;
+		
+		i=buscaClient(codiClient);
+		for(; i<nClients-1; i++){
+			llistaClients[i]=llistaClients[i+1];
+		}
+		
+		System.out.println("S'ha eliminat el client correctament");
+		nClients--;
+	}
+
+	
+	public static void consultarClient(int codiClient){
 		int i;
-		for(i=0; i<nClients-1; i++){
-			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
+		
+		i = buscaClient(codiClient);
+		System.out.println(llistaClients[i].toString());
+	}
+	
+	public static void historialComandes(int codiClient){	
+		int i;
+		
+		i = buscaClient(codiClient);
+		for(int j=0; j<llistaClients[i].getNumComandes(); j++){
+			System.out.println(llistaClients[i].getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
+		}
+	}
+	
+	private static int escullClient(){
+		int i;
+		for(i=0; i<nClients; i++){
+			System.out.println("Nom: "+llistaClients[i].getNomUsuari()+" (Ref: "+llistaClients[i].getIdentificador()+")");
 		}
 		
 		System.out.println("Escriu l'identificador del client que vulguis consultar: ");
 		i=teclat.nextInt();
-		
-		if(i==-1) System.out.println("No s'ha trobat el client.");
-		else System.out.println(llistaClients[i]);
-	}
-	
-	public static void historialComandes(){
-		int i;
-		for(i=0; i<nClients-1; i++){
-			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
+		while (buscaClient(i) == -1){
+			System.out.println("ERROR! No s'ha trobat el client, torna a intentar-ho: ");
+			i = teclat.nextInt();
 		}
 		
-		System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-		i=teclat.nextInt();
-		
-		if(i==-1) System.out.println("No s'ha trobat el client.");
-		else{
-			for(int j=0; j<llistaClients[i].getNumComandes(); j++){
-				System.out.println(llistaClients[i].getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
-			}
-		}
+		return i;
 	}
 	
 }

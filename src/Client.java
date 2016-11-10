@@ -5,14 +5,16 @@ public class Client {
 	private Comanda[] taulaComandes;
 	private boolean preferent;
 	private RestriccionsAlimentaries[] restriccions;
+	private static int codiClient=1;
 	
-	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numClients, int numTelefon, RestriccionsAlimentaries[] restriccions){
+	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
 		this.nom=nom;
 		this.adreca=adreca;
 		this.nomUsuari=nomUsuari;
 		this.contrasenya=contrasenya;
 		this.numTelefon=numTelefon;
-		identificador=numClients;
+		identificador=codiClient;
+		codiClient++;
 		numComandes=0;
 		preferent=false;
 		
@@ -58,6 +60,7 @@ public class Client {
 		for(int i=numComanda; i<numComandes-1; i++){
 			taulaComandes[i]=taulaComandes[i+1];
 		}
+		numComandes--;
 	}
 
 	/*-------------------GETTERS I SETTERS----------------------------------*/
@@ -140,6 +143,22 @@ public class Client {
 
 	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
 		this.restriccions = restriccions;
+	}
+
+	public String getAdreca() {
+		return adreca;
+	}
+
+	public void setAdreca(String adreca) {
+		this.adreca = adreca;
+	}
+
+	public static int getCodiClient() {
+		return codiClient;
+	}
+
+	public static void setCodiClient(int codiClient) {
+		Client.codiClient = codiClient;
 	}
 
 	public String toString() {
