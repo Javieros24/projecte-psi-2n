@@ -1,23 +1,25 @@
-import java.util.Arrays;
-
 public class Client {
 	
-	private String nom, adreça, nomUsuari, contrasenya;
+	private String nom, adreca, nomUsuari, contrasenya;
 	private int identificador, numTelefon, numComandes;
 	private Comanda[] taulaComandes;
 	private boolean preferent;
-	private RestriccionsAlimentaries restriccions;
+	private RestriccionsAlimentaries[] restriccions;
 	
-	public Client(String nom, String adreça, String nomUsuari, String contrasenya, int numClients, int numTelefon, RestriccionsAlimentaries restriccions){
+	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numClients, int numTelefon, RestriccionsAlimentaries[] restriccions){
 		this.nom=nom;
-		this.adreça=adreça;
+		this.adreca=adreca;
 		this.nomUsuari=nomUsuari;
 		this.contrasenya=contrasenya;
 		this.numTelefon=numTelefon;
 		identificador=numClients;
 		numComandes=0;
-		this.restriccions=restriccions;
 		preferent=false;
+		
+		this.restriccions = new RestriccionsAlimentaries[restriccions.length];
+		for(int i=0; i<restriccions.length; i++){
+			this.restriccions[i]=restriccions[i];
+		}
 		
 		taulaComandes = new Comanda[100];
 	}
@@ -33,9 +35,9 @@ public class Client {
 	
 	/** Retorna l'historial de comandes del client.
 	 * @return Taula de comandes. **/
-	public Comanda[] consultar(){
+/*	public Comanda[] consultar(){
 		return taulaComandes;
-	}
+	} */
 	
 	/** Reb per parametre l'index de la comanda que es vol copiar de l'historial
 	 * i es crea una nova comanda amb les mateixes.
@@ -51,6 +53,12 @@ public class Client {
 			i++;
 		return copia;
 	}
+	
+	public void eliminaComanda(int numComanda){
+		for(int i=numComanda; i<numComandes-1; i++){
+			taulaComandes[i]=taulaComandes[i+1];
+		}
+	}
 
 	/*-------------------GETTERS I SETTERS----------------------------------*/
 	
@@ -62,12 +70,12 @@ public class Client {
 		this.nom = nom;
 	}
 
-	public String getAdreça() {
-		return adreça;
+	public String getadreca() {
+		return adreca;
 	}
 
-	public void setAdreça(String adreça) {
-		this.adreça = adreça;
+	public void setadreca(String adreca) {
+		this.adreca = adreca;
 	}
 
 	public String getNomUsuari() {
@@ -126,19 +134,17 @@ public class Client {
 		this.preferent = preferent;
 	}
 
-	public RestriccionsAlimentaries getRestriccions() {
+	public RestriccionsAlimentaries[] getRestriccions() {
 		return restriccions;
 	}
 
-	public void setRestriccions(RestriccionsAlimentaries restriccions) {
+	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
 		this.restriccions = restriccions;
 	}
 
 	public String toString() {
-		return "Client [nom=" + nom + ", adreça=" + adreça + ", nomUsuari=" + nomUsuari + ", contrasenya=" + contrasenya
-				+ ", identificador=" + identificador + ", numTelefon=" + numTelefon + ", numComandes=" + numComandes
-				+ ", taulaComandes=" + Arrays.toString(taulaComandes) + ", preferent=" + preferent + ", restriccions="
-				+ restriccions + "]";
+		return "Nom: "+nom+"\nAdreca: "+adreca+"\nNom d'usuari: "+nomUsuari+"\nContrasenya: "+contrasenya+"\nNumero de telefon: "+numTelefon+
+				"\nIdentificador: "+identificador+"\nNumero de Comandes: "+numComandes+"\nRestriccions alimentaries: "+restriccions;
 	}
 	
 	

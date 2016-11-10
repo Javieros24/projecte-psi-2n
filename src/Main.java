@@ -226,9 +226,9 @@ public class Main {
 	/** Demana totes les dades necessaries per a crear un client i crida al constructor de clients.
 	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. **/
 	public static void crearClient(){
-		String nom, adreça, nomUsuari, contrasenya;
-		int numTelefon;
-		RestriccionsAlimentaries restriccions;
+		String nom, adreca, nomUsuari, contrasenya;
+		int numTelefon, numRestriccions;
+		RestriccionsAlimentaries[] restriccions;
 		
 		System.out.println("Introdueix el nom del nou client: ");
 		nom=teclat.next();
@@ -236,24 +236,71 @@ public class Main {
 		nomUsuari=teclat.next();
 		System.out.println("Introdueix una contrasenya: ");
 		contrasenya=teclat.next();
-		System.out.println("Introdueix la teva adreça: ");
-		adreça=teclat.next();
+		System.out.println("Introdueix la teva adreca: ");
+		adreca=teclat.next();
 		System.out.println("Introdueix el teu numero de telefon: ");
 		numTelefon=teclat.nextInt();
+		System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
+		numRestriccions=teclat.nextInt();
 		
-		llistaClients[nClients]= new Client(nom, adreça, nomUsuari, contrasenya, nClients, numTelefon, restriccions);
+		restriccions=new RestriccionsAlimentaries[numRestriccions];
+		for(int i=0; i<numRestriccions; i++){
+			System.out.println("Escriu la restriccio numero "+ numRestriccions+1 +": ");
+			restriccions[i]=RestriccionsAlimentaries.valueOf(teclat.next());
+		}
+		
+		llistaClients[nClients]= new Client(nom, adreca, nomUsuari, contrasenya, nClients, numTelefon, restriccions);
 		nClients++;
 	}
 	
 	public static void eliminarClient(){
+		int identificador, i;
+		for(i=0; i<nClients-1; i++){
+			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
+		}
+		
+		System.out.println("Escriu l'identificador del client que vulguis eliminar: ");
+		identificador=teclat.nextInt();
+		
+		i=buscaClient(identificador);
+		if (i==-1) System.out.println("No s'ha trobat el client.");
+		else{
+			for(; i<nClients-1; i++){
+				llistaClients[i]=llistaClients[i+1];
+			}
+			nClients--;
+		}
 		
 	}
 	
 	public static void consultarClient(){
-		System.out.println("");
+		int i;
+		for(i=0; i<nClients-1; i++){
+			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
+		}
+		
+		System.out.println("Escriu l'identificador del client que vulguis consultar: ");
+		i=teclat.nextInt();
+		
+		if(i==-1) System.out.println("No s'ha trobat el client.");
+		else System.out.println(llistaClients[i]);
 	}
 	
 	public static void historialComandes(){
+		int i;
+		for(i=0; i<nClients-1; i++){
+			System.out.println(llistaClients[i].getNomUsuari()+llistaClients[i].getIdentificador());
+		}
 		
+		System.out.println("Escriu l'identificador del client que vulguis consultar: ");
+		i=teclat.nextInt();
+		
+		if(i==-1) System.out.println("No s'ha trobat el client.");
+		else{
+			for(int j=0; j<llistaClients[i].getNumComandes(); j++){
+				System.out.println(llistaClients[i].getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
+			}
+		}
 	}
+	
 }
