@@ -17,6 +17,14 @@ public class Main {
 		while (opcioMenu != 10){
 			switch(opcioMenu) {
 			case 1: afegirProducte();		break;
+			case 2: eliminarProducte();		break;
+			case 3: consultarProducte();	break;
+			case 4: crearClient();			break;
+			case 5: historialComandes();	break;
+			case 6: eliminarClient();		break;
+			case 7: afegirComanda();		break;
+			case 8: eliminarComanda();		break;
+			case 9: consultarComandes();	break;
 			default: System.out.println("Aquesta opció no està disponible, comproba que ha introduit correctament el valor desitjat.");
 			}
 			
@@ -78,23 +86,62 @@ public class Main {
 			System.out.print("\n-Indica el preu: ");
 			preu = teclat.nextDouble();		
 			
-			switch (opcio){
-			case 1:
-				//DEMANAR ENUMS
-				llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu);
-				break;
-			case 2:
-				boolean alcohol= false;
-				System.out.print("\n-Volum: ");
-				int volum = teclat.nextInt();
-				System.out.print("\n- Alcohol SI/NO: ");
-				String portaAlcohol = teclat.nextLine();
-				alcohol = portaAlcohol.equalsIgnoreCase("SI");
-				llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
-				nProductes++;
-				break;
-			}
+			if (opcio == 1)
+				afegirPlat(nom, preu);
+			else
+				afegirBeguda(nom, preu);
 		}
+	}
+	
+	/**Mètode que afegeix un plat a la llista de productes
+	 * 
+	 * @param nom string amb el nom del plat
+	 * @param preu valor flotant amb el preu del plat
+	 */
+	private static void afegirPlat(String nom, double preu){
+		RestriccionsAlimentaries[] restriccions;
+		int nRestriccions, cont=0;
+		
+		System.out.println("Per quants tipus de persones es apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
+		nRestriccions = teclat.nextInt();
+		restriccions = new RestriccionsAlimentaries[nRestriccions];
+		
+		System.out.print("\nÉs aquest plat apte per celíacs? (SI/NO): ");
+		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+			restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+			cont++;
+		}
+		
+		System.out.print("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
+		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+			restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+			cont++;
+		}
+		
+		System.out.print("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
+		if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+			restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+			cont++;
+		}	
+		
+		llistaProductes[nProductes] = new Plat(nom, nProductes+1, preu, restriccions);		
+	}
+	
+	/**Mètode privat que afegiex una beguda a la llista de productes
+	 * 
+	 * @param nom string amb el nom de la beguda
+	 * @param preu valor flotant amb el preu de la beguda
+	 */
+	private static void afegirBeguda(String nom, double preu){
+		boolean alcohol;
+		int volum;
+		
+		System.out.print("\n-Volum: ");
+		volum = teclat.nextInt();
+		System.out.print("\n- Alcohol SI/NO: ");
+		alcohol = teclat.nextLine().equalsIgnoreCase("SI");		
+		llistaProductes[nProductes]= new Beguda(nom, nProductes+1, preu, volum, alcohol);
+		nProductes++;
 	}
 	
 	/**Mètode que permet eliminar un producte. L'usuari introduirà el codi del producte

@@ -3,19 +3,14 @@ public class Plat extends Producte
 {
 	
 	private RestriccionsAlimentaries[] restriccions;
-	private int nRestriccions;
 	
-	public Plat(String nom, int codiReferencia, double preu, int nRestriccions)
+	public Plat(String nom, int codiReferencia, double preu, RestriccionsAlimentaries[] restriccions)
 	{
 		super(nom, codiReferencia, preu);
-		restriccions = new RestriccionsAlimentaries[nRestriccions];
-		this.nRestriccions = 0;
-	}
-	
-	public void afegirRestriccions(RestriccionsAlimentaries r)
-	{
-		restriccions[nRestriccions] = r;
-		nRestriccions++;
+		this.restriccions = new RestriccionsAlimentaries[restriccions.length];
+		for (int i=0; i < restriccions.length; i++){
+			this.restriccions[i] = restriccions[i];
+		}
 	}
 	
 	public boolean esApte(RestriccionsAlimentaries[] r)
