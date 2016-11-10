@@ -63,14 +63,21 @@ public class Main {
 		nClients = 0;
 		nProductes = 0;
 		
-		Beguda p = new Beguda("Un Macarro", 12, 120, true);
-		llistaProductes[0] = p;
-		nProductes++;
-		RestriccionsAlimentaries[] res;
+		//Joc de proves
 		
-		res = new RestriccionsAlimentaries[1];
-		res[0] = RestriccionsAlimentaries.CELIACS;
-		Client c = new Client("Roger", "HOla", "buskk", "1234", 977, res);
+		Beguda b = new Beguda("Birra", 1, 250, true);
+		llistaProductes[0] = b;
+		nProductes++;
+		RestriccionsAlimentaries[] res1 = new RestriccionsAlimentaries[1];
+		res1[0] = RestriccionsAlimentaries.CELIACS;
+		Plat p = new Plat("Un Macarro", 12, res1);
+		llistaProductes[1] = p;
+		nProductes++;
+		
+		RestriccionsAlimentaries[] res2;
+		res2 = new RestriccionsAlimentaries[1];
+		res2[0] = RestriccionsAlimentaries.CELIACS;
+		Client c = new Client("Roger", "Carrer del pou", "buskk", "1234jaja1997", 977340793, res2);
 		llistaClients[0] = c;
 		nClients++;
 	}
@@ -125,31 +132,26 @@ public class Main {
 			llistaProductes[nProductes] = new Plat(nom, preu, restriccions);
 			nProductes++;
 		}
-		else{			
-			teclat.nextLine(); 
-			
-
+		else{						
 			if (cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
-				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+				if (teclat.next().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
 					cont++;
 				}
 			}
 			
-
 			if (cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
-				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+				if (teclat.next().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
 					cont++;
 				}
 			}
 			
-			
 			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
-				if (teclat.nextLine().equalsIgnoreCase("SI")) {
+				if (teclat.next().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
 					cont++;
 				}
@@ -172,7 +174,7 @@ public class Main {
 		System.out.print("\n-Volum: ");
 		volum = teclat.nextInt();
 		System.out.print("\n- Alcohol SI/NO: ");
-		alcohol = teclat.nextLine().equalsIgnoreCase("SI");		
+		alcohol = teclat.next().equalsIgnoreCase("SI");		
 		llistaProductes[nProductes]= new Beguda(nom, preu, volum, alcohol);
 		nProductes++;
 	}
@@ -258,13 +260,13 @@ public class Main {
 		System.out.println("PLATS:");
 		for (i=0; i < nProductes; i++){
 			if (llistaProductes[i] instanceof Plat)
-				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+")");
+				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+") Preu: "+llistaProductes[i].getPreu()+"€");
 		}
 		
 		System.out.println("BEGUDES:");
 		for (i=0; i < nProductes; i++){
 			if (llistaProductes[i] instanceof Beguda)
-				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+")");
+				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+") Preu: "+llistaProductes[i].getPreu()+"€");
 		}
 		System.out.println("**************************************************************");
 	}
@@ -422,34 +424,59 @@ public class Main {
 	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. **/
 	public static void crearClient(){
 		String nom, adreca, nomUsuari, contrasenya;
-		int numTelefon, numRestriccions;
+		int numTelefon, numRestriccions, cont=0;
 		RestriccionsAlimentaries[] restriccions;
 		
 		if (nClients == llistaClients.length)
 			System.out.println("No s'ha pogut crear un nou client, llista plena!");
 		else{
-			teclat.nextLine(); 			//Buidem el buffer del teclat
 			System.out.println("Introdueix el nom del nou client: ");
-			nom = teclat.nextLine();
+			nom = teclat.next();
 			System.out.println("Introdueix un nom d'usuari: ");
-			nomUsuari = teclat.nextLine();
+			nomUsuari = teclat.next();
 			System.out.println("Introdueix una contrasenya: ");
-			contrasenya = teclat.nextLine();
+			contrasenya = teclat.next();
 			System.out.println("Introdueix la teva adreca: ");
-			adreca = teclat.nextLine();
+			adreca = teclat.next();
 			System.out.println("Introdueix el teu numero de telefon: ");
 			numTelefon = teclat.nextInt();
 			System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
 			numRestriccions = teclat.nextInt();
 			restriccions = new RestriccionsAlimentaries[numRestriccions];
-			for (int i = 0; i < numRestriccions; i++) {
-				System.out.println("Escriu la restriccio numero " + numRestriccions + 1 + ": ");
-				restriccions[i] = RestriccionsAlimentaries.valueOf(teclat.next());
+			if (numRestriccions == 0){
+				llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+				System.out.println("S'ha creat correctament el client");
+				nClients++;
 			}
-			llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
-			System.out.println("S'ha creat correctament el client");
-			nClients++;
-		}
+			else{						
+				if (cont<numRestriccions){
+					System.out.println("\nÉs vostè celíac? (SI/NO): ");
+					if (teclat.next().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+						cont++;
+					}
+				}
+				
+				if (cont<numRestriccions){
+					System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
+					if (teclat.next().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+						cont++;
+					}
+				}
+				
+				if (teclat.nextLine().equalsIgnoreCase("SI") && cont<numRestriccions){
+					System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
+					if (teclat.next().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+						cont++;
+					}
+				}
+				llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+				System.out.println("S'ha creat correctament el client");
+				nClients++;
+			}
+		}	
 	}
 	
 	public static void eliminarClient(int codiClient){

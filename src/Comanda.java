@@ -64,6 +64,4 @@ public class Comanda {
 	{
 		return codiComanda;
 	}
-	
-	
 }
