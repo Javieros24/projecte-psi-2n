@@ -21,7 +21,7 @@ public abstract class Producte
 		this.codiReferencia=codiProductes;
 		codiProductes++;
 		this.preu=preu;
-		
+		descompte=preu*0.05;
 	}
 	
 	//******************* GETTER'S & SETTER'S********************************************************
