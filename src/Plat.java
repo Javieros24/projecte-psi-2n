@@ -1,4 +1,6 @@
-
+/**
+ * Subclasse plat que hereda de la superclasse producte
+ */
 public class Plat extends Producte 
 {
 	
@@ -13,9 +15,33 @@ public class Plat extends Producte
 		}
 	}
 	
+	/**
+	 * Metode per mirar
+	 * @param r
+	 * @return
+	 */
 	public boolean esApte(RestriccionsAlimentaries[] r)
 	{
+		int i,j;
+		i=0;
+		j=0;
+		
+		while(i<r.length)
+		{
+			while(j < restriccions.length)
+			{
+				if (r[i] == restriccions[j])
+				{
+					return false;
+				}
+				
+				j++;
+			}
+			i++;
+			
+		}
 		return true;
+		
 	}
 	
 
