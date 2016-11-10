@@ -288,6 +288,8 @@ public class Main {
 	 */
 	public static void afegirComanda(int codiClient){
 		int numMax, posicio, quantitat, codiProducte;
+		boolean continuar;
+		double preu = 0;
 		Producte[] p;
 		Comanda c;
 		
@@ -312,24 +314,58 @@ public class Main {
 				codiProducte = teclat.nextInt();
 				posicio = buscaProducte(codiProducte);
 			}
-			System.out.println("Escull una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
-			quantitat = teclat.nextInt();
-			while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
-			{
-				System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd())+"]");
-				quantitat = teclat.nextInt();
+			
+			//comprovar restriccions alimentaries del productes
+			RestriccionsAlimentaries[] r=llistaClients[buscaClient(codiClient)].getRestriccions();	
+			continuar=true ;
+			if (llistaProductes[posicio] instanceof Plat) {
+				if (((Plat)llistaProductes[posicio]).esApte(r)==false)
+				{
+				
+					System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
+					String s = teclat.next() ;
+					while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
+					{
+						System.out.println("Error, voleu continuar amb el producte? (si/no)");
+						s = teclat.next() ;
+					}
+					if (s.equals("NO")) continuar = false ;
+				}
 			}
-			c.afegirProducte(llistaProductes[posicio], quantitat);		
-			i = i + quantitat-1;
+			if (continuar)
+			{
+				System.out.println("Escull una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
+				quantitat = teclat.nextInt();
+				
+				while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
+				{
+					System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd())+"]");
+					quantitat = teclat.nextInt();
+				}
+				c.afegirProducte(llistaProductes[posicio], quantitat);		
+				i = i + quantitat-1;
+				
+				//calcular preu
+				
+				if (llistaClients[buscaClient(codiClient)].isPreferent()==true)
+				{
+					preu = preu + quantitat*(llistaProductes[posicio].preu - llistaProductes[posicio].descompte) ;
+				}
+				else 
+				{
+					preu = preu + quantitat*(llistaProductes[posicio].preu) ;
+				}
+			}
+			
 		}
-		
+
 		//mostrar i guardar comanda
 		p = c.getLlista() ;
 		for (int i=0; i<numMax; i++)
 		{
 			System.out.println((i+1)+". "+p[i].getNom());
 		}
-		System.out.println("Confirmar la comanda? (si/no) ");
+		System.out.println("El preu final es "+preu+"€, confirmar la comanda? (si/no) ");
 		String s = teclat.next() ;
 		while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
 		{
