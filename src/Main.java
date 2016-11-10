@@ -234,40 +234,115 @@ public class Main {
 		System.out.println("**************************************************************");
 	}
 	
-	public static void afegirComanda(int codi){
-		int num, posicio, quantitat;
+	public static int buscaComanda(int codiClient,int codiComanda)
+	{
+		Comanda c;
+		Comanda[] tc;
+		
+		tc=llistaClients[buscaClient(codiClient)].getTaulaComandes() ;
+		for (int i=0; i < llistaClients[buscaClient(codiClient)].getNumComandes(); i++)
+		{
+			c=tc[i] ;
+			if (codiComanda == c.getCodiComanda()) return i;
+		}
+		return -1;
+	}
+	
+	/** Afegeix una comanda a un client
+	 * @param codiClient
+	 */
+	public static void afegirComanda(int codiClient){
+		int numMax, posicio, quantitat, codiProducte;
+		Producte[] p;
 		Comanda c;
 		
+		//preguntem el numero de productes que tindra la comanda
 		System.out.println("Cuants productes voldras afegir a la comanda?") ;
-		num=teclat.nextInt() ;
-		c = new Comanda(num) ;
+		numMax=teclat.nextInt() ;
+		while(numMax<=0){
+			System.out.println("Error, elegeix un numero mes gran que 0:") ;
+			numMax=teclat.nextInt() ;
+		}
 		
-		for (int i=0; i<num; i++)
+		//creem la comanda
+		c = new Comanda(numMax) ;
+		for (int i=0; i<numMax; i++)
 		{   
 			System.out.println("Elegeix un producte de la llista") ;
 			mostraProductes() ;
-			codi = teclat.nextInt();
-			posicio = buscaProducte(codi);
+			codiProducte = teclat.nextInt();
+			posicio = buscaProducte(codiProducte);
 			while(posicio == -1){
 				System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
-				codi = teclat.nextInt();
-				posicio = buscaProducte(codi);
+				codiProducte = teclat.nextInt();
+				posicio = buscaProducte(codiProducte);
 			}
-			System.out.println("Quants productes ("+llistaProductes[posicio].getNom()+") voldras afegir");
+			System.out.println("Elegeix una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
 			quantitat = teclat.nextInt();
-			c.afegirProducte(llistaProductes[posicio], quantitat);
+			while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
+			{
+				System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd())+"]");
+				quantitat = teclat.nextInt();
+			}
+			c.afegirProducte(llistaProductes[posicio], quantitat);		
 		}
-		System.out.println("La comanda s'ha realitzat amb exit");
-	}
-	
-	public static void eliminarComanda()
-	{
+		
+		//mostrar i guardar comanda
+		p = c.getLlista() ;
+		for (int i=0; i<numMax; i++)
+		{
+			System.out.println((i+1)+". "+p[i].getNom());
+		}
+		System.out.println("Confirmar la comanda? (si/no)");
+		String s = teclat.next() ;
+		while ((!s.equalsIgnoreCase("SI")|| (!s.equalsIgnoreCase("NO"))))
+		{
+			System.out.println("Error, confirmar la comanda? (si/no)");
+			s = teclat.next() ;
+		}
+		if (s.equalsIgnoreCase("si"))
+		{
+			llistaClients[buscaClient(codiClient)].afegirComanda(c);
+			System.out.println("La comanda s'ha realitzat amb exit");
+		}
+		else System.out.println("Comanda cancelada");
 		
 	}
 	
-	public static void consultarComanda()
+	public static void eliminarComanda(int codiClient)
 	{
-		
+		int i = buscaClient(codiClient) ;
+		int num ;
+		System.out.println("Elegeix una comanda per eliminar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+		historialComandes(codiClient) ;
+		num = teclat.nextInt() ;
+		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
+		{
+			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+			num = teclat.nextInt() ;
+		}
+		LlistaClients[i],eliminarComanda(num-1) ;
+	}
+	
+	public static void consultarComanda(int codiClient)
+	{
+		int i = buscaClient(codiClient) ;
+		int num ;
+		System.out.println("Elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+		historialComandes(codiClient) ;
+		num = teclat.nextInt() ;
+		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
+		{
+			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+			num = teclat.nextInt() ;
+		}
+		System.out.println("La comanda es la seguent");
+		Comanda c=llistaClients[i].getTaulaComandes()[num-1] ;
+		Producte[] p = c.getLlista() ;
+		for (int j=0; j<c.getNumProd(); j++)
+		{
+			System.out.println((j+1)+". "+p[j].getNom());
+		}
 	}
 	
 	/** Demana totes les dades necessaries per a crear un client i crida al constructor de clients.

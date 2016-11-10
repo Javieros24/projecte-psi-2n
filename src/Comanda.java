@@ -3,15 +3,18 @@ public class Comanda {
 
 	private Producte[] llista ;
 	private int numProd = 0;
+	private static int codiComanda=0;
 	
+	/**Constructor de Comanda 
+	 * @param num
+	 */
 	public Comanda(int num)
 	{
 		llista = new Producte[num];
-		
+		codiComanda++;
 	}
 	
 	/** Afegeix un producte a la llista
-	 * 
 	 * @param p
 	 * @param quantitat
 	 */
@@ -25,7 +28,6 @@ public class Comanda {
 	}
 	
 	/** Elimina un producte de la llista
-	 * 
 	 * @param p
 	 */
 	public void eliminarProducte(Producte p)
@@ -44,23 +46,24 @@ public class Comanda {
 		}
 	}
 	
-	/** Get llista de productes
-	 * 
-	 * @return llista
-	 */
+	/*-------------------GETTERS I SETTERS----------------------------------*/
+	
 	public Producte[] getLlista() {
 		return llista;
 	}
 	
-	/** Get numProd
-	 * 
-	 * @return numProd
-	 */
 	public int getNumProd() {
 		return numProd;
 	}
 	
+	public void setNumProd(int numProd) {
+		this.numProd = numProd ;
+	}
 	
+	public static int getCodiComanda ()
+	{
+		return codiComanda;
+	}
 	
 	
 }
