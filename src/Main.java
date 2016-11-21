@@ -3,9 +3,8 @@ import java.util.Scanner;
 public class Main {
 
     static Scanner teclat = new Scanner(System.in);
-	private static Producte[] llistaProductes;
-	private static Client[] llistaClients;
-	private static int nClients, nProductes;
+	private static LlistaProductes llistaProductes;
+	private static LlistaClients llistaClients;
     
 	public static void main(String[] args) {
 		int opcioMenu;
@@ -58,28 +57,7 @@ public class Main {
 	 * 
 	 */
 	public static void inicialitzaDades(){
-		llistaProductes = new Producte[100];
-		llistaClients = new Client[100];
-		nClients = 0;
-		nProductes = 0;
-		
-		//Joc de proves
-		
-		Beguda b = new Beguda("Birra", 1, 250, true);
-		llistaProductes[0] = b;
-		nProductes++;
-		RestriccionsAlimentaries[] res1 = new RestriccionsAlimentaries[1];
-		res1[0] = RestriccionsAlimentaries.CELIACS;
-		Plat p = new Plat("Un Macarro", 12, res1);
-		llistaProductes[1] = p;
-		nProductes++;
-		
-		RestriccionsAlimentaries[] res2;
-		res2 = new RestriccionsAlimentaries[1];
-		res2[0] = RestriccionsAlimentaries.CELIACS;
-		Client c = new Client("Roger", "Carrer del pou", "buskk", "1234jaja1997", 977340793, res2);
-		llistaClients[0] = c;
-		nClients++;
+
 	}
 	
 	/**Mètode que permet afegir un producte a la llista (plat o beguda).
@@ -90,10 +68,6 @@ public class Main {
 		String nom;
 		double preu;
 		
-		
-		if (nProductes == llistaProductes.length)
-			System.out.println("No es pot afegir cap producte més!");
-		else{
 			System.out.println("Indica que vol afegir: ");
 			System.out.println("1. Plat\n2. Beguda");
 			opcio = teclat.nextInt();
@@ -112,7 +86,6 @@ public class Main {
 				afegirPlat(nom, preu);
 			else
 				afegirBeguda(nom, preu);
-		}
 	}
 	
 	/**Mètode que afegeix un plat a la llista de productes
@@ -129,8 +102,7 @@ public class Main {
 		restriccions = new RestriccionsAlimentaries[nRestriccions];
 		
 		if (nRestriccions == 0){
-			llistaProductes[nProductes] = new Plat(nom, preu, restriccions);
-			nProductes++;
+			llistaProductes.afegirElement(nom, preu, restriccions);
 		}
 		else{						
 			if (cont<nRestriccions){
@@ -157,8 +129,7 @@ public class Main {
 				}
 			}	
 			
-			llistaProductes[nProductes] = new Plat(nom, preu, restriccions);
-			nProductes++;
+			llistaProductes.afegirElement(nom, preu, restriccions);
 		}
 	}
 	
@@ -175,30 +146,19 @@ public class Main {
 		volum = teclat.nextInt();
 		System.out.print("\n- Alcohol SI/NO: ");
 		alcohol = teclat.next().equalsIgnoreCase("SI");		
-		llistaProductes[nProductes]= new Beguda(nom, preu, volum, alcohol);
-		nProductes++;
-	}
+		llistaProductes.afegirElement(nom, preu, volum, alcohol);
+		}
 	
 	/**Mètode que permet eliminar un producte. L'usuari introduirà el codi del producte
 	 * 
 	 */
 	public static void eliminarProducte(){
-		int codi, posicio;
+		int codi;
 		
 		mostraMenu();
 		System.out.println("Indica el codi del producte que vol eliminar: ");
 		codi = teclat.nextInt();
-		posicio = buscaProducte(codi);
-		while(posicio == -1){
-			System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
-			codi = teclat.nextInt();
-			posicio = buscaProducte(codi);
-		}
-		
-		for (int i=posicio; i<nProductes-1; i++){
-			llistaProductes[i] = llistaProductes[i+1];
-		}
-		nProductes--;
+		llistaProductes.eliminarElement(codi);
 		
 		System.out.println("S'ha eliminat correctament el producte");
 	}
@@ -207,84 +167,41 @@ public class Main {
 	 * 
 	 */
 	public static void consultarProducte(){
-		int codi, posicio;
+		int codi;
 		
 		mostraProductes();
 		System.out.println("Indica el codi del producte que vol consultar: ");
 		codi = teclat.nextInt();
-		posicio = buscaProducte(codi);
-		while(posicio == -1){
-			System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
-			codi = teclat.nextInt();
-			posicio = buscaProducte(codi);
-		}
-		
-		System.out.println(llistaProductes[posicio].toString());
-	}
-	
-	/**Mètode que busca un producte a partir d'un codi, -1 en cas de no trobar-lo
-	 * 
-	 * @param codi codi del producte a buscar
-	 * @return posició de la taula on es troba el producte, -1 en cas de no trobar-lo
-	 */
-	private static int buscaProducte(int codi){
-		
-		for (int i=0; i < nProductes; i++){
-			if (llistaProductes[i].getCodiReferencia() == codi)
-				return i;
-		}
-		return -1;
-	}
-	
-	/**Mètode que busca un client a partir d'un codi, -1 en cas de no trobar-lo
-	 * 
-	 * @param codi identificador del client a buscar
-	 * @return posició de la taula on es troba el client, -1 en cas de no trobar-lo
-	 */
-	private static int buscaClient(int codi){
-		
-		for (int i=0; i < nClients; i++){
-			if (llistaClients[i].getIdentificador() == codi)
-				return i;
-		}
-		return -1;
-	}
+		System.out.println(llistaProductes.consultarElement(codi).toString());
+	}	
 
 	/**Mètode que mostra per pantalla el menú de restaurant
 	 * 
 	 */
 	private static void mostraProductes(){
 		int i;
+		Producte[] p;
+		int nProductes;
+		
+		p = llistaProductes.getLlistaProductes();
+		nProductes = llistaProductes.getnElements();
 		
 		System.out.println("********************		[MENÚ]		  ********************");
 		System.out.println("PLATS:");
 		for (i=0; i < nProductes; i++){
-			if (llistaProductes[i] instanceof Plat)
-				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+") Preu: "+llistaProductes[i].getPreu()+"€");
+			if (p[i] instanceof Plat)
+				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].codiReferencia+") Preu: "+p[i].getPreu()+"€");
 		}
 		
 		System.out.println("BEGUDES:");
 		for (i=0; i < nProductes; i++){
-			if (llistaProductes[i] instanceof Beguda)
-				System.out.println("-"+ llistaProductes[i].getNom()+ " (ref: "+ llistaProductes[i].codiReferencia+") Preu: "+llistaProductes[i].getPreu()+"€");
+			if (p[i] instanceof Beguda)
+				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].codiReferencia+") Preu: "+p[i].getPreu()+"€");
 		}
 		System.out.println("**************************************************************");
 	}
 	
-	/**public static int buscaComanda(int codiClient,int codiComanda)
-	{
-		Comanda c;
-		Comanda[] tc;
-		
-		tc=llistaClients[buscaClient(codiClient)].getTaulaComandes() ;
-		for (int i=0; i < llistaClients[buscaClient(codiClient)].getNumComandes(); i++)
-		{
-			c=tc[i] ;
-			if (codiComanda == c.getCodiComanda()) return i;
-		}
-		return -1;
-	}
-	
+
 	/** Afegeix una comanda a un client
 	 * @param codiClient
 	 */
@@ -294,6 +211,7 @@ public class Main {
 		double preu = 0;
 		Producte[] p;
 		Comanda c;
+		Producte[] llista = llistaProductes.getLlistaProductes();
 		
 		//preguntem el numero de productes que tindra la comanda
 		System.out.println("Cuants productes voldras afegir a la comanda?") ;
@@ -308,20 +226,16 @@ public class Main {
 		for (int i=0; i<numMax; i++)
 		{   
 			mostraProductes() ;
-			System.out.println("Elegeix un producte de la llista:") ;
+			System.out.println("Escull un producte de la llista:") ;
 			codiProducte = teclat.nextInt();
-			posicio = buscaProducte(codiProducte);
-			while(posicio == -1){
-				System.out.println("No s'ha trobat el producte, torna a intentar-ho: ");
-				codiProducte = teclat.nextInt();
-				posicio = buscaProducte(codiProducte);
-			}
-			
+			//Excepcio si no existeix
+			posicio = llistaProductes.buscarElement(codiProducte);
 			//comprovar restriccions alimentaries del productes
-			RestriccionsAlimentaries[] r=llistaClients[buscaClient(codiClient)].getRestriccions();	
+			RestriccionsAlimentaries[] r= llistaClients.consultarElement(codiClient).getRestriccions();
 			continuar=true ;
-			if (llistaProductes[posicio] instanceof Plat) {
-				if (((Plat)llistaProductes[posicio]).esApte(r)==false)
+			
+			if (llista[posicio] instanceof Plat) {
+				if (((Plat)llista[posicio]).esApte(r)==false)
 				{
 				
 					System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
@@ -336,7 +250,7 @@ public class Main {
 			}
 			if (continuar)
 			{
-				System.out.println("Escull una quantitat de ("+llistaProductes[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
+				System.out.println("Escull una quantitat de ("+llista[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
 				quantitat = teclat.nextInt();
 				
 				while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
@@ -344,18 +258,18 @@ public class Main {
 					System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd())+"]");
 					quantitat = teclat.nextInt();
 				}
-				c.afegirProducte(llistaProductes[posicio], quantitat);		
+				c.afegirProducte(llista[posicio], quantitat);		
 				i = i + quantitat-1;
 				
 				//calcular preu
 				
-				if (llistaClients[buscaClient(codiClient)].isPreferent()==true)
+				if (llistaClients.consultarElement(codiClient).isPreferent()==true)
 				{
-					preu = preu + quantitat*(llistaProductes[posicio].preu - llistaProductes[posicio].descompte) ;
+					preu = preu + quantitat*(llista[posicio].preu - llista[posicio].descompte) ;
 				}
 				else 
 				{
-					preu = preu + quantitat*(llistaProductes[posicio].preu) ;
+					preu = preu + quantitat*(llista[posicio].preu) ;
 				}
 			}
 			
@@ -376,7 +290,7 @@ public class Main {
 		}
 		if (s.equalsIgnoreCase("si"))
 		{
-			llistaClients[buscaClient(codiClient)].afegirComanda(c);
+			llistaClients.consultarElement(codiClient).afegirComanda(c);
 			System.out.println("La comanda s'ha realitzat amb exit");
 		}
 		else System.out.println("Comanda cancelada");
@@ -385,17 +299,16 @@ public class Main {
 	
 	public static void eliminarComanda(int codiClient)
 	{
-		int i = buscaClient(codiClient) ;
 		int num ;
-		System.out.println("Escull una comanda per eliminar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+		System.out.println("Escull una comanda per eliminar entre [1-"+llistaClients.consultarElement(codiClient).getNumComandes() +"]");
 		historialComandes(codiClient) ;
 		num = teclat.nextInt() ;
-		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
+		while ((num > llistaClients.consultarElement(codiClient).getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+			System.out.println("Error, escull una comanda per consultar entre [1-"+ llistaClients.consultarElement(codiClient).getNumComandes()+"]");
 			num = teclat.nextInt() ;
 		}
-		llistaClients[i].eliminaComanda(num-1);
+		llistaClients.consultarElement(codiClient).eliminaComanda(num-1);
 	}
 	
 	public static void consultarComanda(int codiClient)
@@ -444,9 +357,8 @@ public class Main {
 			numRestriccions = teclat.nextInt();
 			restriccions = new RestriccionsAlimentaries[numRestriccions];
 			if (numRestriccions == 0){
-				llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
 				System.out.println("S'ha creat correctament el client");
-				nClients++;
 			}
 			else{						
 				if (cont<numRestriccions){
@@ -472,46 +384,36 @@ public class Main {
 						cont++;
 					}
 				}
-				llistaClients[nClients] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
 				System.out.println("S'ha creat correctament el client");
-				nClients++;
 			}
 		}	
 	}
 	
-	public static void eliminarClient(int codiClient){
-		int  i;
+	
+	public static void consultarClient(){
 		
-		i=buscaClient(codiClient);
-		for(; i<nClients-1; i++){
-			llistaClients[i]=llistaClients[i+1];
-		}
+		int codiClient = escullClient();
 		
-		System.out.println("S'ha eliminat el client correctament");
-		nClients--;
+		System.out.println(llistaClients.consultarElement(codiClient).toString());
 	}
+	
+	public static void historialComandes(){	
+		
+		int codiClient = escullClient();
+		Client c = llistaClients.consultarElement(codiClient);
 
-	
-	public static void consultarClient(int codiClient){
-		int i;
-		
-		i = buscaClient(codiClient);
-		System.out.println(llistaClients[i].toString());
-	}
-	
-	public static void historialComandes(int codiClient){	
-		int i;
-		
-		i = buscaClient(codiClient);
-		for(int j=0; j<llistaClients[i].getNumComandes(); j++){
-			System.out.println(llistaClients[i].getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
+		for(int j=0; j<c.getNumComandes(); j++){
+			System.out.println(c.getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
 		}
 	}
 	
 	private static int escullClient(){
 		int i;
-		for(i=0; i<nClients; i++){
-			System.out.println("Nom: "+llistaClients[i].getNomUsuari()+" (Ref: "+llistaClients[i].getIdentificador()+")");
+		Client[] llista = llistaClients.getLlistaClients();
+		
+		for(i=0; i<llistaClients.getnElements(); i++){
+			System.out.println("Nom: "+llista[i].getNomUsuari()+" (Ref: "+llista[i].getIdentificador()+")");
 		}
 		
 		System.out.println("Escriu l'identificador del client que vulguis consultar: ");

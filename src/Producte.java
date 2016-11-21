@@ -68,8 +68,8 @@ public abstract class Producte
 	 */
 	public String toString() 
 	{
-		return "Producte [nom=" + nom + ", codiReferencia=" + codiReferencia + ", preu=" + preu + ", descompte="
-				+ descompte + "]";
+		return "El produte " + nom + " (ref: " + codiReferencia + ") amb un preu de " + preu + "€ (descompte "
+				+ descompte + "€)";
 	}
 
 }

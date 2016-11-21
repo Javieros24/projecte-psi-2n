@@ -35,11 +35,17 @@ public class Client {
 		if (numComandes==6) preferent=true;
 	}
 	
-	/** Retorna l'historial de comandes del client.
-	 * @return Taula de comandes. **/
-/*	public Comanda[] consultar(){
-		return taulaComandes;
-	} */
+	public Comanda buscaComanda(int codiComanda){
+		
+		for (int i=0; i < numComandes; i++){
+			if (codiComanda == taulaComandes[i].getNumProd())
+				return taulaComandes[i];
+		}
+		
+		//EXCEPCIO!
+		return null;
+	}
+	
 	
 	/** Reb per parametre l'index de la comanda que es vol copiar de l'historial
 	 * i es crea una nova comanda amb les mateixes.
