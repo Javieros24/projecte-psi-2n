@@ -41,15 +41,15 @@ public class LlistaClients {
 		return -1;
 	}
 	
-	public Client consultarElement(int ref){
+	public Client consultarElement(int ref) throws NotFoundException
+	{
 		
 		for (int i=0; i < nElements; i++){
 			if (llistaClients[i].getIdentificador() == ref)
 				return llistaClients[i];
+			
 		}
-		
-		//EXCEPCIO!
-		return null;
+		throw new NotFoundException();
 	}
 
 	public Client[] getLlistaClients() {

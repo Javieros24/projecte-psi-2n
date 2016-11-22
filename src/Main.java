@@ -394,25 +394,60 @@ public class Main {
 	public static void eliminarComanda(int codiClient)
 	{
 		int num ;
-		System.out.println("Escull una comanda per eliminar entre [1-"+llistaClients.consultarElement(codiClient).getNumComandes() +"]");
-		historialComandes(codiClient) ;
-		num = teclat.nextInt() ;
+		boolean llegit=false, llegit1=false;
+		while(!llegit1)
+		{
+			try
+			{
+				System.out.println("Escull una comanda per eliminar entre [1-"+llistaClients.consultarElement(codiClient).getNumComandes() +"]");
+				historialComandes(codiClient);
+				num = teclat.nextInt();
+				llegit1=true;
+			}
+			catch(IndexOutOfBoundsException e)
+			{
+				System.out.println("Error, opcio no valida, torni a triar una.");
+				e.getMessage();
+			}
+		}
 		while ((num > llistaClients.consultarElement(codiClient).getNumComandes()) || (num <= 0))
 		{
 			System.out.println("Error, escull una comanda per consultar entre [1-"+ llistaClients.consultarElement(codiClient).getNumComandes()+"]");
 			num = teclat.nextInt() ;
 		}
-		llistaClients.consultarElement(codiClient).eliminaComanda(num-1);
+		while(!llegit)
+		{
+			try
+			{
+			llistaClients.consultarElement(codiClient).eliminaComanda(num-1);
+			llegit=true;
+			}
+			catch(NotFoundException e)
+			{
+				e.getMessage();
+			}
+		}
 	}
 	
 	public static void consultarComanda(int codiClient)
 	{
 		int num ;
 		int i = buscaClient(codiClient) ;
-
-		System.out.println("Escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
-		historialComandes(codiClient) ;
-		num = teclat.nextInt() ;
+		boolean llegit=false;
+		
+		while(!llegit)
+		{
+			try
+			{
+				System.out.println("Escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+				historialComandes(codiClient) ;
+				num = teclat.nextInt() ;
+				llegit=true;
+			}
+			catch(IndexOutOfBoundsException e)
+			{
+				System.out.println("Error, comanda no valida, torni a triar una.");
+			}
 		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
 		{
 			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
