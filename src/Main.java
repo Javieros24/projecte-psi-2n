@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -65,28 +66,36 @@ public class Main {
 	 * 
 	 */
 	public static void afegirProducte(){
-		int opcio;
-		String nom;
-		double preu;
+		int opcio = -1;
+		String nom = null;
+		double preu = 0.0;
 		
-			System.out.println("Indica que vol afegir: ");
-			System.out.println("1. Plat\n2. Beguda");
-			opcio = teclat.nextInt();
-			while (opcio != 1 && opcio != 2){
-				System.out.println("ERROR!");
+		while(!llegit){
+			try {
+				System.out.println("Indica que vol afegir: ");
 				System.out.println("1. Plat\n2. Beguda");
 				opcio = teclat.nextInt();
+				while (opcio != 1 && opcio != 2){
+					System.out.println("ERROR!");
+					System.out.println("1. Plat\n2. Beguda");
+					opcio = teclat.nextInt();
+				}
+				
+				System.out.println("-Indica el nom:");
+				nom = teclat.next();
+				System.out.println("-Indica el preu:");
+				preu = teclat.nextDouble();
+				llegit = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Error, has d'introduïr un número!");
 			}
-			
-			System.out.println("-Indica el nom:");
-			nom = teclat.next();
-			System.out.println("-Indica el preu:");
-			preu = teclat.nextDouble();		
+		}
 			
 			if (opcio == 1)
 				afegirPlat(nom, preu);
 			else
 				afegirBeguda(nom, preu);
+		
 	}
 	
 	/**Mètode que afegeix un plat a la llista de productes
@@ -96,19 +105,31 @@ public class Main {
 	 */
 	private static void afegirPlat(String nom, double preu){
 		RestriccionsAlimentaries[] restriccions;
-		int nRestriccions, cont=0;
+		int nRestriccions=0, cont=0;
+		String cadena;
 		
-		System.out.println("Per quants tipus de persones es apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
-		nRestriccions = teclat.nextInt();
+		llegit = false;
+		while(!llegit){
+		try {
+			System.out.println("Per quants tipus de persones és apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
+			nRestriccions = teclat.nextInt();
+			llegit = true;
+		} catch (InputMismatchException e) {
+			System.out.println("Error, has d'introduïr un número!");
+		}
+		}
+		
 		restriccions = new RestriccionsAlimentaries[nRestriccions];
 		
-		if (nRestriccions == 0){
-			llistaProductes.afegirElement(nom, preu, restriccions);
-		}
-		else{						
+		if (nRestriccions != 0){		
 			if (cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				cadena = teclat.next();
+				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+					System.out.println("Error, has de introduïr SI/NO");
+					cadena = teclat.next();
+				}
+				if (cadena.equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
 					cont++;
 				}
@@ -116,7 +137,12 @@ public class Main {
 			
 			if (cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				cadena = teclat.next();
+				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+					System.out.println("Error, has de introduïr SI/NO");
+					cadena = teclat.next();
+				}
+				if (cadena.equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
 					cont++;
 				}
@@ -124,15 +150,25 @@ public class Main {
 			
 			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
 				System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				cadena = teclat.next();
+				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+					System.out.println("Error, has de introduïr SI/NO");
+					cadena = teclat.next();
+				}
+				if (cadena.equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
 					cont++;
 				}
 			}	
+		}
 			
+		try {
 			llistaProductes.afegirElement(nom, preu, restriccions);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error, no es ot afegir cap més producte");
 		}
 	}
+	
 	
 	/**Mètode privat que afegiex una beguda a la llista de productes
 	 * 
@@ -141,14 +177,30 @@ public class Main {
 	 */
 	private static void afegirBeguda(String nom, double preu){
 		boolean alcohol;
-		int volum;
+		int volum = 0;
+		String a = null;
 		
-		System.out.print("\n-Volum: ");
-		volum = teclat.nextInt();
-		System.out.print("\n- Alcohol SI/NO: ");
-		alcohol = teclat.next().equalsIgnoreCase("SI");		
-		llistaProductes.afegirElement(nom, preu, volum, alcohol);
+		try {
+			System.out.print("\n-Volum: ");
+			volum = teclat.nextInt();
+			System.out.print("\n- Alcohol SI/NO: ");
+			a = teclat.next();
+			while (!a.equalsIgnoreCase("SI") && !a.equalsIgnoreCase("NO")){
+				System.out.println("Error, has de introduïr SI/NO");
+				a = teclat.next();
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Error, has d'introduïr un número!");
 		}
+		
+		alcohol = a.equalsIgnoreCase("SI");
+		
+		try {
+			llistaProductes.afegirElement(nom, preu, volum, alcohol);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error, no es pot afegir cap més producte");
+		}
+	}
 	
 	/**Mètode que permet eliminar un producte. L'usuari introduirà el codi del producte
 	 * 
@@ -157,11 +209,21 @@ public class Main {
 		int codi;
 		
 		mostraMenu();
-		System.out.println("Indica el codi del producte que vol eliminar: ");
-		codi = teclat.nextInt();
-		llistaProductes.eliminarElement(codi);
 		
-		System.out.println("S'ha eliminat correctament el producte");
+		llegit = false;
+		while (!llegit) {
+			try {
+				System.out.println("Indica el codi del producte que vol eliminar: ");
+				codi = teclat.nextInt();
+				llistaProductes.eliminarElement(codi);
+				System.out.println("S'ha eliminat correctament el producte");
+				llegit = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Error, has d'introduïr un número!");
+			} catch (NotFoundException e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**Mètode que permet consultar un producte. L'usuari introduirà el codi del producte
@@ -171,9 +233,20 @@ public class Main {
 		int codi;
 		
 		mostraProductes();
-		System.out.println("Indica el codi del producte que vol consultar: ");
-		codi = teclat.nextInt();
-		System.out.println(llistaProductes.consultarElement(codi).toString());
+		
+		llegit = false;
+		while(!llegit){
+		try {
+			System.out.println("Indica el codi del producte que vol consultar: ");
+			codi = teclat.nextInt();
+			System.out.println(llistaProductes.consultarElement(codi).toString());
+			llegit = true;
+		} catch (InputMismatchException e) {
+			System.out.println("Error, has d'introduïr un número!");
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		}
 	}	
 
 	/**Mètode que mostra per pantalla el menú de restaurant

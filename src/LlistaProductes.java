@@ -17,7 +17,7 @@ public class LlistaProductes {
 		nElements++;
 	}
 	
-	public void eliminarElement(int  ref){
+	public void eliminarElement(int  ref) throws NotFoundException{
 		int  i;
 		
 		i=buscarElement(ref);
@@ -46,15 +46,14 @@ public class LlistaProductes {
 		throw new NotFoundException();
 	}
 	
-	public Producte consultarElement(int ref){
+	public Producte consultarElement(int ref) throws NotFoundException{
 		
 		for (int i=0; i < nElements; i++){
 			if (llistaProductes[i].codiReferencia == ref)
 				return llistaProductes[i];
 		}
 		
-		//EXCEPCIO!
-		return null;
+		throw new NotFoundException();
 	}
 
 	public Producte[] getLlistaProductes() {
