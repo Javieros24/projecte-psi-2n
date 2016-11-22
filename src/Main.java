@@ -357,59 +357,113 @@ public class Main {
 	/** Demana totes les dades necessaries per a crear un client i crida al constructor de clients.
 	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. **/
 	public static void crearClient(){
-		String nom, adreca, nomUsuari, contrasenya;
-		int numTelefon, numRestriccions, cont=0;
+		String nom=null, adreca=null, nomUsuari=null, contrasenya=null;
+		int numTelefon=0, numRestriccions=0, cont=0;
 		RestriccionsAlimentaries[] restriccions;
+		boolean correcte=false;
 		
-		if (nClients == llistaClients.length)
-			System.out.println("No s'ha pogut crear un nou client, llista plena!");
-		else{
-			System.out.println("Introdueix el nom del nou client: ");
-			nom = teclat.next();
-			System.out.println("Introdueix un nom d'usuari: ");
-			nomUsuari = teclat.next();
-			System.out.println("Introdueix una contrasenya: ");
-			contrasenya = teclat.next();
-			System.out.println("Introdueix la teva adreca: ");
-			adreca = teclat.next();
-			System.out.println("Introdueix el teu numero de telefon: ");
-			numTelefon = teclat.nextInt();
-			System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
-			numRestriccions = teclat.nextInt();
-			restriccions = new RestriccionsAlimentaries[numRestriccions];
-			if (numRestriccions == 0){
+		while(!correcte){
+			try {
+				System.out.println("Introdueix el nom del nou client: ");
+				nom = teclat.next();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Nom incorrecte.");
+			}
+		}
+		correcte=false;
+		while(!correcte){
+			try {
+				System.out.println("Introdueix un nom d'usuari: ");
+				nomUsuari = teclat.next();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Nom incorrecte.");
+			}
+		}
+		correcte=false;
+		while(!correcte){
+			try {
+				System.out.println("Introdueix una contrasenya: ");
+				contrasenya = teclat.next();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Contrasenyan incorrecta.");
+			}
+		}
+		correcte=false;
+		while(!correcte){
+			try {
+				System.out.println("Introdueix la teva adreca: ");
+				adreca = teclat.next();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Adreca incorrecta.");
+			}
+		}
+		correcte=false;
+		while(!correcte){
+			try {
+				System.out.println("Introdueix el teu numero de telefon: ");
+				numTelefon = teclat.nextInt();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Numero de telefon incorrecte.");
+			}
+		}
+		correcte=false;
+		while(!correcte){
+			try {
+				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
+				numRestriccions = teclat.nextInt();
+				correcte=true;
+			} catch (IllegalArgumentException e1) {
+				System.out.println("ERROR: Nombre de restriccions incorrecte.");
+			}
+		}
+		restriccions = new RestriccionsAlimentaries[numRestriccions];
+		if (numRestriccions == 0){
+			try {
 				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
 				System.out.println("S'ha creat correctament el client");
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
 			}
-			else{						
-				if (cont<numRestriccions){
-					System.out.println("\nÉs vostè celíac? (SI/NO): ");
-					if (teclat.next().equalsIgnoreCase("SI")) {
-						restriccions[cont] = RestriccionsAlimentaries.CELIACS;
-						cont++;
-					}
+		}
+		else{						
+			if (cont<numRestriccions){
+				System.out.println("\nÉs vostè celíac? (SI/NO): ");
+				if (teclat.next().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+					cont++;
 				}
-				
-				if (cont<numRestriccions){
-					System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
-					if (teclat.next().equalsIgnoreCase("SI")) {
-						restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
-						cont++;
-					}
+			}
+			
+			if (cont<numRestriccions){
+				System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
+				if (teclat.next().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+					cont++;
 				}
-				
-				if (teclat.nextLine().equalsIgnoreCase("SI") && cont<numRestriccions){
-					System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
-					if (teclat.next().equalsIgnoreCase("SI")) {
-						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
-						cont++;
-					}
+			}
+			
+			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<numRestriccions){
+				System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
+				if (teclat.next().equalsIgnoreCase("SI")) {
+					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+					cont++;
 				}
+			}
+			
+			try {
 				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
 				System.out.println("S'ha creat correctament el client");
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
 			}
-		}	
-	}
+		}
+	}	
+	
 	
 	
 	public static void consultarClient(){
@@ -430,21 +484,27 @@ public class Main {
 	}
 	
 	private static int escullClient(){
-		int i;
+		int i, posicio;
+		boolean correcte=false;
 		Client[] llista = llistaClients.getLlistaClients();
 		
 		for(i=0; i<llistaClients.getnElements(); i++){
 			System.out.println("Nom: "+llista[i].getNomUsuari()+" (Ref: "+llista[i].getIdentificador()+")");
 		}
 		
-		System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-		i=teclat.nextInt();
-		while (buscaClient(i) == -1){
-			System.out.println("ERROR! No s'ha trobat el client, torna a intentar-ho: ");
-			i = teclat.nextInt();
+		while(!correcte){
+			try{
+			System.out.println("Escriu l'identificador del client que vulguis consultar: ");
+			i=teclat.nextInt();
+			} catch(IllegalArgumentException e){
+				System.out.println("ERROR: Identificador incorrecte.");
+			}
 		}
 		
-		return i;
+		posicio=llistaClients.buscarElement(i);
+		
+		return posicio;
 	}
+
 	
 }
