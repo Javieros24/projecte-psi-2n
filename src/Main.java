@@ -12,11 +12,18 @@ public class Main {
 	private static boolean llegit;
     
 	public static void main(String[] args) {
-		int opcioMenu;
+		int opcioMenu=-1;
 		
 		inicialitzaDades();
 		mostraMenu();
-		opcioMenu = teclat.nextInt();
+		
+		try {
+			opcioMenu = Integer.parseInt(teclat.readLine());
+		} catch (NumberFormatException e) {
+			System.out.println("Valor no valid");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		while (opcioMenu != 10){
 			switch(opcioMenu) {
@@ -33,7 +40,14 @@ public class Main {
 			}
 			
 			mostraMenu();
-			opcioMenu = teclat.nextInt();
+			
+			try {
+				opcioMenu = Integer.parseInt(teclat.readLine());
+			} catch (NumberFormatException e) {
+				System.out.println("Valor no valid");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -41,8 +55,7 @@ public class Main {
 	 * 
 	 */
 	public static void mostraMenu(){
-		System.out.print("\nPulsi enter per mostrar el menú\n\n");
-		teclat.nextLine(); 			//Buidem el buffer del teclat
+		
 		System.out.println("\n\n\t****************    [TAKE A BYTE]    ****************");			//TAKE A bitE
 		System.out.println("\n\t1. Afegir nous productes (plat o beguda)");
 		System.out.println("\t2. Eliminar producte");
@@ -77,20 +90,22 @@ public class Main {
 			try {
 				System.out.println("Indica que vol afegir: ");
 				System.out.println("1. Plat\n2. Beguda");
-				opcio = teclat.nextInt();
+				opcio = Integer.parseInt(teclat.readLine());
 				while (opcio != 1 && opcio != 2){
 					System.out.println("ERROR!");
 					System.out.println("1. Plat\n2. Beguda");
-					opcio = teclat.nextInt();
+					opcio = Integer.parseInt(teclat.readLine());
 				}
 				
 				System.out.println("-Indica el nom:");
-				nom = teclat.next();
+				nom = teclat.readLine();
 				System.out.println("-Indica el preu:");
-				preu = teclat.nextDouble();
+				preu = Double.parseDouble(teclat.readLine());
 				llegit = true;
-			} catch (InputMismatchException e) {
+			} catch (NumberFormatException e) {
 				System.out.println("Error, has d'introduïr un número!");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 			
@@ -115,53 +130,59 @@ public class Main {
 		while(!llegit){
 		try {
 			System.out.println("Per quants tipus de persones és apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
-			nRestriccions = teclat.nextInt();
+			nRestriccions = Integer.parseInt(teclat.readLine());
 			llegit = true;
-		} catch (InputMismatchException e) {
+		} catch (NumberFormatException e) {
 			System.out.println("Error, has d'introduïr un número!");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		}
 		
 		restriccions = new RestriccionsAlimentaries[nRestriccions];
 		
 		if (nRestriccions != 0){		
-			if (cont<nRestriccions){
-				System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
-				cadena = teclat.next();
-				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-					System.out.println("Error, has de introduïr SI/NO");
-					cadena = teclat.next();
+			try {
+				if (cont<nRestriccions){
+					System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
+					cadena = teclat.readLine();
+					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+						System.out.println("Error, has de introduïr SI/NO");
+						cadena = teclat.readLine();
+					}
+					if (cadena.equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+						cont++;
+					}
 				}
-				if (cadena.equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
-					cont++;
+				
+				if (cont<nRestriccions){
+					System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
+					cadena = teclat.readLine();
+					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+						System.out.println("Error, has de introduïr SI/NO");
+						cadena = teclat.readLine();
+					}
+					if (cadena.equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+						cont++;
+					}
 				}
-			}
-			
-			if (cont<nRestriccions){
-				System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
-				cadena = teclat.next();
-				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-					System.out.println("Error, has de introduïr SI/NO");
-					cadena = teclat.next();
+				
+				if (teclat.readLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+					System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
+					cadena = teclat.readLine();
+					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+						System.out.println("Error, has de introduïr SI/NO");
+						cadena = teclat.readLine();
+					}
+					if (cadena.equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+						cont++;
+					}
 				}
-				if (cadena.equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
-					cont++;
-				}
-			}
-			
-			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<nRestriccions){
-				System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
-				cadena = teclat.next();
-				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-					System.out.println("Error, has de introduïr SI/NO");
-					cadena = teclat.next();
-				}
-				if (cadena.equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
-					cont++;
-				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}	
 		}
 			
@@ -185,15 +206,17 @@ public class Main {
 		
 		try {
 			System.out.print("\n-Volum: ");
-			volum = teclat.nextInt();
+			volum = Integer.parseInt(teclat.readLine());
 			System.out.print("\n- Alcohol SI/NO: ");
-			a = teclat.next();
+			a = teclat.readLine();
 			while (!a.equalsIgnoreCase("SI") && !a.equalsIgnoreCase("NO")){
 				System.out.println("Error, has de introduïr SI/NO");
-				a = teclat.next();
+				a = teclat.readLine();
 			}
-		} catch (InputMismatchException e) {
+		} catch (NumberFormatException e) {
 			System.out.println("Error, has d'introduïr un número!");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		alcohol = a.equalsIgnoreCase("SI");
@@ -217,13 +240,15 @@ public class Main {
 		while (!llegit) {
 			try {
 				System.out.println("Indica el codi del producte que vol eliminar: ");
-				codi = teclat.nextInt();
+				codi = Integer.parseInt(teclat.readLine());
 				llistaProductes.eliminarElement(codi);
 				System.out.println("S'ha eliminat correctament el producte");
 				llegit = true;
-			} catch (InputMismatchException e) {
+			} catch (NumberFormatException e) {
 				System.out.println("Error, has d'introduïr un número!");
 			} catch (NotFoundException e){
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -241,12 +266,14 @@ public class Main {
 		while(!llegit){
 		try {
 			System.out.println("Indica el codi del producte que vol consultar: ");
-			codi = teclat.nextInt();
+			codi = Integer.parseInt(teclat.readLine());
 			System.out.println(llistaProductes.consultarElement(codi).toString());
 			llegit = true;
-		} catch (InputMismatchException e) {
+		} catch (NumberFormatException e) {
 			System.out.println("Error, has d'introduïr un número!");
 		} catch (NotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		}
