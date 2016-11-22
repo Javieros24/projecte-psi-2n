@@ -1,9 +1,12 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
 
     static Scanner teclat = new Scanner(System.in);
+    static InputStreamReader isr = new InputStreamReader(System.in) ;
+    static BufferedReader teclat2 = new BufferedReader(isr);
 	private static LlistaProductes llistaProductes;
 	private static LlistaClients llistaClients;
 	private static boolean llegit;
@@ -519,13 +522,18 @@ public class Main {
 		}
 		correcte=false;
 		while(!correcte){
-			try {
-				System.out.println("Introdueix el teu numero de telefon: ");
-				numTelefon = teclat.nextInt();
-				correcte=true;
-			} catch (InputMismatchException e1) {
-				System.out.println("ERROR: Numero de telefon incorrecte.");
-			}
+			
+				try {
+					System.out.println("Introdueix el teu numero de telefon: ");
+					numTelefon = Integer.parseInt(teclat2.readLine());
+					correcte=true;
+				} catch (IOException e) {
+					System.out.println("fsdsdfERROR: Numero de telefon incorrecte.");
+					
+				} catch (NumberFormatException e1) {
+					System.out.println("ERROR: Numero de telefon incorrecte.");
+				}
+			
 		}
 		correcte=false;
 		while(!correcte){
