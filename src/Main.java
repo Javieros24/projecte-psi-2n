@@ -488,6 +488,8 @@ public class Main {
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
+			} catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		correcte=false;
@@ -498,6 +500,8 @@ public class Main {
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
+			}catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		correcte=false;
@@ -508,6 +512,8 @@ public class Main {
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Contrasenyan incorrecta.");
+			}catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		correcte=false;
@@ -518,6 +524,8 @@ public class Main {
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Adreca incorrecta.");
+			}catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		correcte=false;
@@ -525,10 +533,10 @@ public class Main {
 			
 				try {
 					System.out.println("Introdueix el teu numero de telefon: ");
-					numTelefon = Integer.parseInt(teclat2.readLine());
+					numTelefon = Integer.parseInt(teclat.readLine());
 					correcte=true;
 				} catch (IOException e) {
-					System.out.println("fsdsdfERROR: Numero de telefon incorrecte.");
+					e.printStackTrace();
 					
 				} catch (NumberFormatException e1) {
 					System.out.println("ERROR: Numero de telefon incorrecte.");
@@ -539,10 +547,12 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
-				numRestriccions = teclat.read();
+				numRestriccions = Integer.parseInt(teclat.readLine());
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nombre de restriccions incorrecte.");
+			} catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		restriccions = new RestriccionsAlimentaries[numRestriccions];
@@ -554,29 +564,34 @@ public class Main {
 				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
 			}
 		}
-		else{						
-			if (cont<numRestriccions){
-				System.out.println("\nÉs vostè celíac? (SI/NO): ");
-				if (teclat.readLine().equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
-					cont++;
-				}
-			}
+		else{				
 			
-			if (cont<numRestriccions){
-				System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
-				if (teclat.readLine().equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
-					cont++;
+			try {
+				if (cont<numRestriccions){
+					System.out.println("\nÉs vostè celíac? (SI/NO): ");
+					if (teclat.readLine().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.CELIACS;
+						cont++;
+					}
 				}
-			}
-			
-			if (teclat.readLine().equalsIgnoreCase("SI") && cont<numRestriccions){
-				System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
-				if (teclat.readLine().equalsIgnoreCase("SI")) {
-					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
-					cont++;
+				
+				if (cont<numRestriccions){
+					System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
+					if (teclat.readLine().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+						cont++;
+					}
 				}
+				
+				if (teclat.readLine().equalsIgnoreCase("SI") && cont<numRestriccions){
+					System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
+					if (teclat.readLine().equalsIgnoreCase("SI")) {
+						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+						cont++;
+					}
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 			
 			try {
@@ -617,13 +632,15 @@ public class Main {
 		while(!correcte){
 			try{
 			System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-			ref=teclat.readLine();
+			ref=teclat.read();
 			c = llistaClients.consultarElement(ref);
 			correcte = true;
 			} catch(InputMismatchException e){
 				System.out.println("ERROR: Identificador incorrecte.");
 			} catch (NotFoundException e) {
 				e.printStackTrace();
+			} catch (IOException e){
+				
 			}
 		}
 		return c;
