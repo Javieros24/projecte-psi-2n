@@ -310,7 +310,7 @@ public class Main {
 	 * @param codiClient
 	 */
 	public static void afegirComanda(){
-		int numMax, posicio = -1, quantitat = -1, codiProducte;
+		int numMax = 0, posicio = -1, quantitat = -1, codiProducte;
 		boolean continuar;
 		double preu = 0;
 		Producte[] p;
@@ -320,13 +320,21 @@ public class Main {
 				
 		
 		//preguntem el numero de productes que tindra la comanda
-		System.out.println("Cuants productes voldras afegir a la comanda?") ;
-		numMax=teclat.nextInt() ;
-		while(numMax<=0){
-			System.out.println("Error, elegeix un numero mes gran que 0:") ;
-			numMax=teclat.nextInt() ;
+		llegit = false;
+		while (!llegit)
+		{
+			try {
+				System.out.println("Cuants productes voldras afegir a la comanda?") ;
+				numMax=teclat.read() ;
+				while(numMax<=0){
+					System.out.println("Error, elegeix un numero mes gran que 0:") ;
+					numMax=Integer.parseInt(teclat.readLine()) ;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
+			
 		//creem la comanda
 		c = new Comanda(numMax) ;
 		for (int i=0; i<numMax; i++)
@@ -337,7 +345,7 @@ public class Main {
 				mostraProductes() ;
 				try {
 					System.out.println("Escull un producte de la llista:") ;
-					codiProducte = teclat.nextInt();
+					codiProducte = Integer.parseInt(teclat.readLine());
 					posicio = llistaProductes.buscarElement(codiProducte);
 					llegit = true ;
 				} 
@@ -345,6 +353,9 @@ public class Main {
 					e.printStackTrace();
 				}
 				catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+				catch (IOException e){
 					e.printStackTrace();
 				}
 			}
@@ -359,12 +370,17 @@ public class Main {
 			if (llista[posicio] instanceof Plat) {
 				if (((Plat)llista[posicio]).esApte(r)==false)
 				{
-					System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
-					String s = teclat.next() ;
-					while ((!s.equalsIgnoreCase("SI")) && (!s.equalsIgnoreCase("NO")))
-					{
-						System.out.println("Error, voleu continuar amb el producte? (si/no)");
-						s = teclat.next() ;
+					String s = null;
+					try {
+						System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
+						s = teclat.readLine();
+						while ((!s.equalsIgnoreCase("SI")) && (!s.equalsIgnoreCase("NO")))
+						{
+							System.out.println("Error, voleu continuar amb el producte? (si/no)");
+							s = teclat.readLine() ;
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 					if (s.equals("NO")) continuar = false ;
 				}
@@ -376,15 +392,19 @@ public class Main {
 				while (!llegit) {
 					try {
 						System.out.println("Escull una quantitat de (" + llista[posicio].getNom() + ") entre [1-"+ (numMax - c.getNumProd()) + "]");
-						quantitat = teclat.nextInt() ;
+						quantitat = Integer.parseInt(teclat.readLine()) ;
 						while (((quantitat + c.getNumProd()) > numMax) || (quantitat <= 0)) {
 							System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd()) + "]");
-							quantitat = teclat.nextInt();
+							quantitat = Integer.parseInt(teclat.readLine());
 						}
 						llegit = true ;
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
-					} 
+					} catch (IOException e){
+						e.printStackTrace();
+					}
+					 
+					
 				}
 				c.afegirProducte(llista[posicio], quantitat);		
 				i = i + quantitat-1;
@@ -411,11 +431,16 @@ public class Main {
 			System.out.println((i+1)+". "+p[i].getNom());
 		}
 		System.out.println("El preu final es "+preu+"€, confirmar la comanda? (si/no) ");
-		String s = teclat.next() ;
-		while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
-		{
-			System.out.println("Error, confirmar la comanda? (si/no)");
-			s = teclat.next() ;
+		String s = null;
+		try {
+			s = teclat.readLine();
+			while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
+			{
+				System.out.println("Error, confirmar la comanda? (si/no)");
+				s = teclat.readLine() ;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		if (s.equalsIgnoreCase("si"))
 		{
