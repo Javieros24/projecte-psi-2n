@@ -46,6 +46,11 @@ public class Comanda {
 		}
 	}
 	
+	public String toString() 
+	{
+		return "Comanda #" +codiComanda+", amb "+numProd+" productes.";
+	}
+	
 	/*-------------------GETTERS I SETTERS----------------------------------*/
 	
 	public Producte[] getLlista() {

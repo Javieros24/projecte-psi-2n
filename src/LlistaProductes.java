@@ -34,16 +34,16 @@ public class LlistaProductes {
 	 * 
 	 * @param codi identificador del Producte a buscar
 	 * @return posició de la taula on es troba el Producte, -1 en cas de no trobar-lo
+	 * @throws NotFoundException 
 	 */
-	public int buscarElement(int ref){
+	public int buscarElement(int ref) throws NotFoundException{
 	
 		for (int i=0; i < nElements; i++){
 			if (llistaProductes[i].codiReferencia == ref)
 				return i;
 		}
 		
-		//EXCEPCIO!
-		return -1;
+		throw new NotFoundException();
 	}
 	
 	public Producte consultarElement(int ref){

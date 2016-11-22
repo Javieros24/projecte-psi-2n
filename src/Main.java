@@ -5,6 +5,7 @@ public class Main {
     static Scanner teclat = new Scanner(System.in);
 	private static LlistaProductes llistaProductes;
 	private static LlistaClients llistaClients;
+	private static boolean llegit;
     
 	public static void main(String[] args) {
 		int opcioMenu;
@@ -206,7 +207,7 @@ public class Main {
 	 * @param codiClient
 	 */
 	public static void afegirComanda(int codiClient){
-		int numMax, posicio, quantitat, codiProducte;
+		int numMax, posicio = -1, quantitat = -1, codiProducte;
 		boolean continuar;
 		double preu = 0;
 		Producte[] p;
@@ -225,11 +226,24 @@ public class Main {
 		c = new Comanda(numMax) ;
 		for (int i=0; i<numMax; i++)
 		{   
-			mostraProductes() ;
-			System.out.println("Escull un producte de la llista:") ;
-			codiProducte = teclat.nextInt();
-			//Excepcio si no existeix
-			posicio = llistaProductes.buscarElement(codiProducte);
+			llegit = false;
+			while (!llegit)
+			{
+				mostraProductes() ;
+				try {
+					System.out.println("Escull un producte de la llista:") ;
+					codiProducte = teclat.nextInt();
+					posicio = llistaProductes.buscarElement(codiProducte);
+					llegit = true ;
+				} 
+				catch (NotFoundException e) {
+					e.printStackTrace();
+				}
+				catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			//comprovar restriccions alimentaries del productes
 			RestriccionsAlimentaries[] r= llistaClients.consultarElement(codiClient).getRestriccions();
 			continuar=true ;
@@ -237,10 +251,9 @@ public class Main {
 			if (llista[posicio] instanceof Plat) {
 				if (((Plat)llista[posicio]).esApte(r)==false)
 				{
-				
 					System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
 					String s = teclat.next() ;
-					while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
+					while ((!s.equalsIgnoreCase("SI")) && (!s.equalsIgnoreCase("NO")))
 					{
 						System.out.println("Error, voleu continuar amb el producte? (si/no)");
 						s = teclat.next() ;
@@ -250,13 +263,20 @@ public class Main {
 			}
 			if (continuar)
 			{
-				System.out.println("Escull una quantitat de ("+llista[posicio].getNom()+") entre [1-"+(numMax - c.getNumProd())+"]");
-				quantitat = teclat.nextInt();
-				
-				while (((quantitat + c.getNumProd()) > numMax ) || (quantitat <= 0))
-				{
-					System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd())+"]");
-					quantitat = teclat.nextInt();
+				//demanem quantitat
+				llegit = false;
+				while (!llegit) {
+					try {
+						System.out.println("Escull una quantitat de (" + llista[posicio].getNom() + ") entre [1-"+ (numMax - c.getNumProd()) + "]");
+						quantitat = teclat.nextInt() ;
+						while (((quantitat + c.getNumProd()) > numMax) || (quantitat <= 0)) {
+							System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd()) + "]");
+							quantitat = teclat.nextInt();
+						}
+						llegit = true ;
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					} 
 				}
 				c.afegirProducte(llista[posicio], quantitat);		
 				i = i + quantitat-1;
@@ -272,6 +292,7 @@ public class Main {
 					preu = preu + quantitat*(llista[posicio].preu) ;
 				}
 			}
+			//tornem al bucle per elegir un altre producte
 			
 		}
 
