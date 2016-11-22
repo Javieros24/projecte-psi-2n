@@ -1,5 +1,15 @@
+package Restaurant;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import Excepcions.NotFoundException;
+import Llistes.LlistaClients;
+import Llistes.LlistaProductes;
+import Productes.Beguda;
+import Productes.Plat;
+import Productes.Producte;
+import Productes.RestriccionsAlimentaries;
+
 import java.io.*;
 
 public class Main {
@@ -49,6 +59,13 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("Gràcies per la seva visita!:)");
+		try {
+			teclat.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**Mètode que mostra per pantalla el menú del programa
@@ -77,6 +94,14 @@ public class Main {
 	public static void inicialitzaDades(){
 		llistaClients = new LlistaClients(100);
 		llistaProductes = new LlistaProductes(100);
+		
+		RestriccionsAlimentaries[] r= new RestriccionsAlimentaries[1];
+		r[0] = RestriccionsAlimentaries.CELIACS;
+		
+		llistaProductes.afegirElement("un Macarro de lagrima ", 12, r);
+		llistaProductes.afegirElement("Un sandwitch del ru", 100, r);
+		llistaProductes.afegirElement("birra", 1, 123, true);
+		llistaClients.afegirElement("Ruye", "pl pou", "buskk", "sergi1997", 97737804, r);
 	}
 	
 	/**Mètode que permet afegir un producte a la llista (plat o beguda).
@@ -300,13 +325,13 @@ public class Main {
 		System.out.println("PLATS:");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Plat)
-				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].codiReferencia+") Preu: "+p[i].getPreu()+"€");
+				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].getCodiReferencia()+") Preu: "+p[i].getPreu()+"€");
 		}
 		
 		System.out.println("BEGUDES:");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Beguda)
-				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].codiReferencia+") Preu: "+p[i].getPreu()+"€");
+				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].getCodiReferencia()+") Preu: "+p[i].getPreu()+"€");
 		}
 		System.out.println("**************************************************************");
 	}
@@ -331,13 +356,16 @@ public class Main {
 		{
 			try {
 				System.out.println("Cuants productes voldras afegir a la comanda?") ;
-				numMax=teclat.read() ;
+				numMax=Integer.parseInt(teclat.readLine());
 				while(numMax<=0){
 					System.out.println("Error, elegeix un numero mes gran que 0:") ;
 					numMax=Integer.parseInt(teclat.readLine()) ;
 				}
+				llegit=true;
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (NumberFormatException e) {
+				System.out.println("ERROR has d'introduir un numero");
 			}
 		}
 			
@@ -419,11 +447,11 @@ public class Main {
 				
 				if (client.isPreferent())
 				{
-					preu = preu + quantitat*(llista[posicio].preu - llista[posicio].descompte) ;
+					preu = preu + quantitat*(llista[posicio].getPreu() - llista[posicio].getDescompte()) ;
 				}
 				else 
 				{
-					preu = preu + quantitat*(llista[posicio].preu) ;
+					preu = preu + quantitat*(llista[posicio].getPreu()) ;
 				}
 			}
 			//tornem al bucle per elegir un altre producte
@@ -715,11 +743,11 @@ public class Main {
 		
 		while(!correcte){
 			try{
-			System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-			ref=teclat.read();
+			System.out.println("Escriu l'identificador del client: ");
+			ref=Integer.parseInt(teclat.readLine());
 			c = llistaClients.consultarElement(ref);
 			correcte = true;
-			} catch(InputMismatchException e){
+			} catch(NumberFormatException e){
 				System.out.println("ERROR: Identificador incorrecte.");
 			} catch (NotFoundException e) {
 				e.printStackTrace();
@@ -738,6 +766,8 @@ public class Main {
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("S'ha eliminat el client correctament");
 	}
 
 	

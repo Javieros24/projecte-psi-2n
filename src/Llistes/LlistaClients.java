@@ -1,3 +1,7 @@
+package Llistes;
+import Excepcions.NotFoundException;
+import Productes.RestriccionsAlimentaries;
+import Restaurant.Client;
 
 public class LlistaClients {
 	private Client[] llistaClients;
@@ -20,8 +24,6 @@ public class LlistaClients {
 		for(; i<nElements-1; i++){
 			llistaClients[i]=llistaClients[i+1];
 		}
-		
-		System.out.println("S'ha eliminat el client correctament");
 		nElements--;
 	}
 	

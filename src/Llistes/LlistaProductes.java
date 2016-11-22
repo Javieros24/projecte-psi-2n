@@ -1,3 +1,9 @@
+package Llistes;
+import Excepcions.NotFoundException;
+import Productes.Beguda;
+import Productes.Plat;
+import Productes.Producte;
+import Productes.RestriccionsAlimentaries;
 
 public class LlistaProductes {
 	private Producte[] llistaProductes;
@@ -40,7 +46,7 @@ public class LlistaProductes {
 	public int buscarElement(int ref) throws NotFoundException{
 	
 		for (int i=0; i < nElements; i++){
-			if (llistaProductes[i].codiReferencia == ref)
+			if (llistaProductes[i].getCodiReferencia() == ref)
 				return i;
 		}
 		
@@ -50,7 +56,7 @@ public class LlistaProductes {
 	public Producte consultarElement(int ref) throws NotFoundException{
 		
 		for (int i=0; i < nElements; i++){
-			if (llistaProductes[i].codiReferencia == ref)
+			if (llistaProductes[i].getCodiReferencia() == ref)
 				return llistaProductes[i];
 		}
 		

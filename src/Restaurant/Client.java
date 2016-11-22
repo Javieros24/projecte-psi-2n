@@ -1,3 +1,8 @@
+package Restaurant;
+import Excepcions.NotFoundException;
+import Productes.Producte;
+import Productes.RestriccionsAlimentaries;
+
 public class Client {
 	
 	private String nom, adreca, nomUsuari, contrasenya;

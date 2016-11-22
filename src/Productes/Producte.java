@@ -1,3 +1,4 @@
+package Productes;
 /**
  * Superclasse producte amb els seus atributs
  */

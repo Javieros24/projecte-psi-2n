@@ -1,3 +1,5 @@
+package Productes;
+
 /**
  * Subclasse beguda que hereda de la classe producte
  */

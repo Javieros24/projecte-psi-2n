@@ -1,3 +1,5 @@
+package Restaurant;
+import Productes.Producte;
 
 public class Comanda {
 

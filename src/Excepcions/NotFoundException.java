@@ -1,3 +1,4 @@
+package Excepcions;
 
 public class NotFoundException extends Exception {
 

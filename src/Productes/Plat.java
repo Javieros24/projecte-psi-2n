@@ -1,3 +1,5 @@
+package Productes;
+
 /**
  * Subclasse plat que hereda de la superclasse producte
  */
