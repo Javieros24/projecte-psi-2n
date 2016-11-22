@@ -12,7 +12,7 @@ public class LlistaClients {
 		nElements++;
 	}
 	
-	public void eliminarElement(int  ref){
+	public void eliminarElement(int  ref) throws NotFoundException{
 		int  i;
 		
 		i=buscarElement(ref);
@@ -30,15 +30,14 @@ public class LlistaClients {
 	 * @param codi identificador del client a buscar
 	 * @return posició de la taula on es troba el client, -1 en cas de no trobar-lo
 	 */
-	public int buscarElement(int ref){
+	public int buscarElement(int ref) throws NotFoundException{
 	
 		for (int i=0; i < nElements; i++){
 			if (llistaClients[i].getIdentificador() == ref)
 				return i;
 		}
 		
-		//EXCEPCIO!
-		return -1;
+		throw new NotFoundException();
 	}
 	
 	public Client consultarElement(int ref) throws NotFoundException

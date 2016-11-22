@@ -35,15 +35,14 @@ public class Client {
 		if (numComandes==6) preferent=true;
 	}
 	
-	public Comanda buscaComanda(int codiComanda){
+	public Comanda buscaComanda(int codiComanda) throws NotFoundException{
 		
 		for (int i=0; i < numComandes; i++){
 			if (codiComanda == taulaComandes[i].getNumProd())
 				return taulaComandes[i];
 		}
 		
-		//EXCEPCIO!
-		return null;
+		throw new NotFoundException();
 	}
 	
 	
@@ -62,7 +61,11 @@ public class Client {
 		return copia;
 	}
 	
-	public void eliminaComanda(int numComanda){
+	public void eliminaComanda(int numComanda) throws NotFoundException{
+		
+		//Comprova que existeix la comanda.
+		buscaComanda(numComanda);
+		
 		for(int i=numComanda; i<numComandes-1; i++){
 			taulaComandes[i]=taulaComandes[i+1];
 		}

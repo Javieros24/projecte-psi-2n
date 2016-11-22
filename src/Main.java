@@ -22,10 +22,10 @@ public class Main {
 			case 3: consultarProducte();				break;
 			case 4: crearClient();						break;
 			case 5: historialComandes(escullClient());	break;
-			case 6: eliminarClient(escullClient());		break;
-			case 7: afegirComanda(escullClient());		break;
-			case 8: eliminarComanda(escullClient());	break;
-			case 9: consultarComanda(escullClient());	break;
+			case 6: eliminarClient();					break;
+			case 7: afegirComanda();					break;
+			case 8: eliminarComanda();					break;
+			case 9: consultarComanda();					break;
 			default: System.out.println("Aquesta opció no està disponible, comproba que ha introduit correctament el valor desitjat.");
 			}
 			
@@ -279,13 +279,15 @@ public class Main {
 	/** Afegeix una comanda a un client
 	 * @param codiClient
 	 */
-	public static void afegirComanda(int codiClient){
+	public static void afegirComanda(){
 		int numMax, posicio = -1, quantitat = -1, codiProducte;
 		boolean continuar;
 		double preu = 0;
 		Producte[] p;
 		Comanda c;
 		Producte[] llista = llistaProductes.getLlistaProductes();
+		Client client = escullClient();
+				
 		
 		//preguntem el numero de productes que tindra la comanda
 		System.out.println("Cuants productes voldras afegir a la comanda?") ;
@@ -318,7 +320,10 @@ public class Main {
 			}
 			
 			//comprovar restriccions alimentaries del productes
-			RestriccionsAlimentaries[] r= llistaClients.consultarElement(codiClient).getRestriccions();
+			
+			RestriccionsAlimentaries[] r ;	
+			r = client.getRestriccions();
+			
 			continuar=true ;
 			
 			if (llista[posicio] instanceof Plat) {
@@ -356,7 +361,7 @@ public class Main {
 				
 				//calcular preu
 				
-				if (llistaClients.consultarElement(codiClient).isPreferent()==true)
+				if (client.isPreferent())
 				{
 					preu = preu + quantitat*(llista[posicio].preu - llista[posicio].descompte) ;
 				}
@@ -384,23 +389,24 @@ public class Main {
 		}
 		if (s.equalsIgnoreCase("si"))
 		{
-			llistaClients.consultarElement(codiClient).afegirComanda(c);
+			client.afegirComanda(c);
 			System.out.println("La comanda s'ha realitzat amb exit");
 		}
 		else System.out.println("Comanda cancelada");
 		
 	}
 	
-	public static void eliminarComanda(int codiClient)
+	public static void eliminarComanda()
 	{
-		int num ;
+		int num=-1 ;
 		boolean llegit=false, llegit1=false;
+		Client client = escullClient();
 		while(!llegit1)
 		{
 			try
 			{
-				System.out.println("Escull una comanda per eliminar entre [1-"+llistaClients.consultarElement(codiClient).getNumComandes() +"]");
-				historialComandes(codiClient);
+				System.out.println("Escull una comanda per eliminar entre [1-"+client.getNumComandes() +"]");
+				historialComandes(client);
 				num = teclat.nextInt();
 				llegit1=true;
 			}
@@ -410,16 +416,16 @@ public class Main {
 				e.getMessage();
 			}
 		}
-		while ((num > llistaClients.consultarElement(codiClient).getNumComandes()) || (num <= 0))
+		while ((num > client.getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, escull una comanda per consultar entre [1-"+ llistaClients.consultarElement(codiClient).getNumComandes()+"]");
+			System.out.println("Error, escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
 			num = teclat.nextInt() ;
 		}
 		while(!llegit)
 		{
 			try
 			{
-			llistaClients.consultarElement(codiClient).eliminaComanda(num-1);
+			client.eliminaComanda(num-1);
 			llegit=true;
 			}
 			catch(NotFoundException e)
@@ -429,18 +435,19 @@ public class Main {
 		}
 	}
 	
-	public static void consultarComanda(int codiClient)
+	public static void consultarComanda()
 	{
-		int num ;
-		int i = buscaClient(codiClient) ;
-		boolean llegit=false;
+		int num=-1 ;
 		
+		Client client = escullClient();
+		
+		llegit=false;
 		while(!llegit)
 		{
 			try
 			{
-				System.out.println("Escull una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
-				historialComandes(codiClient) ;
+				System.out.println("Escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
+				historialComandes(client) ;
 				num = teclat.nextInt() ;
 				llegit=true;
 			}
@@ -448,13 +455,14 @@ public class Main {
 			{
 				System.out.println("Error, comanda no valida, torni a triar una.");
 			}
-		while ((num > llistaClients[i].getNumComandes()) || (num <= 0))
+		}
+		while ((num > client.getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ llistaClients[i].getNumComandes()+"]");
+			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
 			num = teclat.nextInt() ;
 		}
 		System.out.println("La comanda es la seguent");
-		Comanda c=llistaClients[i].getTaulaComandes()[num-1] ;
+		Comanda c=client.getTaulaComandes()[num-1] ;
 		Producte[] p = c.getLlista() ;
 		for (int j=0; j<c.getNumProd(); j++)
 		{
@@ -475,7 +483,7 @@ public class Main {
 				System.out.println("Introdueix el nom del nou client: ");
 				nom = teclat.next();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
 			}
 		}
@@ -485,7 +493,7 @@ public class Main {
 				System.out.println("Introdueix un nom d'usuari: ");
 				nomUsuari = teclat.next();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
 			}
 		}
@@ -495,7 +503,7 @@ public class Main {
 				System.out.println("Introdueix una contrasenya: ");
 				contrasenya = teclat.next();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Contrasenyan incorrecta.");
 			}
 		}
@@ -505,7 +513,7 @@ public class Main {
 				System.out.println("Introdueix la teva adreca: ");
 				adreca = teclat.next();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Adreca incorrecta.");
 			}
 		}
@@ -515,7 +523,7 @@ public class Main {
 				System.out.println("Introdueix el teu numero de telefon: ");
 				numTelefon = teclat.nextInt();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Numero de telefon incorrecte.");
 			}
 		}
@@ -525,7 +533,7 @@ public class Main {
 				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
 				numRestriccions = teclat.nextInt();
 				correcte=true;
-			} catch (IllegalArgumentException e1) {
+			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nombre de restriccions incorrecte.");
 			}
 		}
@@ -576,42 +584,51 @@ public class Main {
 	
 	public static void consultarClient(){
 		
-		int codiClient = escullClient();
+		Client c = escullClient();
 		
-		System.out.println(llistaClients.consultarElement(codiClient).toString());
+		System.out.println(c.toString());
 	}
 	
-	public static void historialComandes(){	
-		
-		int codiClient = escullClient();
-		Client c = llistaClients.consultarElement(codiClient);
+	public static void historialComandes(Client c){	
 
 		for(int j=0; j<c.getNumComandes(); j++){
-			System.out.println(c.getTaulaComandes()[j]);		//FALTA TOSTRING DE COMANDES
+			System.out.println(c.getTaulaComandes()[j]);
 		}
 	}
 	
-	private static int escullClient(){
-		int i, posicio;
+	private static Client escullClient(){
+		int ref;
 		boolean correcte=false;
 		Client[] llista = llistaClients.getLlistaClients();
+		Client c = null;
 		
-		for(i=0; i<llistaClients.getnElements(); i++){
+		for(int i=0; i<llistaClients.getnElements(); i++){
 			System.out.println("Nom: "+llista[i].getNomUsuari()+" (Ref: "+llista[i].getIdentificador()+")");
 		}
 		
 		while(!correcte){
 			try{
 			System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-			i=teclat.nextInt();
-			} catch(IllegalArgumentException e){
+			ref=teclat.nextInt();
+			c = llistaClients.consultarElement(ref);
+			correcte = true;
+			} catch(InputMismatchException e){
 				System.out.println("ERROR: Identificador incorrecte.");
+			} catch (NotFoundException e) {
+				e.printStackTrace();
 			}
 		}
+		return c;
+	}
+	
+	private static void eliminarClient(){
+		Client c=escullClient();
 		
-		posicio=llistaClients.buscarElement(i);
-		
-		return posicio;
+		try {
+			llistaClients.eliminarElement(c.getIdentificador());
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	
