@@ -3,8 +3,8 @@ public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
 	
-	public LlistaClients(){
-		
+	public LlistaClients(int num){
+		llistaClients = new Client[num];
 	}
 	
 	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){

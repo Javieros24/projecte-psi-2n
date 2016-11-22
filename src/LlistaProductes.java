@@ -3,7 +3,8 @@ public class LlistaProductes {
 	private Producte[] llistaProductes;
 	private int nElements;
 	
-	public LlistaProductes(){
+	public LlistaProductes(int num){
+		llistaProductes= new Producte[num];
 		
 	}
 	

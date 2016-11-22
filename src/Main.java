@@ -75,7 +75,8 @@ public class Main {
 	 * 
 	 */
 	public static void inicialitzaDades(){
-
+		llistaClients = new LlistaClients(100);
+		llistaProductes = new LlistaProductes(100);
 	}
 	
 	/**Mètode que permet afegir un producte a la llista (plat o beguda).
@@ -122,7 +123,7 @@ public class Main {
 	 * @param preu valor flotant amb el preu del plat
 	 */
 	private static void afegirPlat(String nom, double preu){
-		RestriccionsAlimentaries[] restriccions;
+		RestriccionsAlimentaries[] restriccions = null;
 		int nRestriccions=0, cont=0;
 		String cadena;
 		
@@ -131,15 +132,20 @@ public class Main {
 		try {
 			System.out.println("Per quants tipus de persones és apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
 			nRestriccions = Integer.parseInt(teclat.readLine());
+			while (nRestriccions > 3) {
+				System.out.println("El valor ha de ser [0-3]");
+				nRestriccions = Integer.parseInt(teclat.readLine());
+			}
+			restriccions = new RestriccionsAlimentaries[nRestriccions];
 			llegit = true;
 		} catch (NumberFormatException e) {
 			System.out.println("Error, has d'introduïr un número!");
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NegativeArraySizeException e) {
+			System.out.println("El número ha de serpositiu");
 		}
 		}
-		
-		restriccions = new RestriccionsAlimentaries[nRestriccions];
 		
 		if (nRestriccions != 0){		
 			try {
@@ -544,11 +550,12 @@ public class Main {
 	public static void crearClient(){
 		String nom=null, adreca=null, nomUsuari=null, contrasenya=null;
 		int numTelefon=0, numRestriccions=0, cont=0;
-		RestriccionsAlimentaries[] restriccions;
+		RestriccionsAlimentaries[] restriccions=null;
 		boolean correcte=false;
+		String cadena = null;
 		
 		while(!correcte){
-			try {
+			try { 
 				System.out.println("Introdueix el nom del nou client: ");
 				nom = teclat.readLine();
 				correcte=true;
@@ -614,44 +621,54 @@ public class Main {
 			try {
 				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
 				numRestriccions = Integer.parseInt(teclat.readLine());
+				restriccions = new RestriccionsAlimentaries[numRestriccions];
+				while (numRestriccions > 3) {
+					System.out.println("El valor ha de ser [0-3]");
+					numRestriccions = Integer.parseInt(teclat.readLine());
+				}
 				correcte=true;
-			} catch (InputMismatchException e1) {
+			} catch (NumberFormatException e1) {
 				System.out.println("ERROR: Nombre de restriccions incorrecte.");
 			} catch (IOException e){
 				e.printStackTrace();
+			} catch (NegativeArraySizeException e){
+				System.out.println("ERROR: Nombre de restriccions incorrecte.");
 			}
 		}
-		restriccions = new RestriccionsAlimentaries[numRestriccions];
-		if (numRestriccions == 0){
-			try {
-				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
-				System.out.println("S'ha creat correctament el client");
-			} catch (ArrayIndexOutOfBoundsException e) {
-				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
-			}
-		}
-		else{				
 			
+		if (numRestriccions != 0){
 			try {
-				if (cont<numRestriccions){
-					System.out.println("\nÉs vostè celíac? (SI/NO): ");
-					if (teclat.readLine().equalsIgnoreCase("SI")) {
+				System.out.println("\nÉs vostè celíac? (SI/NO): ");
+				cadena = teclat.readLine();
+				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+					System.out.println("Error, has de introduïr SI/NO");
+					cadena = teclat.readLine();
+				}
+				if (cadena.equalsIgnoreCase("SI")) {
 						restriccions[cont] = RestriccionsAlimentaries.CELIACS;
 						cont++;
-					}
 				}
 				
 				if (cont<numRestriccions){
-					System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
-					if (teclat.readLine().equalsIgnoreCase("SI")) {
+					System.out.println("\nÉs vostè al·lergic a la lactosa? (SI/NO): ");
+					cadena = teclat.readLine();
+					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+						System.out.println("Error, has de introduïr SI/NO");
+						cadena = teclat.readLine();
+					}
+					if (cadena.equalsIgnoreCase("SI")) {
 						restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
 						cont++;
 					}
 				}
-				
-				if (teclat.readLine().equalsIgnoreCase("SI") && cont<numRestriccions){
-					System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
-					if (teclat.readLine().equalsIgnoreCase("SI")) {
+				if (cont < numRestriccions){
+					System.out.println("\nÉs vostè al·lergic als fruits secs? (SI/NO): ");
+					cadena = teclat.readLine();
+					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
+						System.out.println("Error, has de introduïr SI/NO");
+						cadena = teclat.readLine();
+					}
+					if (cadena.equalsIgnoreCase("SI")) {
 						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
 						cont++;
 					}
@@ -659,6 +676,7 @@ public class Main {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+		}
 			
 			try {
 				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
@@ -666,8 +684,8 @@ public class Main {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
 			}
-		}
-	}	
+	}
+		
 	
 	
 	
