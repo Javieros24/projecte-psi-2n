@@ -433,23 +433,29 @@ public class Main {
 		Client client = escullClient();
 		while(!llegit1)
 		{
-			try
-			{
+
+			try {
 				System.out.println("Escull una comanda per eliminar entre [1-"+client.getNumComandes() +"]");
 				historialComandes(client);
-				num = teclat.nextInt();
+				num = Integer.parseInt(teclat.readLine());
 				llegit1=true;
+			} catch (NumberFormatException e) {					
+				System.out.println("Error, numero no valid.");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			catch(IndexOutOfBoundsException e)
-			{
-				System.out.println("Error, opcio no valida, torni a triar una.");
-				e.getMessage();
-			}
+			
 		}
 		while ((num > client.getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
-			num = teclat.nextInt() ;
+			try {
+				System.out.println("Error, escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
+				num = Integer.parseInt(teclat.readLine());
+			} catch (NumberFormatException e) {
+				System.out.println("Error, numero no valid.");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		while(!llegit)
 		{
@@ -474,22 +480,30 @@ public class Main {
 		llegit=false;
 		while(!llegit)
 		{
-			try
-			{
-				System.out.println("Escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
-				historialComandes(client) ;
-				num = teclat.nextInt() ;
-				llegit=true;
-			}
-			catch(IndexOutOfBoundsException e)
-			{
-				System.out.println("Error, comanda no valida, torni a triar una.");
-			}
+				try {
+					System.out.println("Escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
+					historialComandes(client) ;
+					num = Integer.parseInt(teclat.readLine());
+					llegit=true;
+				} catch (NumberFormatException e) {
+					System.out.println("Error, valor no valid.");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			
 		}
 		while ((num > client.getNumComandes()) || (num <= 0))
 		{
-			System.out.println("Error, elegeix una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
-			num = teclat.nextInt() ;
+			try {
+				System.out.println("Error, elegeix una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
+				num = Integer.parseInt(teclat.readLine()) ;
+			} catch (NumberFormatException e) {
+
+				System.out.println("Error, valor no valid.");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
 		}
 		System.out.println("La comanda es la seguent");
 		Comanda c=client.getTaulaComandes()[num-1] ;
