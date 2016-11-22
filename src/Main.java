@@ -4,9 +4,9 @@ import java.io.*;
 
 public class Main {
 
-    static Scanner teclat = new Scanner(System.in);
+    static Scanner teclat2 = new Scanner(System.in);
     static InputStreamReader isr = new InputStreamReader(System.in) ;
-    static BufferedReader teclat2 = new BufferedReader(isr);
+    static BufferedReader teclat = new BufferedReader(isr);
 	private static LlistaProductes llistaProductes;
 	private static LlistaClients llistaClients;
 	private static boolean llegit;
@@ -484,7 +484,7 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix el nom del nou client: ");
-				nom = teclat.next();
+				nom = teclat.readLine();
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
@@ -494,7 +494,7 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix un nom d'usuari: ");
-				nomUsuari = teclat.next();
+				nomUsuari = teclat.readLine();
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nom incorrecte.");
@@ -504,7 +504,7 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix una contrasenya: ");
-				contrasenya = teclat.next();
+				contrasenya = teclat.readLine();
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Contrasenyan incorrecta.");
@@ -514,7 +514,7 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix la teva adreca: ");
-				adreca = teclat.next();
+				adreca = teclat.readLine();
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Adreca incorrecta.");
@@ -539,7 +539,7 @@ public class Main {
 		while(!correcte){
 			try {
 				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
-				numRestriccions = teclat.nextInt();
+				numRestriccions = teclat.read();
 				correcte=true;
 			} catch (InputMismatchException e1) {
 				System.out.println("ERROR: Nombre de restriccions incorrecte.");
@@ -557,7 +557,7 @@ public class Main {
 		else{						
 			if (cont<numRestriccions){
 				System.out.println("\nÉs vostè celíac? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				if (teclat.readLine().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.CELIACS;
 					cont++;
 				}
@@ -565,15 +565,15 @@ public class Main {
 			
 			if (cont<numRestriccions){
 				System.out.println("\nÉs voste al·lèrgic a la lactosa? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				if (teclat.readLine().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGICSLACTOSA;
 					cont++;
 				}
 			}
 			
-			if (teclat.nextLine().equalsIgnoreCase("SI") && cont<numRestriccions){
+			if (teclat.readLine().equalsIgnoreCase("SI") && cont<numRestriccions){
 				System.out.println("\nÉs vostè al·lèrgic als fruits secs? (SI/NO): ");
-				if (teclat.next().equalsIgnoreCase("SI")) {
+				if (teclat.readLine().equalsIgnoreCase("SI")) {
 					restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
 					cont++;
 				}
@@ -617,7 +617,7 @@ public class Main {
 		while(!correcte){
 			try{
 			System.out.println("Escriu l'identificador del client que vulguis consultar: ");
-			ref=teclat.nextInt();
+			ref=teclat.readLine();
 			c = llistaClients.consultarElement(ref);
 			correcte = true;
 			} catch(InputMismatchException e){
