@@ -265,7 +265,7 @@ public class Main {
 	public static void eliminarProducte(){
 		int codi;
 		
-		mostraMenu();
+		mostraProductes();
 		
 		llegit = false;
 		while (!llegit) {

@@ -32,8 +32,6 @@ public class LlistaProductes {
 		for(; i<nElements-1; i++){
 			llistaProductes[i]=llistaProductes[i+1];
 		}
-		
-		System.out.println("S'ha eliminat el Producte correctament");
 		nElements--;
 	}
 	
