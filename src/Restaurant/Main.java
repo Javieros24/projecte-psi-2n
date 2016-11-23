@@ -139,6 +139,8 @@ public class Main {
 				afegirPlat(nom, preu);
 			else
 				afegirBeguda(nom, preu);
+			
+			System.out.println("S'ha afegit el producte correctament.");
 		
 	}
 	
@@ -200,7 +202,7 @@ public class Main {
 					}
 				}
 				
-				if (teclat.readLine().equalsIgnoreCase("SI") && cont<nRestriccions){
+				if (cont<nRestriccions){
 					System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
