@@ -119,15 +119,15 @@ public class Main {
 		r2[0]=RestriccionsAlimentaries.CELIACS;
 		RestriccionsAlimentaries[] r4 = new RestriccionsAlimentaries[1];
 		r4[0]=RestriccionsAlimentaries.ALERGISCFRUITSSECS;
-		llistaProductes.afegirElement("Coliflor", 5.99, r4);
-		llistaProductes.afegirElement("Ginlemon", 15.99, 100, true);
+		llistaProductes.afegirElement("Col-if(lor)", 5.99, r4);
+		llistaProductes.afegirElement("Abstract enta", 15.99, 1000, true);
 		llistaClients.afegirElement("Sergi Quevedo Garreta", "Calle falsa 123", "spiderman123", "Sergi1997", 622354987, r2);
 	
 		RestriccionsAlimentaries[] r1 = new RestriccionsAlimentaries[1] ;
 		r1[0] = RestriccionsAlimentaries.ALERGICSLACTOSA ;
 		llistaClients.afegirElement("Jeroni Molina Mellado", "Carrer de la piruleta", "molme", "123abc", 969696969, r1);
 		llistaProductes.afegirElement("Cafè de Java", 3.99, 50, false);
-		llistaProductes.afegirElement("Pa Int-egral", 6.99, r2);
+		llistaProductes.afegirElement("Pa Int egral", 6.99, r2);
 	
 		llistaProductes.afegirElement("JavaDog", 7, r2);
 		llistaProductes.afegirElement("MACarró", 1.99, r2);
