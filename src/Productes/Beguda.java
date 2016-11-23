@@ -43,7 +43,7 @@ public class Beguda extends Producte
 	 * Metode per visualitzar per pantalla els atributs de la beguda
 	 */
 	public String toString() {
-		return "Beguda [volum=" + volum + ", alcohol=" + alcohol + "]";
+		return super.toString().concat("-Volum: "+volum+ "ml\n-Beguda alcohòlica: " +alcohol+"\n**************");
 	}
 	
 	

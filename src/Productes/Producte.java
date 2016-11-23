@@ -69,8 +69,7 @@ public abstract class Producte
 	 */
 	public String toString() 
 	{
-		return "El produte " + nom + " (ref: " + codiReferencia + ") amb un preu de " + preu + "€ (descompte "
-				+ descompte + "€)";
+		return "\n***PRODUCTE***\t[ref: " + codiReferencia + "]\n-Nom: "+this.getNom() +"\n-Preu " + preu + "€";
 	}
 
 }

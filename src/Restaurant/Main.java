@@ -101,10 +101,37 @@ public class Main {
 		RestriccionsAlimentaries[] r= new RestriccionsAlimentaries[1];
 		r[0] = RestriccionsAlimentaries.CELIACS;
 		
-		llistaProductes.afegirElement("un Macarro de lagrima ", 12, r);
-		llistaProductes.afegirElement("Un sandwitch del ru", 100, r);
-		llistaProductes.afegirElement("birra", 1, 123, true);
+		llistaProductes.afegirElement("iMac Flurry", 12, r);
+		llistaProductes.afegirElement("SandBITx", 5, r);
+		llistaProductes.afegirElement("Birra", 1, 123, true);
 		llistaClients.afegirElement("Ruye", "pl pou", "buskk", "sergi1997", 97737804, r);
+		
+		RestriccionsAlimentaries[] r3= new RestriccionsAlimentaries[1];
+		r3[0] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		RestriccionsAlimentaries[] r5= new RestriccionsAlimentaries[2];
+		r5[1] = RestriccionsAlimentaries.ALERGICSLACTOSA;
+		r5[0] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		llistaProductes.afegirElement("3.14zza", 3.14, r5);
+		llistaProductes.afegirElement("Hidromiel", 2.99, 250, true);
+		llistaClients.afegirElement("Javier Ortega Sánchez", "C/ de Salou", "javieros24", "abc123", 672695760, r3);
+	
+		RestriccionsAlimentaries[] r2 = new RestriccionsAlimentaries[1];
+		r2[0]=RestriccionsAlimentaries.CELIACS;
+		RestriccionsAlimentaries[] r4 = new RestriccionsAlimentaries[1];
+		r4[0]=RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		llistaProductes.afegirElement("Coliflor", 5.99, r4);
+		llistaProductes.afegirElement("Ginlemon", 15.99, 100, true);
+		llistaClients.afegirElement("Sergi Quevedo Garreta", "Calle falsa 123", "spiderman123", "Sergi1997", 622354987, r2);
+	
+		RestriccionsAlimentaries[] r1 = new RestriccionsAlimentaries[1] ;
+		r1[0] = RestriccionsAlimentaries.ALERGICSLACTOSA ;
+		llistaClients.afegirElement("Jeroni Molina Mellado", "Carrer de la piruleta", "molme", "123abc", 969696969, r1);
+		llistaProductes.afegirElement("Cafè de Java", 3.99, 50, false);
+		llistaProductes.afegirElement("Pa Int-egral", 6.99, r2);
+	
+		llistaProductes.afegirElement("JavaDog", 7, r2);
+		llistaProductes.afegirElement("MACarró", 1.99, r2);
+		llistaClients.afegirElement("Roger Bosch Mateo", "Ptda. Serres, Castellvell del Camp", "buskk", "swiWaitForVBlank", 977340793, r4);
 	}
 	
 	/**Mètode que permet afegir un producte a la llista (plat o beguda).
@@ -326,19 +353,19 @@ public class Main {
 		p = llistaProductes.getLlistaProductes();
 		nProductes = llistaProductes.getnElements();
 		
-		System.out.println("********************		[MENÚ]		  ********************");
-		System.out.println("PLATS:");
+		System.out.println("\n\n***********************[MENÚ]***********************\n");
+		System.out.println("PLATS:\t\t\t\tImport:\n");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Plat)
-				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].getCodiReferencia()+") Preu: "+p[i].getPreu()+"€");
+				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t"+p[i].getPreu()+"€");
 		}
 		
-		System.out.println("BEGUDES:");
+		System.out.println("\nBEGUDES:\n");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Beguda)
-				System.out.println("-"+ p[i].getNom()+ " (ref: "+ p[i].getCodiReferencia()+") Preu: "+p[i].getPreu()+"€");
+				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t"+p[i].getPreu()+"€");
 		}
-		System.out.println("**************************************************************");
+		System.out.println("\n****************************************************");
 	}
 	
 
