@@ -1,7 +1,4 @@
 package Restaurant;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import Excepcions.NotFoundException;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
@@ -14,8 +11,7 @@ import java.io.*;
 
 public class Main {
 
-    static Scanner teclat2 = new Scanner(System.in);
-    static InputStreamReader isr = new InputStreamReader(System.in) ;
+    static InputStreamReader isr = new InputStreamReader(System.in);
     static BufferedReader teclat = new BufferedReader(isr);
 	private static LlistaProductes llistaProductes;
 	private static LlistaClients llistaClients;
@@ -30,7 +26,7 @@ public class Main {
 		try {
 			opcioMenu = Integer.parseInt(teclat.readLine());
 		} catch (NumberFormatException e) {
-			System.out.println("Valor no valid");
+			System.out.println("ERROR! Ha d'introduïr un número.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +42,7 @@ public class Main {
 			case 7: afegirComanda();					break;
 			case 8: eliminarComanda();					break;
 			case 9: consultarComanda();					break;
-			default: System.out.println("Aquesta opció no està disponible, comproba que ha introduit correctament el valor desitjat.");
+			default: System.out.println("ERROR! Aquesta opció no està disponible, comprovi que ha introduït correctament el valor desitjat.");
 			}
 			
 			mostraMenu();
@@ -54,13 +50,13 @@ public class Main {
 			try {
 				opcioMenu = Integer.parseInt(teclat.readLine());
 			} catch (NumberFormatException e) {
-				System.out.println("Valor no valid");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		System.out.println("Gràcies per la seva visita!:)");
+		System.out.println("Gràcies per la seva visita! =P");
 		try {
 			teclat.close();
 		} catch (IOException e) {
@@ -72,6 +68,13 @@ public class Main {
 	 * 
 	 */
 	public static void mostraMenu(){
+		
+		System.out.println("Premi enter per continuar.");
+		try {
+			teclat.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println("\n\n\t****************    [TAKE A BYTE]    ****************");			//TAKE A bitE
 		System.out.println("\n\t1. Afegir nous productes (plat o beguda)");
@@ -114,7 +117,7 @@ public class Main {
 		
 		while(!llegit){
 			try {
-				System.out.println("Indica que vol afegir: ");
+				System.out.println("Que vol afegir? ");
 				System.out.println("1. Plat\n2. Beguda");
 				opcio = Integer.parseInt(teclat.readLine());
 				while (opcio != 1 && opcio != 2){
@@ -123,13 +126,13 @@ public class Main {
 					opcio = Integer.parseInt(teclat.readLine());
 				}
 				
-				System.out.println("-Indica el nom:");
+				System.out.println("-Nom:");
 				nom = teclat.readLine();
-				System.out.println("-Indica el preu:");
+				System.out.println("-Preu:");
 				preu = Double.parseDouble(teclat.readLine());
 				llegit = true;
 			} catch (NumberFormatException e) {
-				System.out.println("Error, has d'introduïr un número!");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -141,7 +144,7 @@ public class Main {
 				afegirBeguda(nom, preu);
 			
 			System.out.println("S'ha afegit el producte correctament.");
-		
+			
 	}
 	
 	/**Mètode que afegeix un plat a la llista de productes
@@ -157,30 +160,30 @@ public class Main {
 		llegit = false;
 		while(!llegit){
 		try {
-			System.out.println("Per quants tipus de persones és apte el plat? 0,1,2,3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs)");
+			System.out.println("Per quants tipus de persones és apte el plat? 0, 1, 2 o 3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs).");
 			nRestriccions = Integer.parseInt(teclat.readLine());
 			while (nRestriccions > 3) {
-				System.out.println("El valor ha de ser [0-3]");
+				System.out.println("El valor ha de ser entre 0 i 3.");
 				nRestriccions = Integer.parseInt(teclat.readLine());
 			}
 			restriccions = new RestriccionsAlimentaries[nRestriccions];
 			llegit = true;
 		} catch (NumberFormatException e) {
-			System.out.println("Error, has d'introduïr un número!");
+			System.out.println("ERROR! Ha d'introduïr un número.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NegativeArraySizeException e) {
-			System.out.println("El número ha de serpositiu");
+			System.out.println("ERROR! El nombre ha de ser positiu.");
 		}
 		}
 		
 		if (nRestriccions != 0){		
 			try {
 				if (cont<nRestriccions){
-					System.out.println("\nÉs aquest plat apte per celíacs? (SI/NO): ");
+					System.out.println("És aquest plat apte per celíacs? SI o NO: ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-						System.out.println("Error, has de introduïr SI/NO");
+						System.out.println("ERROR! Ha d'introduïr SI o NO:");
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
@@ -190,10 +193,10 @@ public class Main {
 				}
 				
 				if (cont<nRestriccions){
-					System.out.println("\nÉs aquest plat apte per al·lèrgics a la lactosa? (SI/NO): ");
+					System.out.println("És aquest plat apte per al·lèrgics a la lactosa? SI o NO: ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-						System.out.println("Error, has de introduïr SI/NO");
+						System.out.println("ERROR! Ha d'introduïr SI o NO:");
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
@@ -203,10 +206,10 @@ public class Main {
 				}
 				
 				if (cont<nRestriccions){
-					System.out.println("\nÉs aquest plat apte per al·lèrgics als fruits secs? (SI/NO): ");
+					System.out.println("És aquest plat apte per al·lèrgics als fruits secs? SI o NO: ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-						System.out.println("Error, has de introduïr SI/NO");
+						System.out.println("ERROR! Ha d'introduïr SI o NO:");
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
@@ -221,8 +224,8 @@ public class Main {
 			
 		try {
 			llistaProductes.afegirElement(nom, preu, restriccions);
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error, no es ot afegir cap més producte");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ERROR! No es pot afegir cap més producte.");
 		}
 	}
 	
@@ -238,16 +241,16 @@ public class Main {
 		String a = null;
 		
 		try {
-			System.out.print("\n-Volum: ");
+			System.out.println("-Volum: ");
 			volum = Integer.parseInt(teclat.readLine());
-			System.out.print("\n- Alcohol SI/NO: ");
+			System.out.println("-Alcohol SI/NO: ");
 			a = teclat.readLine();
 			while (!a.equalsIgnoreCase("SI") && !a.equalsIgnoreCase("NO")){
-				System.out.println("Error, has de introduïr SI/NO");
+				System.out.println("ERROR! Ha d'introduïr SI o NO:");
 				a = teclat.readLine();
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Error, has d'introduïr un número!");
+			System.out.println("ERROR! Ha d'introduïr un número.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -256,8 +259,8 @@ public class Main {
 		
 		try {
 			llistaProductes.afegirElement(nom, preu, volum, alcohol);
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error, no es pot afegir cap més producte");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ERROR! No es pot afegir cap més producte.");
 		}
 	}
 	
@@ -272,15 +275,15 @@ public class Main {
 		llegit = false;
 		while (!llegit) {
 			try {
-				System.out.println("Indica el codi del producte que vol eliminar: ");
+				System.out.println("Codi del producte que vol eliminar: ");
 				codi = Integer.parseInt(teclat.readLine());
 				llistaProductes.eliminarElement(codi);
-				System.out.println("S'ha eliminat correctament el producte");
+				System.out.println("S'ha eliminat correctament el producte.");
 				llegit = true;
 			} catch (NumberFormatException e) {
-				System.out.println("Error, has d'introduïr un número!");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (NotFoundException e){
-				e.printStackTrace();
+				System.out.println("ERROR! No s'ha trobat l'element.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -298,14 +301,14 @@ public class Main {
 		llegit = false;
 		while(!llegit){
 		try {
-			System.out.println("Indica el codi del producte que vol consultar: ");
+			System.out.println("Codi del producte que vol consultar: ");
 			codi = Integer.parseInt(teclat.readLine());
 			System.out.println(llistaProductes.consultarElement(codi).toString());
 			llegit = true;
 		} catch (NumberFormatException e) {
-			System.out.println("Error, has d'introduïr un número!");
+			System.out.println("ERROR! Ha d'introduïr un número.");
 		} catch (NotFoundException e) {
-			e.printStackTrace();
+			System.out.println("ERROR! No s'ha trobat l'element.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -357,39 +360,39 @@ public class Main {
 		while (!llegit)
 		{
 			try {
-				System.out.println("Cuants productes voldras afegir a la comanda?") ;
+				System.out.println("Quants productes voldrà afegir a la comanda?");
 				numMax=Integer.parseInt(teclat.readLine());
 				while(numMax<=0){
-					System.out.println("Error, elegeix un numero mes gran que 0:") ;
-					numMax=Integer.parseInt(teclat.readLine()) ;
+					System.out.println("ERROR! Ha d'escollir un valor més gran de 0:");
+					numMax=Integer.parseInt(teclat.readLine());
 				}
 				llegit=true;
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NumberFormatException e) {
-				System.out.println("ERROR has d'introduir un numero");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			}
 		}
 			
 		//creem la comanda
-		c = new Comanda(numMax) ;
+		c = new Comanda(numMax);
 		for (int i=0; i<numMax; i++)
 		{   
 			llegit = false;
 			while (!llegit)
 			{
-				mostraProductes() ;
+				mostraProductes();
 				try {
-					System.out.println("Escull un producte de la llista:") ;
+					System.out.println("Esculli un producte de la llista:");
 					codiProducte = Integer.parseInt(teclat.readLine());
 					posicio = llistaProductes.buscarElement(codiProducte);
-					llegit = true ;
+					llegit = true;
 				} 
 				catch (NotFoundException e) {
-					e.printStackTrace();
+					System.out.println("ERROR! No s'ha trobat l'element.");
 				}
 				catch (NumberFormatException e) {
-					e.printStackTrace();
+					System.out.println("ERROR! Ha d'introduïr un número.");
 				}
 				catch (IOException e){
 					e.printStackTrace();
@@ -398,27 +401,27 @@ public class Main {
 			
 			//comprovar restriccions alimentaries del productes
 			
-			RestriccionsAlimentaries[] r ;	
+			RestriccionsAlimentaries[] r;	
 			r = client.getRestriccions();
 			
-			continuar=true ;
+			continuar=true;
 			
 			if (llista[posicio] instanceof Plat) {
 				if (((Plat)llista[posicio]).esApte(r)==false)
 				{
 					String s = null;
 					try {
-						System.out.println("Atencio! El plat que ha escollit pot ser perillos per la seva salut, esta segur que vol continuar (si/no)");
+						System.out.println("Atenció! El plat que ha escollit pot ser perillós per la seva salut, està segur que vol continuar? SI o NO");
 						s = teclat.readLine();
 						while ((!s.equalsIgnoreCase("SI")) && (!s.equalsIgnoreCase("NO")))
 						{
-							System.out.println("Error, voleu continuar amb el producte? (si/no)");
-							s = teclat.readLine() ;
+							System.out.println("ERROR! Vol continuar amb el producte? SI o NO");
+							s = teclat.readLine();
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					if (s.equals("NO")) continuar = false ;
+					if (s.equals("NO")) continuar = false;
 				}
 			}
 			if (continuar)
@@ -427,15 +430,15 @@ public class Main {
 				llegit = false;
 				while (!llegit) {
 					try {
-						System.out.println("Escull una quantitat de (" + llista[posicio].getNom() + ") entre [1-"+ (numMax - c.getNumProd()) + "]");
-						quantitat = Integer.parseInt(teclat.readLine()) ;
+						System.out.println("Esculli una quantitat de " + llista[posicio].getNom() + " entre 1 i "+ (numMax - c.getNumProd()) + ".");
+						quantitat = Integer.parseInt(teclat.readLine());
 						while (((quantitat + c.getNumProd()) > numMax) || (quantitat <= 0)) {
-							System.out.println("Error en la quantitat, elegeixi una quantitat entre [1-"+(numMax - c.getNumProd()) + "]");
+							System.out.println("ERROR! Ha d'escollir una quantitat entre 1 i "+(numMax - c.getNumProd()) + ".");
 							quantitat = Integer.parseInt(teclat.readLine());
 						}
-						llegit = true ;
+						llegit = true;
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						System.out.println("ERROR! Ha d'introduïr un número.");
 					} catch (IOException e){
 						e.printStackTrace();
 					}
@@ -447,33 +450,26 @@ public class Main {
 				
 				//calcular preu
 				
-				if (client.isPreferent())
-				{
-					preu = preu + quantitat*(llista[posicio].getPreu() - llista[posicio].getDescompte()) ;
-				}
-				else 
-				{
-					preu = preu + quantitat*(llista[posicio].getPreu()) ;
-				}
+				if (client.isPreferent()) preu = preu + quantitat*(llista[posicio].getPreu() - llista[posicio].getDescompte());
+				else preu = preu + quantitat*(llista[posicio].getPreu());
 			}
 			//tornem al bucle per elegir un altre producte
-			
-		}
+		}	
 
 		//mostrar i guardar comanda
-		p = c.getLlista() ;
+		p = c.getLlista();
 		for (int i=0; i<numMax; i++)
 		{
 			System.out.println((i+1)+". "+p[i].getNom());
 		}
-		System.out.println("El preu final es "+preu+"€, confirmar la comanda? (si/no) ");
+		System.out.println("TOTAL: "+preu+"€ (IVA inclòs).\nVol confirmar la comanda? SI o NO ");
 		String s = null;
 		try {
 			s = teclat.readLine();
 			while ((!s.equalsIgnoreCase("SI") && (!s.equalsIgnoreCase("NO"))))
 			{
-				System.out.println("Error, confirmar la comanda? (si/no)");
-				s = teclat.readLine() ;
+				System.out.println("ERROR! Vol confirmar la comanda? SI o NO");
+				s = teclat.readLine();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -481,27 +477,27 @@ public class Main {
 		if (s.equalsIgnoreCase("si"))
 		{
 			client.afegirComanda(c);
-			System.out.println("La comanda s'ha realitzat amb exit");
+			System.out.println("La comanda s'ha realitzat amb èxit! :D");
 		}
-		else System.out.println("Comanda cancelada");
+		else System.out.println("Comanda cancelada... :(");
 		
 	}
 	
 	public static void eliminarComanda()
 	{
-		int num=-1 ;
+		int num=-1;
 		boolean llegit=false, llegit1=false;
 		Client client = escullClient();
 		while(!llegit1)
 		{
 
 			try {
-				System.out.println("Escull una comanda per eliminar entre [1-"+client.getNumComandes() +"]");
+				System.out.println("Esculli una comanda per eliminar entre 1 i "+client.getNumComandes() +".");
 				historialComandes(client);
 				num = Integer.parseInt(teclat.readLine());
 				llegit1=true;
 			} catch (NumberFormatException e) {					
-				System.out.println("Error, numero no valid.");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -510,10 +506,10 @@ public class Main {
 		while ((num > client.getNumComandes()) || (num <= 0))
 		{
 			try {
-				System.out.println("Error, escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
+				System.out.println("ERROR! Ha d'escollir una comanda entre 1 i "+ client.getNumComandes()+".");
 				num = Integer.parseInt(teclat.readLine());
 			} catch (NumberFormatException e) {
-				System.out.println("Error, numero no valid.");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -534,41 +530,29 @@ public class Main {
 	
 	public static void consultarComanda()
 	{
-		int num=-1 ;
-		
+		int ref=-1;	
 		Client client = escullClient();
+		Comanda c=null;
 		
 		llegit=false;
 		while(!llegit)
 		{
-				try {
-					System.out.println("Escull una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
-					historialComandes(client) ;
-					num = Integer.parseInt(teclat.readLine());
-					llegit=true;
-				} catch (NumberFormatException e) {
-					System.out.println("Error, valor no valid.");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			
-		}
-		while ((num > client.getNumComandes()) || (num <= 0))
-		{
 			try {
-				System.out.println("Error, elegeix una comanda per consultar entre [1-"+ client.getNumComandes()+"]");
-				num = Integer.parseInt(teclat.readLine()) ;
+				System.out.println("Esculli una de les comandes: ");
+				historialComandes(client);
+				ref = Integer.parseInt(teclat.readLine());
+				c = client.buscaComanda(ref);
+				llegit=true;
 			} catch (NumberFormatException e) {
-
-				System.out.println("Error, valor no valid.");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
-
 				e.printStackTrace();
-			}
+			} catch (NotFoundException e) {
+				System.out.println("ERROR! No s'ha trobat l'element.");
+			}	
 		}
-		System.out.println("La comanda es la seguent");
-		Comanda c=client.getTaulaComandes()[num-1] ;
-		Producte[] p = c.getLlista() ;
+		System.out.println("Informació de la comanda:");
+		Producte[] p = c.getLlista();
 		for (int j=0; j<c.getNumProd(); j++)
 		{
 			System.out.println((j+1)+". "+p[j].getNom());
@@ -584,13 +568,12 @@ public class Main {
 		boolean correcte=false;
 		String cadena = null;
 		
+		System.out.println("Introdueixi les següents dades: ");
 		while(!correcte){
 			try { 
-				System.out.println("Introdueix el nom del nou client: ");
+				System.out.println("-Nom: ");
 				nom = teclat.readLine();
 				correcte=true;
-			} catch (InputMismatchException e1) {
-				System.out.println("ERROR: Nom incorrecte.");
 			} catch (IOException e){
 				e.printStackTrace();
 			}
@@ -598,11 +581,9 @@ public class Main {
 		correcte=false;
 		while(!correcte){
 			try {
-				System.out.println("Introdueix un nom d'usuari: ");
+				System.out.println("-Nom d'usuari: ");
 				nomUsuari = teclat.readLine();
 				correcte=true;
-			} catch (InputMismatchException e1) {
-				System.out.println("ERROR: Nom incorrecte.");
 			}catch (IOException e){
 				e.printStackTrace();
 			}
@@ -610,11 +591,9 @@ public class Main {
 		correcte=false;
 		while(!correcte){
 			try {
-				System.out.println("Introdueix una contrasenya: ");
+				System.out.println("-Contrasenya: ");
 				contrasenya = teclat.readLine();
 				correcte=true;
-			} catch (InputMismatchException e1) {
-				System.out.println("ERROR: Contrasenyan incorrecta.");
 			}catch (IOException e){
 				e.printStackTrace();
 			}
@@ -622,11 +601,9 @@ public class Main {
 		correcte=false;
 		while(!correcte){
 			try {
-				System.out.println("Introdueix la teva adreca: ");
+				System.out.println("-Adreça: ");
 				adreca = teclat.readLine();
 				correcte=true;
-			} catch (InputMismatchException e1) {
-				System.out.println("ERROR: Adreca incorrecta.");
 			}catch (IOException e){
 				e.printStackTrace();
 			}
@@ -635,43 +612,43 @@ public class Main {
 		while(!correcte){
 			
 				try {
-					System.out.println("Introdueix el teu numero de telefon: ");
+					System.out.println("-Número de telèfon: ");
 					numTelefon = Integer.parseInt(teclat.readLine());
 					correcte=true;
 				} catch (IOException e) {
 					e.printStackTrace();
 					
 				} catch (NumberFormatException e1) {
-					System.out.println("ERROR: Numero de telefon incorrecte.");
+					System.out.println("ERROR! Ha d'introduïr un número.");
 				}
 			
 		}
 		correcte=false;
 		while(!correcte){
 			try {
-				System.out.println("Introdueix la quantitat de restriccions alimentaries [0,3]: ");
+				System.out.println("Introdueixi la quantitat de restriccions alimentaries entre 0 i 3: ");
 				numRestriccions = Integer.parseInt(teclat.readLine());
 				restriccions = new RestriccionsAlimentaries[numRestriccions];
 				while (numRestriccions > 3) {
-					System.out.println("El valor ha de ser [0-3]");
+					System.out.println("El valor ha d'estar entre 0 i 3.");
 					numRestriccions = Integer.parseInt(teclat.readLine());
 				}
 				correcte=true;
 			} catch (NumberFormatException e1) {
-				System.out.println("ERROR: Nombre de restriccions incorrecte.");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e){
 				e.printStackTrace();
 			} catch (NegativeArraySizeException e){
-				System.out.println("ERROR: Nombre de restriccions incorrecte.");
+				System.out.println("ERROR! El nombre ha de ser positiu.");
 			}
 		}
 			
 		if (numRestriccions != 0){
 			try {
-				System.out.println("\nÉs vostè celíac? (SI/NO): ");
+				System.out.println("És vostè celíac? SI o NO: ");
 				cadena = teclat.readLine();
 				while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-					System.out.println("Error, has de introduïr SI/NO");
+					System.out.println("ERROR! Ha d'introduïr SI o NO.");
 					cadena = teclat.readLine();
 				}
 				if (cadena.equalsIgnoreCase("SI")) {
@@ -680,10 +657,10 @@ public class Main {
 				}
 				
 				if (cont<numRestriccions){
-					System.out.println("\nÉs vostè al·lergic a la lactosa? (SI/NO): ");
+					System.out.println("És vostè al·lèrgic a la lactosa? SI o NO: ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-						System.out.println("Error, has de introduïr SI/NO");
+						System.out.println("ERROR! Ha d'introduïr SI o NO.");
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
@@ -692,10 +669,10 @@ public class Main {
 					}
 				}
 				if (cont < numRestriccions){
-					System.out.println("\nÉs vostè al·lergic als fruits secs? (SI/NO): ");
+					System.out.println("És vostè al·lèrgic als fruits secs? SI o NO: ");
 					cadena = teclat.readLine();
 					while (!cadena.equalsIgnoreCase("SI") && !cadena.equalsIgnoreCase("NO")){
-						System.out.println("Error, has de introduïr SI/NO");
+						System.out.println("ERROR! Ha d'introduïr SI o NO.");
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
@@ -710,9 +687,9 @@ public class Main {
 			
 			try {
 				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
-				System.out.println("S'ha creat correctament el client");
+				System.out.println("S'ha creat correctament el client!");
 			} catch (ArrayIndexOutOfBoundsException e) {
-				System.out.println("ERROR: No s'ha pogut crear el client. Llista plena.");
+				System.out.println("ERROR! No s'ha pogut crear el client. Llista plena.");
 			}
 	}
 		
@@ -745,16 +722,16 @@ public class Main {
 		
 		while(!correcte){
 			try{
-			System.out.println("Escriu l'identificador del client: ");
+			System.out.println("Escrigui l'identificador del client: ");
 			ref=Integer.parseInt(teclat.readLine());
 			c = llistaClients.consultarElement(ref);
 			correcte = true;
 			} catch(NumberFormatException e){
-				System.out.println("ERROR: Identificador incorrecte.");
+				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (NotFoundException e) {
-				e.printStackTrace();
+				System.out.println("ERROR! No s'ha trobat l'element.");
 			} catch (IOException e){
-				
+				e.printStackTrace();
 			}
 		}
 		return c;
@@ -766,11 +743,9 @@ public class Main {
 		try {
 			llistaClients.eliminarElement(c.getIdentificador());
 		} catch (NotFoundException e) {
-			e.printStackTrace();
+			System.out.println("ERROR! No s'ha trobat l'element.");
 		}
 		
-		System.out.println("S'ha eliminat el client correctament");
-	}
-
-	
+		System.out.println("S'ha eliminat el client correctament.");
+	}	
 }
