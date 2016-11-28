@@ -82,9 +82,10 @@ public class LlistaProductes {
 	private void referencia(){
 
 		for (int i=0; i<nElements; i++){
-			if (codiReferencia == llistaProductes[i].getCodiReferencia())
+			if (codiReferencia == llistaProductes[i].getCodiReferencia()){
 				i=0;
 				codiReferencia++;
+			}
 		}
 	}
 

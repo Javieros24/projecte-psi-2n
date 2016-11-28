@@ -2,11 +2,13 @@ package Llistes;
 import Excepcions.NotFoundException;
 import Productes.RestriccionsAlimentaries;
 import Restaurant.Client;
+import Restaurant.Comanda;
 
 public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
 	private int codiClient;
+	private static int codiComandes=1;
 	
 	public LlistaClients(int num){
 		llistaClients = new Client[num];
@@ -68,6 +70,20 @@ public class LlistaClients {
 				i=0;
 				codiClient++;
 		}
+	}
+	
+	public int referenciaComanda(){
+		for (int j=0; j<nElements; j++){
+			Client c = llistaClients[j];
+			Comanda com[] = llistaClients[j].getTaulaComandes();
+			for (int i=0; i<c.getNumComandes() ; i++){
+				if (codiComandes == com[i].getCodiComanda()){
+					i=0;
+					codiComandes++;
+				}
+			}
+		}
+		return codiComandes;
 	}
 
 	public Client[] getLlistaClients() {

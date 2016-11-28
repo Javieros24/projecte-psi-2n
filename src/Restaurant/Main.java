@@ -22,8 +22,9 @@ public class Main {
 		int opcioMenu=-1;
 		
 		//inicialitzaDades();
-		llistaProductes = new LlistaProductes(100);
 		carregarProductes();
+		carregarClients();
+		carregarComandes();
 		mostraMenu();
 		
 		try {
@@ -110,10 +111,10 @@ public class Main {
 		llistaClients.afegirElement("Ruye", "pl pou", "buskk", "sergi1997", 97737804, r);
 		
 		RestriccionsAlimentaries[] r3= new RestriccionsAlimentaries[1];
-		r3[0] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		r3[0] = RestriccionsAlimentaries.ALERGICSFRUITSSECS;
 		RestriccionsAlimentaries[] r5= new RestriccionsAlimentaries[2];
 		r5[1] = RestriccionsAlimentaries.ALERGICSLACTOSA;
-		r5[0] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		r5[0] = RestriccionsAlimentaries.ALERGICSFRUITSSECS;
 		llistaProductes.afegirElement("3.14zza", 3.14, r5);
 		llistaProductes.afegirElement("Hidromiel", 2.99, 250, true);
 		llistaClients.afegirElement("Javier Ortega Sánchez", "C/ de Salou", "javieros24", "abc123", 672695760, r3);
@@ -121,7 +122,7 @@ public class Main {
 		RestriccionsAlimentaries[] r2 = new RestriccionsAlimentaries[1];
 		r2[0]=RestriccionsAlimentaries.CELIACS;
 		RestriccionsAlimentaries[] r4 = new RestriccionsAlimentaries[1];
-		r4[0]=RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+		r4[0]=RestriccionsAlimentaries.ALERGICSFRUITSSECS;
 		llistaProductes.afegirElement("Col-if(lor)", 5.99, r4);
 		llistaProductes.afegirElement("Abstract enta", 15.99, 1000, true);
 		llistaClients.afegirElement("Sergi Quevedo Garreta", "Calle falsa 123", "spiderman123", "Sergi1997", 622354987, r2);
@@ -145,6 +146,7 @@ public class Main {
 		String nom = null;
 		double preu = 0.0;
 		
+		llegit=false;
 		while(!llegit){
 			try {
 				System.out.println("Que vol afegir? ");
@@ -243,7 +245,7 @@ public class Main {
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
-						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+						restriccions[cont] = RestriccionsAlimentaries.ALERGICSFRUITSSECS;
 						cont++;
 					}
 				}
@@ -405,7 +407,8 @@ public class Main {
 		}
 			
 		//creem la comanda
-		c = new Comanda(numMax);
+		int codiRef = llistaClients.referenciaComanda();
+		c = new Comanda(numMax, codiRef);
 		for (int i=0; i<numMax; i++)
 		{   
 			llegit = false;
@@ -706,7 +709,7 @@ public class Main {
 						cadena = teclat.readLine();
 					}
 					if (cadena.equalsIgnoreCase("SI")) {
-						restriccions[cont] = RestriccionsAlimentaries.ALERGISCFRUITSSECS;
+						restriccions[cont] = RestriccionsAlimentaries.ALERGICSFRUITSSECS;
 						cont++;
 					}
 				}
@@ -722,9 +725,6 @@ public class Main {
 				System.out.println("ERROR! No s'ha pogut crear el client. Llista plena.");
 			}
 	}
-		
-	
-	
 	
 	public static void consultarClient(){
 		
@@ -781,50 +781,144 @@ public class Main {
 	
 	private static void carregarProductes(){
 		
-			try {
-				BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Productes.txt"));
-				String linia;
-				StringTokenizer token;
-				String tipus, nom;
-				double preu;
-				int ref, volum;
-				RestriccionsAlimentaries[] r;
-				boolean alcohol;
-				
-				linia = lectura.readLine();
-				while(linia != null){
-					token = new StringTokenizer(linia, ",");
-					tipus = token.nextToken();
-					nom = token.nextToken();
-					preu = Double.parseDouble(token.nextToken());
-					ref = Integer.parseInt(token.nextToken());
-					if (tipus.equalsIgnoreCase("PLAT")){
-						r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
-						for (int i=0; i < r.length; i++){
-							r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
-						}
-						llistaProductes.afegirElement(nom, preu, r, ref);
+		llistaProductes = new LlistaProductes(100);
+		try {
+			BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Productes.txt"));
+			String linia;
+			StringTokenizer token;
+			String tipus, nom;
+			double preu;
+			int ref, volum;
+			RestriccionsAlimentaries[] r;
+			boolean alcohol;
+
+			linia = lectura.readLine();
+			while (linia != null) {
+				token = new StringTokenizer(linia, ",");
+				tipus = token.nextToken();
+				nom = token.nextToken();
+				preu = Double.parseDouble(token.nextToken());
+				ref = Integer.parseInt(token.nextToken());
+				if (tipus.equalsIgnoreCase("PLAT")) {
+					r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
+					for (int i = 0; i < r.length; i++) {
+						r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
 					}
-					else if (tipus.equalsIgnoreCase("BEGUDA")){
-						volum = Integer.parseInt(token.nextToken());
-						alcohol = token.nextToken().equalsIgnoreCase("SI");
-						llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
-					}
-					linia = lectura.readLine();
+					llistaProductes.afegirElement(nom, preu, r, ref);
+				} else if (tipus.equalsIgnoreCase("BEGUDA")) {
+					volum = Integer.parseInt(token.nextToken());
+					alcohol = token.nextToken().equalsIgnoreCase("SI");
+					llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
 				}
-				lectura.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e){
-				e.printStackTrace();
-			} catch (ArrayIndexOutOfBoundsException e) {
-				System.out.println("ERROR! La llista de productes és plena.");
+				linia = lectura.readLine();
 			}
+			lectura.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ERROR! La llista de productes és plena.");
+		}
 	}
 	
-	private static 
+	private static void carregarClients(){
+		
+		llistaClients = new LlistaClients(100);
+		try {
+			BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Clients.txt"));
+			String linia;
+			StringTokenizer token;
+			String nom, adreca, nomUsuari, contrasenya;
+			int codiClient, numTelefon, numRestriccions;
+			RestriccionsAlimentaries[] r;
+			
+			linia = lectura.readLine();
+			while(linia != null){
+				token = new StringTokenizer(linia, ",");
+				nom = token.nextToken();
+				codiClient = Integer.parseInt(token.nextToken());
+				adreca = token.nextToken();
+				nomUsuari = token.nextToken();
+				contrasenya = token.nextToken();
+				numTelefon = Integer.parseInt(token.nextToken());
+				numRestriccions = Integer.parseInt(token.nextToken());
+				r = new RestriccionsAlimentaries[numRestriccions];
+				for (int i=0; i < r.length; i++){
+					r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+				}
+				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, r, codiClient);
+				linia = lectura.readLine();
+			}
+			lectura.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e){
+			e.printStackTrace();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ERROR! La llista de clients és plena.");
+		}
+		}                        
+
+	private static void carregarComandes(){
 	
-	private static void guardarDades(){
+	try {
+		BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Comandes.txt"));
+		String linia;
+		StringTokenizer token;
+		Client client=null;
+		Comanda c;
+		Producte p;
+		int refClient, refComanda, refProducte,numProd;
+		linia = lectura.readLine();
+		while(linia != null){
+			token = new StringTokenizer(linia, ",");
+			refClient = Integer.parseInt(token.nextToken());
+			client=llistaClients.consultarElement(refClient);
+			refComanda = Integer.parseInt(token.nextToken());
+			numProd = Integer.parseInt(token.nextToken());
+			c=new Comanda(numProd,refComanda);
+			
+			for(int i=0;i<numProd;i++)
+			{
+				refProducte = Integer.parseInt(token.nextToken());
+				p=llistaProductes.consultarElement(refProducte);
+				c.afegirProducte(p, 1);
+			}
+			client.afegirComanda(c);
+			linia = lectura.readLine();
+		}
+		lectura.close();
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e){
+		e.printStackTrace();
+	} catch (ArrayIndexOutOfBoundsException e) {
+		System.out.println("ERROR! La llista de productes és plena.");
+	} catch (NotFoundException e){
+	
+	}
+}
+	
+	private static void guardarProducte(Producte p){
+		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));
+			if (p instanceof Plat){
+				escriptura.write("PLAT,");
+				escriptura.write(p.getNom()+",");
+				escriptura.write(p.getPreu()+",");
+				escriptura.write(p.getCodiReferencia()+",");
+				escriptura.write(((Plat) p).getRestriccions().length+",");
+				for (int i=0; i < ((Plat) p).getRestriccions().length)
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void guardarProducte(){
 		
 	}
 }

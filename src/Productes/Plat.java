@@ -48,6 +48,14 @@ public class Plat extends Producte
 		
 	}
 
+	public RestriccionsAlimentaries[] getRestriccions() {
+		return restriccions;
+	}
+
+	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
+		this.restriccions = restriccions;
+	}
+
 	public String toString() {
 		return super.toString().concat("\nProducte apte per: " + Arrays.toString(restriccions)+ "\n**************");
 	}

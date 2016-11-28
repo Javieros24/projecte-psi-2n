@@ -4,16 +4,18 @@ import Productes.Producte;
 public class Comanda {
 
 	private Producte[] llista ;
-	private int numProd = 0;
-	private static int codiComanda=0;
+	private int numProd;
+	private int codiComanda;
 	
 	/**Constructor de Comanda 
 	 * @param num
 	 */
-	public Comanda(int num)
+	public Comanda(int num, int codiRef)
 	{
 		llista = new Producte[num];
-		codiComanda++;
+		numProd = 0;
+		codiComanda = codiRef;
+		
 	}
 	
 	/** Afegeix un producte a la llista
@@ -67,7 +69,7 @@ public class Comanda {
 		this.numProd = numProd ;
 	}
 	
-	public static int getCodiComanda ()
+	public int getCodiComanda ()
 	{
 		return codiComanda;
 	}

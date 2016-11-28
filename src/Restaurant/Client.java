@@ -58,7 +58,7 @@ public class Client {
 		int i=0;
 		Producte[] p=taulaComandes[numComanda].getLlista();
 		
-		Comanda copia=new Comanda(taulaComandes[numComanda].getNumProd());
+		Comanda copia=new Comanda(taulaComandes[numComanda].getNumProd(), taulaComandes[numComanda].getCodiComanda());
 		while(i<taulaComandes[numComanda].getNumProd())
 			copia.afegirProducte(p[i], 1);
 			i++;
