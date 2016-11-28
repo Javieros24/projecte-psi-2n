@@ -32,11 +32,12 @@ public class Client {
 	
 	/** Afegeix una comanda a l'historial de comandes del client.
 	 * @param comanda Comanda que es vol afegir a l'historial. **/
-	public void afegirComanda(Comanda comanda){
+	public Comanda afegirComanda(Comanda comanda){
 		taulaComandes[numComandes]=comanda;
 		numComandes++;
 		
 		if (numComandes==6) preferent=true;
+		return taulaComandes[numComandes-1];
 	}
 	
 	public Comanda buscaComanda(int codiComanda) throws NotFoundException{

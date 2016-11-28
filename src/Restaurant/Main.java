@@ -174,7 +174,7 @@ public class Main {
 				afegirPlat(nom, preu);
 			else
 				afegirBeguda(nom, preu);
-			
+
 			System.out.println("S'ha afegit el producte correctament.");
 			
 	}
@@ -255,7 +255,7 @@ public class Main {
 		}
 			
 		try {
-			llistaProductes.afegirElement(nom, preu, restriccions);
+			guardarProducte(llistaProductes.afegirElement(nom, preu, restriccions));
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
 		}
@@ -290,7 +290,7 @@ public class Main {
 		alcohol = a.equalsIgnoreCase("SI");
 		
 		try {
-			llistaProductes.afegirElement(nom, preu, volum, alcohol);
+			guardarProducte(llistaProductes.afegirElement(nom, preu, volum, alcohol));
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
 		}
@@ -509,7 +509,7 @@ public class Main {
 		}
 		if (s.equalsIgnoreCase("si"))
 		{
-			client.afegirComanda(c);
+			guardarComanda(client.getIdentificador(), client.afegirComanda(c));
 			System.out.println("La comanda s'ha realitzat amb èxit! :D");
 		}
 		else System.out.println("Comanda cancelada... :(");
@@ -719,7 +719,7 @@ public class Main {
 		}
 			
 			try {
-				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+				guardarClient(llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions));
 				System.out.println("S'ha creat correctament el client!");
 			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("ERROR! No s'ha pogut crear el client. Llista plena.");
@@ -905,20 +905,75 @@ public class Main {
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));
 			if (p instanceof Plat){
-				escriptura.write("PLAT,");
+				escriptura.write("\nPLAT,");
 				escriptura.write(p.getNom()+",");
 				escriptura.write(p.getPreu()+",");
 				escriptura.write(p.getCodiReferencia()+",");
-				escriptura.write(((Plat) p).getRestriccions().length+",");
-				for (int i=0; i < ((Plat) p).getRestriccions().length)
+				int nRef = ((Plat) p).getRestriccions().length;
+				if (nRef == 0)
+					escriptura.write("0");
+				else
+					escriptura.write(((Plat) p).getRestriccions().length);
+				RestriccionsAlimentaries r[] = ((Plat) p).getRestriccions();
+				for (int i=0; i < r.length; i++)
+					escriptura.write(","+r[i]);
 			}
+			else if (p instanceof Beguda){
+				escriptura.write("\nBEGUDA,");
+				escriptura.write(p.getNom()+",");
+				escriptura.write(p.getPreu()+",");
+				escriptura.write(p.getCodiReferencia()+",");
+				escriptura.write(((Beguda) p).getVolum()+",");
+				if (((Beguda) p).getAlcohol())
+					escriptura.write("SI");
+				else
+					escriptura.write("NO");
+			}
+			escriptura.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void guardarProducte(){
+	private static void guardarClient(Client c){
 		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt", true));
+			escriptura.write("\n"+c.getNom()+",");
+			escriptura.write(c.getIdentificador()+",");
+			escriptura.write(c.getAdreca()+",");
+			escriptura.write(c.getNomUsuari()+",");
+			escriptura.write(c.getContrasenya()+",");
+			escriptura.write(c.getNumTelefon()+",");
+			int nRes = c.getRestriccions().length;
+			if (nRes==0)
+				escriptura.write("0");
+			else
+				escriptura.write(c.getRestriccions().length);
+			for (int i=0; i < c.getRestriccions().length; i++){
+				escriptura.write(c.getRestriccions()[i]+",");
+			}
+			escriptura.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void guardarComanda(int RefClient, Comanda c){
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));
+			Producte[] llista = c.getLlista();
+			escriptura.write("\n"+RefClient+",");
+			escriptura.write(c.getCodiComanda()+",");
+			escriptura.write(c.getNumProd());
+			for(int i=0;i<c.getNumProd();i++){
+				escriptura.write("," + llista[i].getCodiReferencia());
+			}
+			escriptura.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 }

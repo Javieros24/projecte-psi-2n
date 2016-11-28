@@ -15,10 +15,12 @@ public class LlistaClients {
 		codiClient=1;
 	}
 	
-	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
+	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
 		referencia();
 		llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
 		nElements++;
+		
+		return llistaClients[nElements-1];
 	}
 	
 	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions, int codiClient){
@@ -66,9 +68,10 @@ public class LlistaClients {
 	private void referencia(){
 		
 		for (int i=0; i<nElements; i++){
-			if (codiClient == llistaClients[i].getIdentificador())
+			if (codiClient == llistaClients[i].getIdentificador()){
 				i=0;
 				codiClient++;
+			}
 		}
 	}
 	

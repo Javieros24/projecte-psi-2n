@@ -16,18 +16,22 @@ public class LlistaProductes {
 		
 	}
 	
-	public void afegirElement(String nom, double preu, RestriccionsAlimentaries[] r){
+	public Plat afegirElement(String nom, double preu, RestriccionsAlimentaries[] r){
 		referencia();
 		llistaProductes[nElements] = new Plat(nom, preu, r, codiReferencia);
 		nElements++;
 		codiReferencia++;
+		
+		return ((Plat)llistaProductes[nElements-1]);
 	}
 	
-	public void afegirElement(String nom, double preu, int volum, boolean alcohol){
+	public Beguda afegirElement(String nom, double preu, int volum, boolean alcohol){
 		referencia();
 		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiReferencia);
 		nElements++;
 		codiReferencia++;
+		
+		return ((Beguda)llistaProductes[nElements-1]);
 	}
 	
 	public void afegirElement(String nom, double preu, RestriccionsAlimentaries[] r, int codiRef){
