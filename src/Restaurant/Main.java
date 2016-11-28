@@ -8,6 +8,7 @@ import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
 
 import java.io.*;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -20,7 +21,9 @@ public class Main {
 	public static void main(String[] args) {
 		int opcioMenu=-1;
 		
-		inicialitzaDades();
+		//inicialitzaDades();
+		llistaProductes = new LlistaProductes(100);
+		carregarProductes();
 		mostraMenu();
 		
 		try {
@@ -775,4 +778,53 @@ public class Main {
 		
 		System.out.println("S'ha eliminat el client correctament.");
 	}	
+	
+	private static void carregarProductes(){
+		
+			try {
+				BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Productes.txt"));
+				String linia;
+				StringTokenizer token;
+				String tipus, nom;
+				double preu;
+				int ref, volum;
+				RestriccionsAlimentaries[] r;
+				boolean alcohol;
+				
+				linia = lectura.readLine();
+				while(linia != null){
+					token = new StringTokenizer(linia, ",");
+					tipus = token.nextToken();
+					nom = token.nextToken();
+					preu = Double.parseDouble(token.nextToken());
+					ref = Integer.parseInt(token.nextToken());
+					if (tipus.equalsIgnoreCase("PLAT")){
+						r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
+						for (int i=0; i < r.length; i++){
+							r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+						}
+						llistaProductes.afegirElement(nom, preu, r, ref);
+					}
+					else if (tipus.equalsIgnoreCase("BEGUDA")){
+						volum = Integer.parseInt(token.nextToken());
+						alcohol = token.nextToken().equalsIgnoreCase("SI");
+						llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
+					}
+					linia = lectura.readLine();
+				}
+				lectura.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e){
+				e.printStackTrace();
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("ERROR! La llista de productes és plena.");
+			}
+	}
+	
+	private static 
+	
+	private static void guardarDades(){
+		
+	}
 }

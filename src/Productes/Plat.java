@@ -10,9 +10,9 @@ public class Plat extends Producte
 	
 	private RestriccionsAlimentaries[] restriccions;
 	
-	public Plat(String nom, double preu, RestriccionsAlimentaries[] restriccions)
+	public Plat(String nom, double preu, RestriccionsAlimentaries[] restriccions, int codiReferencia)
 	{
-		super(nom,preu);
+		super(nom,preu, codiReferencia);
 		this.restriccions = new RestriccionsAlimentaries[restriccions.length];
 		for (int i=0; i < restriccions.length; i++){
 			this.restriccions[i] = restriccions[i];

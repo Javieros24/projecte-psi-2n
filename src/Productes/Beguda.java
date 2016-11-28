@@ -15,9 +15,9 @@ public class Beguda extends Producte
 	 * @param volum es el volum d'alcohol que porta
 	 * @param alcohol es un boolea: SI, si porta alcohol, NO si no porta alcohol
 	 */
-	public Beguda(String nom, double preu, int volum, boolean alcohol)
+	public Beguda(String nom, double preu, int volum, boolean alcohol, int codiReferencia)
 	{
-		super(nom,preu);
+		super(nom,preu, codiReferencia);
 		this.alcohol= alcohol;
 		this.volum=volum;
 	}

@@ -8,20 +8,38 @@ import Productes.RestriccionsAlimentaries;
 public class LlistaProductes {
 	private Producte[] llistaProductes;
 	private int nElements;
+	private int codiReferencia;
 	
 	public LlistaProductes(int num){
 		llistaProductes= new Producte[num];
+		codiReferencia=1;
 		
 	}
 	
 	public void afegirElement(String nom, double preu, RestriccionsAlimentaries[] r){
-		llistaProductes[nElements] = new Plat(nom, preu, r);
+		referencia();
+		llistaProductes[nElements] = new Plat(nom, preu, r, codiReferencia);
 		nElements++;
+		codiReferencia++;
 	}
 	
 	public void afegirElement(String nom, double preu, int volum, boolean alcohol){
-		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol);
+		referencia();
+		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiReferencia);
 		nElements++;
+		codiReferencia++;
+	}
+	
+	public void afegirElement(String nom, double preu, RestriccionsAlimentaries[] r, int codiRef){
+			llistaProductes[nElements] = new Plat(nom, preu, r, codiRef);
+			nElements++;
+			codiReferencia++;
+	}
+	
+	public void afegirElement(String nom, double preu, int volum, boolean alcohol, int codiRef){
+		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiRef);
+		nElements++;
+		codiReferencia++;
 	}
 	
 	public void eliminarElement(int  ref) throws NotFoundException{
@@ -59,6 +77,15 @@ public class LlistaProductes {
 		}
 		
 		throw new NotFoundException();
+	}
+	
+	private void referencia(){
+
+		for (int i=0; i<nElements; i++){
+			if (codiReferencia == llistaProductes[i].getCodiReferencia())
+				i=0;
+				codiReferencia++;
+		}
 	}
 
 	public Producte[] getLlistaProductes() {

@@ -10,9 +10,8 @@ public class Client {
 	private Comanda[] taulaComandes;
 	private boolean preferent;
 	private RestriccionsAlimentaries[] restriccions;
-	private static int codiClient=1;
 	
-	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
+	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions, int codiClient){
 		this.nom=nom;
 		this.adreca=adreca;
 		this.nomUsuari=nomUsuari;
@@ -165,14 +164,6 @@ public class Client {
 
 	public void setAdreca(String adreca) {
 		this.adreca = adreca;
-	}
-
-	public static int getCodiClient() {
-		return codiClient;
-	}
-
-	public static void setCodiClient(int codiClient) {
-		Client.codiClient = codiClient;
 	}
 
 	public String toString() {

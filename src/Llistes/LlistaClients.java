@@ -6,13 +6,21 @@ import Restaurant.Client;
 public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
+	private int codiClient;
 	
 	public LlistaClients(int num){
 		llistaClients = new Client[num];
+		codiClient=1;
 	}
 	
 	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
-		llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions);
+		referencia();
+		llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
+		nElements++;
+	}
+	
+	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions, int codiClient){
+		llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
 		nElements++;
 	}
 	
@@ -51,6 +59,15 @@ public class LlistaClients {
 			
 		}
 		throw new NotFoundException();
+	}
+	
+	private void referencia(){
+		
+		for (int i=0; i<nElements; i++){
+			if (codiClient == llistaClients[i].getIdentificador())
+				i=0;
+				codiClient++;
+		}
 	}
 
 	public Client[] getLlistaClients() {

@@ -9,18 +9,16 @@ public abstract class Producte
 	protected int codiReferencia;
 	protected double preu;
 	protected double descompte;
-	protected static int codiProductes=1;
 	
 	/**
 	 * Contructor que rep per parametre els atributs i els inicialitza
 	 * @param nom es el nom del producte
 	 * @param preu es el preu del producte
 	 */
-	public Producte (String nom, double preu)
+	public Producte (String nom, double preu, int codiRef)
 	{
 		this.nom=nom;
-		this.codiReferencia=codiProductes;
-		codiProductes++;
+		this.codiReferencia=codiRef;
 		this.preu=preu;
 		descompte=preu*0.05;
 	}
@@ -29,10 +27,6 @@ public abstract class Producte
 	
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
-
-	public void setCodiReferencia(int codiReferencia) {
-		this.codiReferencia = codiReferencia;
 	}
 
 	public void setPreu(double preu) {
