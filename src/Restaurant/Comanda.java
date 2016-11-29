@@ -50,6 +50,17 @@ public class Comanda {
 		}
 	}
 	
+	public double calcularPreu(boolean preferent)
+	{
+		double preu=0;
+		for (int i=0; i<numProd;i++)
+		{
+			if (preferent) preu = preu + (llista[i].getPreu() - llista[i].getDescompte());
+			else preu = preu + (llista[i].getPreu());
+		}
+		return preu;
+	}
+	
 	public String toString() 
 	{
 		return "Comanda #" +codiComanda+", amb "+numProd+" productes.";
@@ -72,5 +83,9 @@ public class Comanda {
 	public int getCodiComanda ()
 	{
 		return codiComanda;
+	}
+
+	public void setCodiComanda(int codiComanda) {
+		this.codiComanda = codiComanda;
 	}
 }

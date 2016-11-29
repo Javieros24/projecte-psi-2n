@@ -43,10 +43,9 @@ public class Client {
 	public Comanda buscaComanda(int codiComanda) throws NotFoundException{
 		
 		for (int i=0; i < numComandes; i++){
-			if (codiComanda == taulaComandes[i].getNumProd())
+			if (codiComanda == taulaComandes[i].getCodiComanda())
 				return taulaComandes[i];
 		}
-		
 		throw new NotFoundException();
 	}
 	
@@ -75,6 +74,11 @@ public class Client {
 			taulaComandes[i]=taulaComandes[i+1];
 		}
 		numComandes--;
+	}
+	
+	public boolean hiHaComandes(){
+		if (numComandes==0) return false;
+		else return true;
 	}
 
 	/*-------------------GETTERS I SETTERS----------------------------------*/
