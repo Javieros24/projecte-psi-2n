@@ -63,7 +63,7 @@ public class Comanda {
 	
 	public String toString() 
 	{
-		return "Comanda #" +codiComanda+", amb "+numProd+" productes.";
+		return "[Ref: " +codiComanda+"], amb "+numProd+" productes.";
 	}
 	
 	/*-------------------GETTERS I SETTERS----------------------------------*/

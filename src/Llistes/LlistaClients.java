@@ -1,4 +1,5 @@
 package Llistes;
+import Excepcions.DuplicatedNameException;
 import Excepcions.NotFoundException;
 import Productes.RestriccionsAlimentaries;
 import Restaurant.Client;
@@ -15,12 +16,14 @@ public class LlistaClients {
 		codiClient=1;
 	}
 	
-	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions){
-		referencia();
-		llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
-		nElements++;
-		
-		return llistaClients[nElements-1];
+	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions) throws DuplicatedNameException{
+		if (!existeixNom(nom)){
+			referencia();
+			llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
+			nElements++;
+			return llistaClients[nElements-1];
+		}
+		throw new DuplicatedNameException();
 	}
 	
 	public void afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions, int codiClient){
@@ -87,6 +90,14 @@ public class LlistaClients {
 			}
 		}
 		return codiComandes;
+	}
+	
+	private boolean existeixNom(String nom){
+		for (int i=0; i<nElements; i++){
+			if (nom.equalsIgnoreCase(llistaClients[i].getNom()))
+				return true;
+		}
+		return false;
 	}
 
 	public Client[] getLlistaClients() {

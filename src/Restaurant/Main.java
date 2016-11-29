@@ -1,4 +1,5 @@
 package Restaurant;
+import Excepcions.DuplicatedNameException;
 import Excepcions.NotFoundException;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
@@ -129,13 +130,8 @@ public class Main {
 			}
 		}
 			
-			if (opcio == 1)
-				afegirPlat(nom, preu);
-			else
-				afegirBeguda(nom, preu);
-
-			System.out.println("S'ha afegit el producte correctament.");
-			
+			if (opcio == 1) afegirPlat(nom, preu);
+			else			afegirBeguda(nom, preu);
 	}
 	
 	/**Mètode que afegeix un plat a la llista de productes
@@ -215,8 +211,11 @@ public class Main {
 			
 		try {
 			guardarProducte(llistaProductes.afegirElement(nom, preu, restriccions));
+			System.out.println("S'ha afegit el producte correctament.");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
+		} catch (DuplicatedNameException e) {
+			System.out.println("ERROR! El producte que està intentant afegir ja existeix");
 		}
 	}
 	
@@ -250,8 +249,11 @@ public class Main {
 		
 		try {
 			guardarProducte(llistaProductes.afegirElement(nom, preu, volum, alcohol));
+			System.out.println("S'ha afegit el producte correctament.");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
+		} catch (DuplicatedNameException e) {
+			System.out.println("ERROR! El producte que està intentant afegir ja existeix");
 		}
 	}
 	
@@ -318,16 +320,16 @@ public class Main {
 		nProductes = llistaProductes.getnElements();
 		
 		System.out.println("\n\n***********************[MENÚ]***********************\n");
-		System.out.println("PLATS:\t\t\t\tImport:\n");
+		System.out.println("PLATS:\t\t\t\t\tImport:\n");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Plat)
-				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t"+p[i].getPreu()+"€");
+				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t\t"+p[i].getPreu()+"€");
 		}
 		
 		System.out.println("\nBEGUDES:\n");
 		for (i=0; i < nProductes; i++){
 			if (p[i] instanceof Beguda)
-				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t"+p[i].getPreu()+"€");
+				System.out.println("[ref: "+ p[i].getCodiReferencia()+"] -"+ p[i].getNom()+ " \t\t\t"+p[i].getPreu()+"€");
 		}
 		System.out.println("\n****************************************************");
 	}
@@ -361,6 +363,7 @@ public class Main {
 		int ref=-1;
 		boolean llegit=false;
 		Comanda c = null;	
+		Comanda copia;
 		while(!llegit)
 		{
 			try {
@@ -377,7 +380,8 @@ public class Main {
 				System.out.println("ERROR! No s'ha trobat l'element.");
 			}	
 		}
-		finalitzarComanda(client,c);
+		copia=client.copiar(c, llistaClients.referenciaComanda());
+		finalitzarComanda(client,copia);
 		
 	}
 	
@@ -533,47 +537,30 @@ public class Main {
 	
 	private static void eliminarComanda()
 	{
-		int num=-1;
-		boolean llegit=false, llegit1=false;
+		int ref=-1;;
+		boolean llegit=false;
 		Client client = escullClient();
-		while(!llegit1)
+		while(!llegit)
 		{
-
 			try {
-				System.out.println("Esculli una comanda per eliminar entre 1 i "+client.getNumComandes() +".");
+				System.out.println("Esculli una de les comandes per a eliminar: ");
 				historialComandes(client);
-				num = Integer.parseInt(teclat.readLine());
-				llegit1=true;
-			} catch (NumberFormatException e) {					
-				System.out.println("ERROR! Ha d'introduïr un número.");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		}
-		while ((num > client.getNumComandes()) || (num <= 0))
-		{
-			try {
-				System.out.println("ERROR! Ha d'escollir una comanda entre 1 i "+ client.getNumComandes()+".");
-				num = Integer.parseInt(teclat.readLine());
+				ref = Integer.parseInt(teclat.readLine());
+				client.buscaComanda(ref);
+				llegit=true;
 			} catch (NumberFormatException e) {
 				System.out.println("ERROR! Ha d'introduïr un número.");
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			} catch (NotFoundException e) {
+				System.out.println("ERROR! No s'ha trobat l'element.");
+			}	
 		}
-		while(!llegit)
-		{
-			try
-			{
-			client.eliminaComanda(num-1);
-			llegit=true;
-			}
-			catch(NotFoundException e)
-			{
-				e.getMessage();
-			}
-		}
+		try {
+			client.eliminaComanda(ref);
+		} catch (NotFoundException e) {
+			System.out.println("ERROR! No s'ha trobat l'element.");
+		}	
 	}
 	
 	private static void consultarComanda()
@@ -739,6 +726,8 @@ public class Main {
 				System.out.println("S'ha creat correctament el client!");
 			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("ERROR! No s'ha pogut crear el client. Llista plena.");
+			} catch (DuplicatedNameException e) {
+				System.out.println("ERROR! El producte que està intentant afegir ja existeix");
 			}
 	}
 	

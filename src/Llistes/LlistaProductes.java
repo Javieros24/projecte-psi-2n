@@ -1,4 +1,5 @@
 package Llistes;
+import Excepcions.DuplicatedNameException;
 import Excepcions.NotFoundException;
 import Productes.Beguda;
 import Productes.Plat;
@@ -16,34 +17,35 @@ public class LlistaProductes {
 		
 	}
 	
-	public Plat afegirElement(String nom, double preu, RestriccionsAlimentaries[] r){
-		referencia();
-		llistaProductes[nElements] = new Plat(nom, preu, r, codiReferencia);
-		nElements++;
-		codiReferencia++;
+	public Plat afegirElement(String nom, double preu, RestriccionsAlimentaries[] r) throws DuplicatedNameException{
+		if (existeixNom(nom)) throw new DuplicatedNameException();
+		else{
+			referencia();
+			llistaProductes[nElements] = new Plat(nom, preu, r, codiReferencia);
+			nElements++;
+		}
 		
 		return ((Plat)llistaProductes[nElements-1]);
 	}
 	
-	public Beguda afegirElement(String nom, double preu, int volum, boolean alcohol){
-		referencia();
-		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiReferencia);
-		nElements++;
-		codiReferencia++;
-		
-		return ((Beguda)llistaProductes[nElements-1]);
+	public Beguda afegirElement(String nom, double preu, int volum, boolean alcohol) throws DuplicatedNameException{
+		if (!existeixNom(nom)){
+			referencia();
+			llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiReferencia);
+			nElements++;
+			return ((Beguda)llistaProductes[nElements-1]);
+		}
+		throw new DuplicatedNameException();
 	}
 	
 	public void afegirElement(String nom, double preu, RestriccionsAlimentaries[] r, int codiRef){
 			llistaProductes[nElements] = new Plat(nom, preu, r, codiRef);
 			nElements++;
-			codiReferencia++;
 	}
 	
 	public void afegirElement(String nom, double preu, int volum, boolean alcohol, int codiRef){
 		llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiRef);
 		nElements++;
-		codiReferencia++;
 	}
 	
 	public void eliminarElement(int  ref) throws NotFoundException{
@@ -91,6 +93,14 @@ public class LlistaProductes {
 				codiReferencia++;
 			}
 		}
+	}
+	
+	private boolean existeixNom(String nom){
+		for (int i=0; i<nElements; i++){
+			if (nom.equalsIgnoreCase(llistaProductes[i].getNom()))
+				return true;
+		}
+		return false;
 	}
 
 	public Producte[] getLlistaProductes() {

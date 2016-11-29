@@ -65,12 +65,25 @@ public class Client {
 		return copia;
 	}
 	
-	public void eliminaComanda(int numComanda) throws NotFoundException{
+	public Comanda copiar(Comanda c, int codi){
+		int i=0;
+		Producte[] p=c.getLlista();
+		
+		Comanda copia=new Comanda(c.getNumProd(), codi);
+		while(i<c.getNumProd())
+			copia.afegirProducte(p[i], 1);
+			i++;
+		return copia;
+	}
+	
+	public void eliminaComanda(int codi) throws NotFoundException{
 		
 		//Comprova que existeix la comanda.
-		buscaComanda(numComanda);
+		buscaComanda(codi);
 		
-		for(int i=numComanda; i<numComandes-1; i++){
+		int pos = buscarElement(codi);
+		
+		for(int i=pos; i<numComandes-1; i++){
 			taulaComandes[i]=taulaComandes[i+1];
 		}
 		numComandes--;
@@ -79,6 +92,16 @@ public class Client {
 	public boolean hiHaComandes(){
 		if (numComandes==0) return false;
 		else return true;
+	}
+	
+	public int buscarElement(int ref) throws NotFoundException{
+		
+		for (int i=0; i < numComandes; i++){
+			if (taulaComandes[i].getCodiComanda() == ref)
+				return i;
+		}
+		
+		throw new NotFoundException();
 	}
 
 	/*-------------------GETTERS I SETTERS----------------------------------*/
@@ -172,8 +195,8 @@ public class Client {
 	}
 
 	public String toString() {
-		return "Nom: "+nom+"\nAdreca: "+adreca+"\nNom d'usuari: "+nomUsuari+"\nContrasenya: "+contrasenya+"\nNumero de telefon: "+numTelefon+
-				"\nIdentificador: "+identificador+"\nNumero de Comandes: "+numComandes+"\nRestriccions alimentaries: "+restriccions;
+		return "Nom:\t "+nom+"\nAdreca:\t "+adreca+"\nNom d'usuari:\t "+nomUsuari+"\nContrasenya:\t "+contrasenya+"\nNumero de telefon:\t "+numTelefon+
+				"\n[Ref: "+identificador+"]\nNumero de Comandes:\t "+numComandes+"\nRestriccions alimentaries:\t "+restriccions;
 	}
 	
 	
