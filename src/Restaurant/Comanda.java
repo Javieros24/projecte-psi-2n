@@ -24,7 +24,7 @@ public class Comanda {
 	 */
 	public void afegirProducte(Producte p, int quantitat)
 	{
-		for (int i=quantitat; i>0;i--)
+		for (int i=0; i<quantitat ;i++)
 		{
 			llista[numProd] = p ;
 			numProd++;

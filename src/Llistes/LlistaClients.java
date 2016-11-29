@@ -9,7 +9,7 @@ public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
 	private int codiClient;
-	private static int codiComandes=1;
+	private int codiComandes=1;
 	
 	public LlistaClients(int num){
 		llistaClients = new Client[num];

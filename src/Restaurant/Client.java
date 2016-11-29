@@ -70,9 +70,10 @@ public class Client {
 		Producte[] p=c.getLlista();
 		
 		Comanda copia=new Comanda(c.getNumProd(), codi);
-		while(i<c.getNumProd())
+		while(i<c.getNumProd()){
 			copia.afegirProducte(p[i], 1);
 			i++;
+		}
 		return copia;
 	}
 	
