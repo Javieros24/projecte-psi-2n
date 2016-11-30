@@ -54,17 +54,7 @@ public class Client {
 	 * i es crea una nova comanda amb les mateixes.
 	 * @param numComanda Index de la comanda a la taula.
 	 * @return Comanda **/
-	public Comanda copiar(int numComanda){
-		int i=0;
-		Producte[] p=taulaComandes[numComanda].getLlista();
-		
-		Comanda copia=new Comanda(taulaComandes[numComanda].getNumProd(), taulaComandes[numComanda].getCodiComanda());
-		while(i<taulaComandes[numComanda].getNumProd())
-			copia.afegirProducte(p[i], 1);
-			i++;
-		return copia;
-	}
-	
+
 	public Comanda copiar(Comanda c, int codi){
 		int i=0;
 		Producte[] p=c.getLlista();

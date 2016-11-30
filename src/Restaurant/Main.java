@@ -9,6 +9,8 @@ import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
 
 import java.io.*;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -36,18 +38,17 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		while (opcioMenu != 11){
+		while (opcioMenu != 10){
 			switch(opcioMenu) {
 			case 1: afegirProducte();					break;
 			case 2: eliminarProducte();					break;
 			case 3: consultarProducte();				break;
 			case 4: crearClient();						break;
-			case 5: historialComandes(escullClient());	break;
+			case 5: consultarComanda();					break;
 			case 6: consultarClient();					break;
 			case 7: eliminarClient();					break;
 			case 8: novaComanda();						break;
 			case 9: eliminarComanda();					break;
-			case 10: consultarComanda();				break;
 			default: System.out.println("ERROR! Aquesta opció no està disponible, comprovi que ha introduït correctament el valor desitjat.");
 			}
 			
@@ -92,8 +93,7 @@ public class Main {
 		System.out.println("\t7. Eliminar client");
 		System.out.println("\t8. Afegir nova comanda");
 		System.out.println("\t9. Eliminar comanda");
-		System.out.println("\t10. Consultar comanda");
-		System.out.println("\t11. Sortir");
+		System.out.println("\t10. Sortir");
 		System.out.println("\n\t********************************************************");
 		System.out.printf("\n\t\t\tIndica opcio:");
 	}
@@ -497,6 +497,9 @@ public class Main {
 	{
 		Producte[] p;
 		String s = null;
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMaximumFractionDigits(2);
+		nf.setRoundingMode( RoundingMode.DOWN);
 		//mostrar comanda
 		p = c.getLlista();
 		
@@ -510,9 +513,9 @@ public class Main {
 		System.out.println("-------------------------------");
 		if (client.isPreferent()) 
 		{
-			System.out.println("TOTAL SENSE DESCOMPTE "+c.calcularPreu(false)+"€ (IVA inclòs)\nTOTAL AMB DESCOMPTE "+c.calcularPreu(client.isPreferent())+"€ (IVA inclòs)");
+			System.out.println("TOTAL SENSE DESCOMPTE "+nf.format(c.calcularPreu(false))+"€ (IVA inclòs)\nTOTAL AMB DESCOMPTE "+nf.format(c.calcularPreu(client.isPreferent()))+"€ (IVA inclòs)");
 		}
-		else System.out.println("TOTAL "+c.calcularPreu(client.isPreferent())+"€ (IVA inclòs)");
+		else System.out.println("TOTAL "+nf.format(c.calcularPreu(client.isPreferent()))+"€ (IVA inclòs)");
 		System.out.println("********************************");
 		System.out.println("Vol confirmar la comanda? SI o NO"); 
 		try {
@@ -528,7 +531,6 @@ public class Main {
 		if (s.equalsIgnoreCase("si"))
 		{
 			//guardar comanda
-			//MIRAR REFERENCIA COMANDA
 			guardarComanda(client.getIdentificador(), client.afegirComanda(c));
 			System.out.println("La comanda s'ha realitzat amb èxit! :D");
 		}
@@ -1034,7 +1036,4 @@ public class Main {
 			guardarClient(llista[i]);
 		}
 	}
-	
-	
-	
 }

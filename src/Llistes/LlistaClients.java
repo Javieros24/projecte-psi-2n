@@ -9,11 +9,12 @@ public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
 	private int codiClient;
-	private int codiComandes=1;
+	private int codiComandes;
 	
 	public LlistaClients(int num){
 		llistaClients = new Client[num];
 		codiClient=1;
+		codiComandes=1;
 	}
 	
 	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions) throws DuplicatedNameException{
@@ -79,12 +80,16 @@ public class LlistaClients {
 	}
 	
 	public int referenciaComanda(){
+		int codiComAnterior = codiComandes;
+		Client c;
+		Comanda[] com;
 		for (int j=0; j<nElements; j++){
-			Client c = llistaClients[j];
-			Comanda com[] = llistaClients[j].getTaulaComandes();
+			c = llistaClients[j];
+			com = llistaClients[j].getTaulaComandes();
 			for (int i=0; i<c.getNumComandes() ; i++){
 				if (codiComandes == com[i].getCodiComanda()){
-					i=0;
+					i=-1;
+					j=-1;
 					codiComandes++;
 				}
 			}
