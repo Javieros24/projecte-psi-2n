@@ -271,6 +271,7 @@ public class Main {
 				System.out.println("Codi del producte que vol eliminar: ");
 				codi = Integer.parseInt(teclat.readLine());
 				llistaProductes.eliminarElement(codi);
+				sobreescriureProductes();
 				System.out.println("S'ha eliminat correctament el producte.");
 				llegit = true;
 			} catch (NumberFormatException e) {
@@ -879,21 +880,26 @@ public class Main {
 		int refClient, refComanda, refProducte,numProd;
 		linia = lectura.readLine();
 		while(linia != null){
-			token = new StringTokenizer(linia, ",");
-			refClient = Integer.parseInt(token.nextToken());
-			client=llistaClients.consultarElement(refClient);
-			refComanda = Integer.parseInt(token.nextToken());
-			numProd = Integer.parseInt(token.nextToken());
-			c=new Comanda(numProd,refComanda);
-			
-			for(int i=0;i<numProd;i++)
-			{
-				refProducte = Integer.parseInt(token.nextToken());
-				p=llistaProductes.consultarElement(refProducte);
-				c.afegirProducte(p, 1);
+			try {
+				token = new StringTokenizer(linia, ",");
+				refClient = Integer.parseInt(token.nextToken());
+				client=llistaClients.consultarElement(refClient);
+				refComanda = Integer.parseInt(token.nextToken());
+				numProd = Integer.parseInt(token.nextToken());
+				c=new Comanda(numProd,refComanda);
+				
+				for(int i=0;i<numProd;i++)
+				{
+					refProducte = Integer.parseInt(token.nextToken());
+					p=llistaProductes.consultarElement(refProducte);
+					c.afegirProducte(p, 1);
+				}
+				client.afegirComanda(c);
+				linia = lectura.readLine();
+			} catch (NotFoundException e) {
+				linia = lectura.readLine();
+				//Si un producte de la llista ha estat eliminat, aquella comanda no s'afegeix
 			}
-			client.afegirComanda(c);
-			linia = lectura.readLine();
 		}
 		lectura.close();
 	} catch (FileNotFoundException e) {
@@ -902,8 +908,6 @@ public class Main {
 		e.printStackTrace();
 	} catch (ArrayIndexOutOfBoundsException e) {
 		System.out.println("ERROR! La llista de productes és plena.");
-	} catch (NotFoundException e){
-	
 	}
 }
 	
@@ -911,8 +915,9 @@ public class Main {
 		
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));
+				
 			if (p instanceof Plat){
-				escriptura.write("\nPLAT,");
+				escriptura.write("PLAT,");
 				escriptura.write(p.getNom()+",");
 				escriptura.write(p.getPreu()+",");
 				escriptura.write(p.getCodiReferencia()+",");
@@ -920,17 +925,18 @@ public class Main {
 				RestriccionsAlimentaries r[] = ((Plat) p).getRestriccions();
 				for (int i=0; i < r.length; i++)
 					escriptura.write(","+r[i]);
+				escriptura.write("\n");
 			}
 			else if (p instanceof Beguda){
-				escriptura.write("\nBEGUDA,");
+				escriptura.write("BEGUDA,");
 				escriptura.write(p.getNom()+",");
 				escriptura.write(p.getPreu()+",");
 				escriptura.write(p.getCodiReferencia()+",");
 				escriptura.write(((Beguda) p).getVolum()+",");
 				if (((Beguda) p).getAlcohol())
-					escriptura.write("SI");
+					escriptura.write("SI\n");
 				else
-					escriptura.write("NO");
+					escriptura.write("NO\n");
 			}
 			escriptura.close();
 			
@@ -974,5 +980,20 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	private static void sobreescriureProductes(){
+		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt"));
+			escriptura.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Producte[] llista = llistaProductes.getLlistaProductes();
+		for(int i=0; i<llistaProductes.getnElements();i++){
+			guardarProducte(llista[i]);
+		}
 	}
 }

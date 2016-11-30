@@ -8,3 +8,4 @@ Jon Snow,34,Winterfell,KingInTheNorth_,iknownothing,879856846,0
 Elliot Alderson,7,New York,mr.Robot,fsociety,684354663,2,ALERGICSFRUITSSECS,ALERGICSLACTOSA
 Sarah Maning,8,Scarborough,Beth_childs,kira,587658784,2,ALERGICSFRUITSSECS,CELIACS
 Walter White,9,Albuquerque,Heisenberg,pinkman123,234564323,3,CELIACS,ALERGICSLACTOSA,ALERGICSFRUITSSECS
+Marc Mas Mallafré,10,Avinguda Països Catalans,markitus,comidaURV,977323130,0
