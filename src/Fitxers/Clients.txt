@@ -2,10 +2,8 @@ Javier Ortega Sanchez,1,C/ de Salou,javieros24,abc123,977000000,1,ALERGICSFRUITS
 Sergi Quevedo Garreta,2,Calle falsa 123,QUE?vet,Sergi1997,622354524,1,CELIACS
 Roger Bosch Mateo,3,Ptda. Serres,buskk,swiWaitForVBlank,977777777,0
 Jeroni Molina Mellado,4,Carrer de la piruleta,molme,123abc,969696969,2,ALERGICSLACTOSA,CELIACS
-Pepito Delos Palotes,5,Carrer abstracte,palotes,contrasenya,500000058,3,ALERGICSFRUITSSECS,ALERGICSLACTOSA,CELIACS
 Bernard Lowe,6,Westworld,Arnold,doloresxteddy,977685428,1,ALERGICSLACTOSA
 Jon Snow,34,Winterfell,KingInTheNorth_,iknownothing,879856846,0
 Elliot Alderson,7,New York,mr.Robot,fsociety,684354663,2,ALERGICSFRUITSSECS,ALERGICSLACTOSA
 Sarah Maning,8,Scarborough,Beth_childs,kira,587658784,2,ALERGICSFRUITSSECS,CELIACS
 Walter White,9,Albuquerque,Heisenberg,pinkman123,234564323,3,CELIACS,ALERGICSLACTOSA,ALERGICSFRUITSSECS
-Marc Mas Mallafré,10,Avinguda Països Catalans,markitus,comidaURV,977323130,0

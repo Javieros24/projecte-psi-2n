@@ -559,6 +559,8 @@ public class Main {
 		}
 		try {
 			client.eliminaComanda(ref);
+			sobreescriureComandes();
+			System.out.println("\nS'ha eliminat la comanda correctament.");
 		} catch (NotFoundException e) {
 			System.out.println("ERROR! No s'ha trobat l'element.");
 		}	
@@ -780,11 +782,11 @@ public class Main {
 		
 		try {
 			llistaClients.eliminarElement(c.getIdentificador());
+			sobreescriureClients();
+			System.out.println("S'ha eliminat el client correctament.");
 		} catch (NotFoundException e) {
 			System.out.println("ERROR! No s'ha trobat l'element.");
 		}
-		
-		System.out.println("S'ha eliminat el client correctament.");
 	}	
 	
 	private static void carregarProductes(){
@@ -949,7 +951,7 @@ public class Main {
 		
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt", true));
-			escriptura.write("\n"+c.getNom()+",");
+			escriptura.write(c.getNom()+",");
 			escriptura.write(c.getIdentificador()+",");
 			escriptura.write(c.getAdreca()+",");
 			escriptura.write(c.getNomUsuari()+",");
@@ -959,6 +961,7 @@ public class Main {
 			for (int i=0; i < c.getRestriccions().length; i++){
 				escriptura.write(","+c.getRestriccions()[i]);
 			}
+			escriptura.write("\n");
 			escriptura.close();
 			
 		} catch (IOException e) {
@@ -970,16 +973,17 @@ public class Main {
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));
 			Producte[] llista = c.getLlista();
-			escriptura.write("\n"+RefClient+",");
+			escriptura.write(RefClient+",");
 			escriptura.write(c.getCodiComanda()+",");
 			escriptura.write(String.valueOf(c.getNumProd()));
 			for(int i=0;i<c.getNumProd();i++){
 				escriptura.write("," + llista[i].getCodiReferencia());
 			}
+			escriptura.write("\n");
 			escriptura.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		} //nullPointerException
 	}
 	
 	private static void sobreescriureProductes(){
@@ -996,4 +1000,41 @@ public class Main {
 			guardarProducte(llista[i]);
 		}
 	}
+	
+	private static void sobreescriureComandes(){
+		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt"));
+			escriptura.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Client[] client=llistaClients.getLlistaClients();
+		Comanda[] llistaComandes;
+		for(int j=0; j<llistaClients.getnElements(); j++){
+			llistaComandes = client[j].getTaulaComandes();
+			for(int i=0; i<client[j].getNumComandes();i++){
+				guardarComanda(client[j].getIdentificador(), llistaComandes[i]);
+			}
+		}
+	}
+	
+	private static void sobreescriureClients(){
+		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt"));
+			escriptura.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Client[] llista = llistaClients.getLlistaClients();
+		for(int i=0; i<llistaClients.getnElements();i++){
+			guardarClient(llista[i]);
+		}
+	}
+	
+	
+	
 }
