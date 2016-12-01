@@ -1,4 +1,6 @@
 package Restaurant;
+import java.util.GregorianCalendar;
+
 import Productes.Producte;
 
 public class Comanda {
@@ -6,6 +8,7 @@ public class Comanda {
 	private Producte[] llista ;
 	private int numProd;
 	private int codiComanda;
+	private String horaComanda;
 	
 	/**Constructor de Comanda 
 	 * @param num
@@ -15,6 +18,18 @@ public class Comanda {
 		llista = new Producte[num];
 		numProd = 0;
 		codiComanda = codiRef;
+		
+		horaComanda = "["+GregorianCalendar.HOUR_OF_DAY+":"+GregorianCalendar.MINUTE+"] "+GregorianCalendar.DAY_OF_MONTH+"/"+GregorianCalendar.MONTH+"/"+GregorianCalendar.YEAR;
+		
+	}
+	
+	public Comanda(int num, int codiRef, String horaComanda)
+	{
+		llista = new Producte[num];
+		numProd = 0;
+		codiComanda = codiRef;
+		
+		this.horaComanda = horaComanda;
 		
 	}
 	
@@ -63,7 +78,7 @@ public class Comanda {
 	
 	public String toString() 
 	{
-		return "[Ref: " +codiComanda+"], amb "+numProd+" productes.";
+		return "[Ref: " +codiComanda+"] amb "+numProd+" productes.\t"+horaComanda;
 	}
 	
 	/*-------------------GETTERS I SETTERS----------------------------------*/
@@ -72,6 +87,10 @@ public class Comanda {
 		return llista;
 	}
 	
+	public String getHoraComanda() {
+		return horaComanda;
+	}
+
 	public int getNumProd() {
 		return numProd;
 	}

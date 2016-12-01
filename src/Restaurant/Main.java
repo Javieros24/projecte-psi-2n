@@ -876,7 +876,7 @@ public class Main {
 	
 	try {
 		BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Comandes.txt"));
-		String linia;
+		String linia, horaComanda;
 		StringTokenizer token;
 		Client client=null;
 		Comanda c;
@@ -889,8 +889,9 @@ public class Main {
 				refClient = Integer.parseInt(token.nextToken());
 				client=llistaClients.consultarElement(refClient);
 				refComanda = Integer.parseInt(token.nextToken());
+				horaComanda = token.nextToken();
 				numProd = Integer.parseInt(token.nextToken());
-				c=new Comanda(numProd,refComanda);
+				c=new Comanda(numProd,refComanda, horaComanda);
 				
 				for(int i=0;i<numProd;i++)
 				{
@@ -899,6 +900,7 @@ public class Main {
 					c.afegirProducte(p, 1);
 				}
 				client.afegirComanda(c);
+				
 				linia = lectura.readLine();
 			} catch (NotFoundException e) {
 				linia = lectura.readLine();
@@ -981,7 +983,7 @@ public class Main {
 			for(int i=0;i<c.getNumProd();i++){
 				escriptura.write("," + llista[i].getCodiReferencia());
 			}
-			escriptura.write("\n");
+			escriptura.write(c.getHoraComanda()+"\n");
 			escriptura.close();
 		} catch (IOException e) {
 			e.printStackTrace();
