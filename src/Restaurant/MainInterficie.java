@@ -25,7 +25,7 @@ public class MainInterficie {
 		carregarProductes();
 		carregarClients();
 		carregarComandes();
-		new Login("Login", llistaClients);
+		new Login("Login", llistaClients, llistaProductes);
 	}
 	
 	//FITXERS

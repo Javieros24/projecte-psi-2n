@@ -8,7 +8,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import Excepcions.NotFoundException;
 import Llistes.LlistaClients;
+import Llistes.LlistaProductes;
 import Restaurant.Client;
 
 public class Login extends JFrame{
@@ -23,7 +25,7 @@ public class Login extends JFrame{
 	private JPasswordField pfContrasenya = new JPasswordField();
 	
 	
-	public Login(String nom, LlistaClients llistaClients){
+	public Login(String nom, LlistaClients llistaClients, LlistaProductes llistaProductes){
 		super(nom);
 		
 		//Dividim el Frame en 2, amb proporcio 0.3
@@ -67,14 +69,14 @@ public class Login extends JFrame{
 		
 		bLogin.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				boolean trobat =usuariCorrecte(llistaClients);
-				if (trobat){
+				try {
+					Client client =usuariCorrecte(llistaClients);
 					setVisible(false);
-					new Menu();
-				}
-				else{
+					new Menu(client, llistaProductes);
+				} catch (NotFoundException e) {
 					JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta.", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				}
+
 			}
 		});
 		
@@ -92,14 +94,14 @@ public class Login extends JFrame{
 		
 	}
 
-	private boolean usuariCorrecte(LlistaClients llista){
+	private Client usuariCorrecte(LlistaClients llista) throws NotFoundException{
 		Client[] clients= llista.getLlistaClients();
 		
 		for(int i=0; i<llista.getnElements(); i++) {
 			if (clients[i].getNomUsuari().equals(tfNom.getText()) && clients[i].getContrasenya().equals(String.valueOf(pfContrasenya.getPassword())))
-				return true;
+				return clients[i];
 		}
-		return false;
+		throw new NotFoundException();
 		
 	}
 
