@@ -39,7 +39,6 @@ public class Login extends JFrame{
 		JLabel fondo = new JLabel(image);
 		fondo.setSize(450, 125);
 		fondo.setBounds(0, 0, 10, 10);
-		//BufferedImage logo = ImageIO.read(new File("src/Fitxers/logo.png"));
 		info.setBackground(Color.WHITE);
 		JSplitPane panell = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		panell.setResizeWeight(0.5);
