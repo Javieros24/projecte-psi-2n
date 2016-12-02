@@ -3,6 +3,8 @@ package InterficieGrafica;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
@@ -67,14 +69,23 @@ public class Login extends JFrame{
 			public void actionPerformed(ActionEvent evt){
 				boolean trobat =usuariCorrecte(llistaClients);
 				if (trobat){
+					setVisible(false);
 					new Menu();
-					System.out.println("SI!");
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta.", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
+		
+		eRegistrar.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent evt){
+				setVisible(false);
+				new CrearUsuari();
+			}
+		});
+		
+		
 		
 		
 		
