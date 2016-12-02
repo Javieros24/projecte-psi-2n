@@ -63,15 +63,6 @@ public class Login extends JFrame{
 		info.add(dades, BorderLayout.CENTER);
 		info.add(registre, BorderLayout.SOUTH);
 		
-		boolean trobat =usuariCorrecte(llistaClients);
-		if (trobat){
-			new Menu();
-			System.out.println("SI!");
-		}
-		else{
-			JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta.", "ERROR!",JOptionPane.WARNING_MESSAGE);
-		}
-		
 		bLogin.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
 				boolean trobat =usuariCorrecte(llistaClients);
