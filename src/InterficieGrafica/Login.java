@@ -82,7 +82,7 @@ public class Login extends JFrame{
 		eRegistrar.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent evt){
 				setVisible(false);
-				new CrearUsuari();
+				new CrearUsuari("Registre", llistaClients);
 			}
 		});
 		

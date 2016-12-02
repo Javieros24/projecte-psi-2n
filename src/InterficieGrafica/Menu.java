@@ -70,8 +70,8 @@ public class Menu extends JFrame {
 		//Desenvolupem els esdeveniments en clicar el botó
 		crearComanda.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				new crearComanda(client.getNom(), client, llistaProductes, llistaClients);
-				setVisible(true);
+				new CrearComanda("Crear una nova comanda",client, llistaProductes, llistaClients);
+				setVisible(false);
 			}
 			
 		});
@@ -79,15 +79,15 @@ public class Menu extends JFrame {
 		veureHistorial.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
 				new Historial(client.getNom(), client);
-				setVisible(true);
+				setVisible(false);
 			}
 			
 		});
 		
 		afegirProducte.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				new afegirProducte();
-				setVisible(true);
+				//new afegirProducte();
+				setVisible(false);
 			}
 			
 		});
