@@ -47,6 +47,11 @@ public class Login extends JFrame{
 		setSize(450,250);
 		setVisible(true);
 
+		eNom.setFont(new java.awt.Font("Calibri", 1, 20));
+		tfNom.setFont(new java.awt.Font("Calibri", 0, 14));
+		eContrasenya.setFont(new java.awt.Font("Calibri", 1, 20));
+		eRegistrar.setFont(new java.awt.Font("Calibri", 0, 20));
+		bLogin.setFont(new java.awt.Font("Calibri", 1, 20));
 		//Afegim els elements al panell 2 (inferior)
 		dades.setLayout(new GridLayout(3,2));
 		dades.add(eNom);
