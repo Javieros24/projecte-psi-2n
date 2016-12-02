@@ -57,7 +57,7 @@ public class Plat extends Producte
 	}
 
 	public String toString() {
-		return super.toString().concat("\nProducte apte per: " + Arrays.toString(restriccions)+ "\n**************");
+		return super.toString().concat("\nProducte apte per: " + Arrays.toString(restriccions));
 	}
 	
 

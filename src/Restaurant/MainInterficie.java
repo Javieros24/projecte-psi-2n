@@ -25,7 +25,9 @@ public class MainInterficie {
 		carregarProductes();
 		carregarClients();
 		carregarComandes();
-		new Login("Login", llistaClients, llistaProductes);
+		Client[] client = llistaClients.getLlistaClients();
+		new Historial("Historial de comandes", client[0]);
+		//new Login("Login", llistaClients, llistaProductes);
 	}
 	
 	//FITXERS

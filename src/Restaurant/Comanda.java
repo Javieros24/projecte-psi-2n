@@ -78,7 +78,8 @@ public class Comanda {
 	
 	public String toString() 
 	{
-		return "[Ref: " +codiComanda+"] amb "+numProd+" productes.\t"+horaComanda;
+		//return "[Ref: " +codiComanda+"] amb "+numProd+" productes.\t"+horaComanda;
+		return horaComanda+" | "+numProd+" productes.";
 	}
 	
 	/*-------------------GETTERS I SETTERS----------------------------------*/
