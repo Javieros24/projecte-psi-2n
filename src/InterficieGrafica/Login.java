@@ -25,7 +25,7 @@ public class Login extends JFrame{
 	private JPasswordField pfContrasenya = new JPasswordField();
 	
 	
-	public Login(String nom, LlistaClients llistaClients, LlistaProductes llistaProductes){
+	public Login(String nom, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
 		//Dividim el Frame en 2, amb proporcio 0.3
@@ -72,7 +72,7 @@ public class Login extends JFrame{
 				try {
 					Client client =usuariCorrecte(llistaClients);
 					setVisible(false);
-					new Menu(client, llistaProductes);
+					new Menu("Menu", client, llistaProductes, llistaClients);
 				} catch (NotFoundException e) {
 					JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta.", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				}
