@@ -18,7 +18,7 @@ public class LlistaClients {
 	}
 	
 	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions) throws DuplicatedNameException{
-		if (!existeixNom(nom)){
+		if (!existeixNom(nomUsuari)){
 			referencia();
 			llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
 			nElements++;
@@ -99,7 +99,7 @@ public class LlistaClients {
 	
 	private boolean existeixNom(String nom){
 		for (int i=0; i<nElements; i++){
-			if (nom.equalsIgnoreCase(llistaClients[i].getNom()))
+			if (nom.equalsIgnoreCase(llistaClients[i].getNomUsuari()))
 				return true;
 		}
 		return false;

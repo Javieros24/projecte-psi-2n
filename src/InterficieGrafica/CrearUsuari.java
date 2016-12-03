@@ -4,8 +4,9 @@ import javax.swing.*;
 
 import Excepcions.DuplicatedNameException;
 import Llistes.LlistaClients;
+import Llistes.LlistaProductes;
 import Productes.RestriccionsAlimentaries;
-
+import Restaurant.Client;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,7 +38,7 @@ public class CrearUsuari extends JFrame {
 	private JTextField tfContrasenya = new JTextField();
 	private JButton bRegistrar = new JButton ("Registra't");
 	
-	public CrearUsuari(String nom, LlistaClients llistaClients){
+	public CrearUsuari(String nom, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		
 		super(nom);
 		setSize(750,350);
@@ -135,9 +136,10 @@ public class CrearUsuari extends JFrame {
 					if((tfNom.getText().isEmpty())||(tfAdreca.getText().isEmpty())|| (tfNomUsuari.getText().isEmpty())|| (tfContrasenya.getText().isEmpty())|| (tfTelefon.getText().isEmpty())){
 						JOptionPane.showMessageDialog(null, "Camps buits", "ERROR!",JOptionPane.WARNING_MESSAGE);
 					}
-					llistaClients.afegirElement(tfNom.getText(), tfAdreca.getText(), tfNomUsuari.getText(), tfContrasenya.getText(), Integer.parseInt(tfTelefon.getText()), restriccions);
+					Client c = llistaClients.afegirElement(tfNom.getText(), tfAdreca.getText(), tfNomUsuari.getText(), tfContrasenya.getText(), Integer.parseInt(tfTelefon.getText()), restriccions);
 					
 					setVisible(false);
+					new Menu("Menu", c, llistaProductes, llistaClients);
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Numero de telefon erroni", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				} catch (DuplicatedNameException e) {

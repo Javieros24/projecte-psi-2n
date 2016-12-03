@@ -47,7 +47,7 @@ public class Login extends JFrame{
 		panell.setEnabled(true);
 		panell.setDividerSize(0);
 		add(panell, BorderLayout.CENTER);
-		setSize(450,250);
+		setSize(550,400);
 		setVisible(true);
 
 		eNom.setFont(new java.awt.Font("Calibri", 1, 20));
@@ -82,7 +82,7 @@ public class Login extends JFrame{
 		eRegistrar.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent evt){
 				setVisible(false);
-				new CrearUsuari("Registre", llistaClients);
+				new CrearUsuari("Registre", llistaProductes, llistaClients);
 			}
 		});
 		
