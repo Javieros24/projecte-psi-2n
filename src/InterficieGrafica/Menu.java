@@ -19,6 +19,7 @@ public class Menu extends JFrame {
 	private JButton logOut = new JButton("LOG OUT");
 	private JLabel benvinguda2 = new JLabel("Esculli una de les opcions a realitzar:");
 	
+	
 	public Menu(String nom, Client client, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
@@ -29,6 +30,7 @@ public class Menu extends JFrame {
 		JPanel benv = new JPanel();
 		JPanel logo = new JPanel();
 		JPanel dades = new JPanel();
+		JPanel res = new JPanel();
 		
 		//Canviar color panells
 		benv.setBackground(Color.LIGHT_GRAY);
@@ -71,6 +73,8 @@ public class Menu extends JFrame {
 		dades.add(crearComanda);
 		dades.add(veureHistorial);
 		dades.add(afegirProducte);
+		dades.add(res);
+		res.setBackground(Color.LIGHT_GRAY);
 		info.add(dades, BorderLayout.CENTER);
 		
 		//Desenvolupem els esdeveniments en clicar el botó
