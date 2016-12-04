@@ -11,6 +11,9 @@ import Restaurant.Client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class CrearUsuari extends JFrame {
@@ -137,7 +140,7 @@ public class CrearUsuari extends JFrame {
 						JOptionPane.showMessageDialog(null, "Camps buits", "ERROR!",JOptionPane.WARNING_MESSAGE);
 					}
 					Client c = llistaClients.afegirElement(tfNom.getText(), tfAdreca.getText(), tfNomUsuari.getText(), tfContrasenya.getText(), Integer.parseInt(tfTelefon.getText()), restriccions);
-					
+					guardarClient(c);
 					setVisible(false);
 					new Menu("Menu", c, llistaProductes, llistaClients);
 				} catch (NumberFormatException e) {
@@ -149,6 +152,28 @@ public class CrearUsuari extends JFrame {
 				
 			}
 		});
+	}
+	
+	private static void guardarClient(Client c){
+		
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt", true));
+			escriptura.write(c.getNom()+",");
+			escriptura.write(c.getIdentificador()+",");
+			escriptura.write(c.getAdreca()+",");
+			escriptura.write(c.getNomUsuari()+",");
+			escriptura.write(c.getContrasenya()+",");
+			escriptura.write(c.getNumTelefon()+",");
+			escriptura.write(String.valueOf(c.getRestriccions().length));
+			for (int i=0; i < c.getRestriccions().length; i++){
+				escriptura.write(","+c.getRestriccions()[i]);
+			}
+			escriptura.write("\n");
+			escriptura.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
