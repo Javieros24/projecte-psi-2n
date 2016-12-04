@@ -56,9 +56,9 @@ public class Plat extends Producte
 		this.restriccions = restriccions;
 	}
 
-	public String toString() {
+	/*public String toString() {
 		return super.toString().concat("\nProducte apte per: " + Arrays.toString(restriccions));
-	}
+	}*/
 	
 
 }

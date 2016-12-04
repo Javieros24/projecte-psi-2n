@@ -63,7 +63,7 @@ public abstract class Producte
 	 */
 	public String toString() 
 	{
-		return this.getNom() +" - "+ preu + "€ | ";
+		return this.getNom() +" - "+ preu + "€";
 	}
 
 }

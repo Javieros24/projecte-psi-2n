@@ -1,14 +1,18 @@
 package InterficieGrafica;
 import javax.swing.*;
 
-import Excepcions.NotFoundException;
 import InterficieGrafica.Menu;
-import Llistes.LlistaProductes;
+import Llistes.*;
 import Productes.Producte;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 
 import Restaurant.*;
 
@@ -17,7 +21,7 @@ public class Historial extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private int numComanda=0;
 	
-	public Historial(String nom, Client client){
+	public Historial(String nom, Client client, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
 		//dividim la pantalla en 2 horitzontal
@@ -35,33 +39,38 @@ public class Historial extends JFrame{
 		JLabel titol1 = new JLabel();
 		titol1.setText("Les teves comandes:");
 		Comanda[] llistaComandes = client.getTaulaComandes();
-		JList llista = new JList(llistaComandes);
+		JList<Comanda> llista = new JList<Comanda>(llistaComandes);
+		JScrollPane scroll1 = new JScrollPane();
+		scroll1.setViewportView(llista);
 		JButton consultar = new JButton();
 		consultar.setText("Consultar informacio de la comanda");
 		esquerra.add(consultar, BorderLayout.SOUTH);
 		esquerra.add(titol1, BorderLayout.NORTH);
-		esquerra.add(llista, BorderLayout.CENTER);
+		esquerra.add(scroll1, BorderLayout.CENTER);
 		
 		//configurem la banda dreta (informacio detallada de la comanda)
-		JLabel titol2 = new JLabel();
-		titol2.setText("Detalls de la comanda:");
-		JButton boto = new JButton();
-		boto.setText("Realitzar aquesta mateixa comanda");
-
-		JList info = new JList();
+		JButton tornar = new JButton("Tornar al menu principal");
+		JLabel titol2 = new JLabel("Detalls de la comanda:");
+		JButton copiar = new JButton("Realitzar aquesta mateixa comanda");
+		JList<Producte> info = new JList<Producte>();
+		JScrollPane scroll2 = new JScrollPane();
+		scroll2.setViewportView(info);
+		JLabel resum = new JLabel();
 		JPanel adalt = new JPanel(new BorderLayout());
 		JPanel abaix = new JPanel(new BorderLayout());
 		
 		dreta.add(adalt, BorderLayout.NORTH);
 		dreta.add(abaix, BorderLayout.SOUTH);
 		
-		adalt.add(titol2, BorderLayout.NORTH);		
-		adalt.add(info, BorderLayout.CENTER);
-		abaix.add(boto,BorderLayout.SOUTH);
+		adalt.add(tornar, BorderLayout.NORTH);
+		adalt.add(titol2, BorderLayout.CENTER);		
+		adalt.add(scroll2, BorderLayout.AFTER_LAST_LINE);
+		abaix.add(resum, BorderLayout.NORTH);
+		abaix.add(copiar,BorderLayout.SOUTH);
 		
 		
 		info.setSize(400, 400);
-		boto.setSize(600, 600);
+		copiar.setSize(600, 600);
 		
 		setSize(500, 300);
 		setVisible(true);
@@ -71,16 +80,49 @@ public class Historial extends JFrame{
 				numComanda = llista.getSelectedIndex();
 				Producte[] productes = llistaComandes[numComanda].getLlista();
 				info.setListData(productes);
+				NumberFormat nf = NumberFormat.getInstance();
+				nf.setMaximumFractionDigits(2);
+				nf.setRoundingMode( RoundingMode.DOWN);
+				String preu = nf.format(llistaComandes[numComanda].calcularPreu(client.isPreferent()));
+				resum.setText("El preu total de la comanda es de "+preu+"€");
 			}
 		});
 		
-		boto.addActionListener( new ActionListener(){
+		copiar.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
 				Comanda c = client.copiar(llistaComandes[numComanda],llistaComandes[numComanda].getCodiComanda());
 				client.afegirComanda(c);
+				guardarComanda(client.getIdentificador(), c);
+				JOptionPane.showMessageDialog(null,"S'ha realitzat correctament la comanda!");
 			}
 		});
 		
+		tornar.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				setVisible(false);
+				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				new Menu("Menu", client, llistaProductes, llistaClients);
+			}
+		});
+		
+	}
+	
+	private void guardarComanda(int RefClient, Comanda c){
+		try {
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));
+			Producte[] llista = c.getLlista();
+			escriptura.write(RefClient+",");
+			escriptura.write(c.getCodiComanda()+",");
+			escriptura.write(c.getHoraComanda()+",");
+			escriptura.write(String.valueOf(c.getNumProd()));
+			for(int i=0;i<c.getNumProd();i++){
+				escriptura.write("," + llista[i].getCodiReferencia());
+			}
+			escriptura.write("\n");
+			escriptura.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
