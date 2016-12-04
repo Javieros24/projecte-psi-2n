@@ -41,7 +41,6 @@ public class Login extends JFrame{
 		fondo.setBounds(0, 0, 10, 10);
 		info.setBackground(Color.WHITE);
 		JSplitPane panell = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		panell.setResizeWeight(0.5);
 		panell.add(fondo);
 		panell.add(info);
 		panell.setEnabled(true);
