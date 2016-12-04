@@ -19,7 +19,7 @@ public class Login extends JFrame{
 	
 	private JLabel eNom  = new JLabel("Usuari      ");
 	private JLabel eContrasenya  = new JLabel("Contrasenya      ");
-	private JLabel eRegistrar  = new JLabel("Encara no estas registrat? Registra't AQUI! ");
+	private JLabel eRegistrar  = new JLabel("Registrat' fent clic aquí! ");
 	private JButton bLogin = new JButton ("Entrar");
 	private JTextField tfNom = new JTextField();
 	private JPasswordField pfContrasenya = new JPasswordField();
