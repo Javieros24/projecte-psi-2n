@@ -23,6 +23,7 @@ public class Menu extends JFrame {
 		super(nom);
 		
 		JLabel benvinguda1 = new JLabel("Benvingut a Take a Byte "+client.getNom()+".");
+		
 		//Creem els panels 
 		JPanel info = new JPanel();
 		JPanel benv = new JPanel();
@@ -33,10 +34,12 @@ public class Menu extends JFrame {
 		benv.setBackground(Color.LIGHT_GRAY);
 		logo.setBackground(Color.WHITE);
 		
+		//Afegim una imatge
 		/*ImageIcon image = new ImageIcon("src/Fitxers/TB3.jpg");
 		JLabel fondo = new JLabel(image);
 		fondo.setSize(450, 125);
 		fondo.setBounds(0, 0, 10, 10);*/
+		
 		//Dividim la pantalla en dos
 		JSplitPane panell = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		panell.setResizeWeight(0.3);
@@ -53,8 +56,11 @@ public class Menu extends JFrame {
 		benvinguda1.setForeground(Color.BLACK);
 		benvinguda2.setForeground(Color.BLACK);
 		
-		//Canviar la mida dels botons
-	
+		//Canviar el tipus de lletra
+		crearComanda.setFont(new java.awt.Font("Calibri", 1, 14));
+		veureHistorial.setFont(new java.awt.Font("Calibri", 1, 14));
+		afegirProducte.setFont(new java.awt.Font("Calibri", 1, 14));
+		logOut.setFont(new java.awt.Font("Calibri", 1, 14));
 		
 		//Afegim els elements al panell 2 inferior
 		dades.setLayout(new GridLayout(2, 2));
@@ -78,7 +84,7 @@ public class Menu extends JFrame {
 		
 		veureHistorial.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				new Historial("Historial de comandes de: "+client.getNom(), client);
+				new Historial("Historial de comandes de "+client.getNom(), client);
 				setVisible(false);
 			}
 			
