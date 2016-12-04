@@ -15,7 +15,6 @@ public class Menu extends JFrame {
 	
 	private JButton crearComanda = new JButton("Crear una comanda");
 	private JButton veureHistorial = new JButton("Veure historial de comandes");
-	private JButton afegirProducte = new JButton("Afegir un producte");
 	private JButton logOut = new JButton("LOG OUT");
 	private JLabel benvinguda2 = new JLabel("Esculli una de les opcions a realitzar:");
 	
@@ -30,7 +29,6 @@ public class Menu extends JFrame {
 		JPanel benv = new JPanel();
 		JPanel logo = new JPanel();
 		JPanel dades = new JPanel();
-		JPanel res = new JPanel();
 		
 		//Canviar color panells
 		benv.setBackground(Color.LIGHT_GRAY);
@@ -51,7 +49,7 @@ public class Menu extends JFrame {
 		panell.setEnabled(true);
 		panell.setDividerSize(0);
 		add(panell, BorderLayout.CENTER);
-		setSize(600, 300);
+		setSize(630, 250);
 		setVisible(true);
 		
 		//Canviar color text
@@ -61,7 +59,6 @@ public class Menu extends JFrame {
 		//Canviar el tipus de lletra
 		crearComanda.setFont(new java.awt.Font("Calibri", 1, 14));
 		veureHistorial.setFont(new java.awt.Font("Calibri", 1, 14));
-		afegirProducte.setFont(new java.awt.Font("Calibri", 1, 14));
 		logOut.setFont(new java.awt.Font("Calibri", 1, 14));
 		
 		//Afegim els elements al panell 2 inferior
@@ -70,11 +67,8 @@ public class Menu extends JFrame {
 		benv.add(benvinguda2, BorderLayout.SOUTH);
 		benv.add(logOut, BorderLayout.EAST);
 		info.add(benv, BorderLayout.NORTH);
-		dades.add(crearComanda);
-		dades.add(veureHistorial);
-		dades.add(afegirProducte);
-		dades.add(res);
-		res.setBackground(Color.LIGHT_GRAY);
+		dades.add(crearComanda, BorderLayout.NORTH);
+		dades.add(veureHistorial, BorderLayout.SOUTH);
 		info.add(dades, BorderLayout.CENTER);
 		
 		//Desenvolupem els esdeveniments en clicar el botó
@@ -89,14 +83,6 @@ public class Menu extends JFrame {
 		veureHistorial.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
 				new Historial("Historial de comandes de "+client.getNom(), client, llistaProductes, llistaClients);
-				setVisible(false);
-			}
-			
-		});
-		
-		afegirProducte.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt){
-				//new afegirProducte();
 				setVisible(false);
 			}
 			
