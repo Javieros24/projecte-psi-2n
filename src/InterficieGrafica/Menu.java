@@ -78,7 +78,7 @@ public class Menu extends JFrame {
 		
 		veureHistorial.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				new Historial(client.getNom(), client);
+				new Historial("Historial de comandes", client);
 				setVisible(false);
 			}
 			
