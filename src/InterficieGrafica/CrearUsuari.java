@@ -40,6 +40,7 @@ public class CrearUsuari extends JFrame {
 	private JTextField tfNomUsuari = new JTextField();
 	private JTextField tfContrasenya = new JTextField();
 	private JButton bRegistrar = new JButton ("Registra't");
+	private JButton bTornar = new JButton ("Tornar");
 	
 	public CrearUsuari(String nom, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		
@@ -113,6 +114,7 @@ public class CrearUsuari extends JFrame {
 		p3.add(tfContrasenya);
 		
 		p4.add(bRegistrar, BorderLayout.SOUTH);
+		p4.add(bTornar, BorderLayout.SOUTH);
 		
 		bRegistrar.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
@@ -150,6 +152,13 @@ public class CrearUsuari extends JFrame {
 				}
 				
 				
+			}
+		});
+		
+		bTornar.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				setVisible(false);
+				new Login("Login", llistaProductes, llistaClients);
 			}
 		});
 	}
