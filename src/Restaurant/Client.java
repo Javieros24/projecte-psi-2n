@@ -94,7 +94,7 @@ public class Client {
 		
 		throw new NotFoundException();
 	}
-
+	
 	/*-------------------GETTERS I SETTERS----------------------------------*/
 	
 	public String getNom() {

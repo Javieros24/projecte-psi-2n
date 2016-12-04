@@ -72,8 +72,9 @@ public class Historial extends JFrame{
 		info.setSize(400, 400);
 		copiar.setSize(600, 600);
 		
-		setSize(500, 300);
+		setSize(1000, 600);
 		setVisible(true);
+		setResizable(false);
 		
 		consultar.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){

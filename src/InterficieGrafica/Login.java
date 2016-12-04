@@ -47,6 +47,7 @@ public class Login extends JFrame{
 		panell.setDividerSize(0);
 		add(panell, BorderLayout.CENTER);
 		setSize(550,500);
+		setResizable(false);
 		setVisible(true);
 
 		eNom.setFont(new java.awt.Font("Calibri", 1, 20));

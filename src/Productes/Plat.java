@@ -1,7 +1,5 @@
 package Productes;
 
-import java.util.Arrays;
-
 /**
  * Subclasse plat que hereda de la superclasse producte
  */
@@ -55,10 +53,4 @@ public class Plat extends Producte
 	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
 		this.restriccions = restriccions;
 	}
-
-	/*public String toString() {
-		return super.toString().concat("\nProducte apte per: " + Arrays.toString(restriccions));
-	}*/
-	
-
 }

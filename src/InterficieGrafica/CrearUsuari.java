@@ -48,6 +48,7 @@ public class CrearUsuari extends JFrame {
 		setSize(750,350);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		setResizable(false);
 		
 		eMissatge.setFont(new java.awt.Font("Calibri", 0, 18));
 		eMissatge1.setFont(new java.awt.Font("Calibri", 0, 18));

@@ -51,6 +51,7 @@ public class Menu extends JFrame {
 		add(panell, BorderLayout.CENTER);
 		setSize(630, 250);
 		setVisible(true);
+		setResizable(false);
 		
 		//Canviar color text
 		benvinguda1.setForeground(Color.BLACK);
