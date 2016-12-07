@@ -1,7 +1,9 @@
 package Productes;
 
 /**
+ * @author Sergi Quevedo Garreta
  * Subclasse beguda que hereda de la classe producte
+ * @version 1.0
  */
 public class Beguda extends Producte  
 {
@@ -17,23 +19,33 @@ public class Beguda extends Producte
 	 */
 	public Beguda(String nom, double preu, int volum, boolean alcohol, int codiReferencia)
 	{
-		super(nom,preu, codiReferencia);
+		super(nom,preu, codiReferencia);										//Inicialitza els atribut de la classe pare
 		this.alcohol= alcohol;
 		this.volum=volum;
 	}
 	
-	//*******************************GETTER'S & SETTER'S*****************************************************
-	
+	/**
+	 * Setter
+	 * @param volum es el volum de la beguda
+	 */
 	public void setVolum(int volum) 
 	{
 		this.volum = volum;
 	}
-
+	
+	/**
+	 * Getter
+	 * @return el volum de la beguda
+	 */
 	public int getVolum() 
 	{
 		return volum;
 	}
-
+	
+	/**
+	 * Getter
+	 * @return true si la beguda porta alcohol i false si no no porta alcohol
+	 */
 	public boolean getAlcohol() 
 	{
 		return alcohol;

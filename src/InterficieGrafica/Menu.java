@@ -9,16 +9,28 @@ import Llistes.LlistaProductes;
 import Restaurant.Client;
 import javax.swing.*;
 
+/**
+ * Finestra menu per tal de poder veure l'historial de comandes d'un client o fer una comanda
+ * @author Sergi Quevedo Garreta
+ * @version 1.0
+ */
 public class Menu extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
+	//Creem els botons 
 	private JButton crearComanda = new JButton("Crear una comanda");
 	private JButton veureHistorial = new JButton("Veure historial de comandes");
 	private JButton logOut = new JButton("LOG OUT");
 	private JLabel benvinguda2 = new JLabel("Esculli una de les opcions a realitzar:");
 	
-	
+	/**
+	 * Constructor que rep tots els parametres, els inicialitza i crea i afegeix tots els panells per l'interficie grafica
+	 * @param nom es l'String que es mostra a dalt de tot a l'esquerra de la finestra
+	 * @param client es un client
+	 * @param llistaProductes es la llista de productes
+	 * @param llistaClients es la llista de clients
+	 */
 	public Menu(String nom, Client client, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
@@ -30,7 +42,7 @@ public class Menu extends JFrame {
 		JPanel logo = new JPanel();
 		JPanel dades = new JPanel();
 		
-		
+		//Canviem el color de fons del panel de benvinguda
 		benv.setBackground(Color.LIGHT_GRAY);
 		
 		ImageIcon image = new ImageIcon("src/Fitxers/TB-Menu.jpg");

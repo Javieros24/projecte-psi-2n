@@ -1,16 +1,25 @@
 package Productes;
 
 /**
+ * @author Sergi Quevedo Garreta
  * Subclasse plat que hereda de la superclasse producte
+ * @version 1.0
  */
 public class Plat extends Producte 
 {
 	
 	private RestriccionsAlimentaries[] restriccions;
 	
+	/**
+	 * Constructor de la subclasse plat que inicialitza els parametres de la superclasse i els seus
+	 * @param nom es el nom del plat
+	 * @param preu es el preu del plat
+	 * @param restriccions son les restriccions alimentaries d'aquell plat
+	 * @param codiReferencia es el codi de referencia del plat
+	 */
 	public Plat(String nom, double preu, RestriccionsAlimentaries[] restriccions, int codiReferencia)
 	{
-		super(nom,preu, codiReferencia);
+		super(nom,preu, codiReferencia);											//Inicialitzem els atributs de la superclasse
 		this.restriccions = new RestriccionsAlimentaries[restriccions.length];
 		for (int i=0; i < restriccions.length; i++){
 			this.restriccions[i] = restriccions[i];
@@ -18,9 +27,9 @@ public class Plat extends Producte
 	}
 	
 	/**
-	 * Metode per mirar
-	 * @param r
-	 * @return
+	 * Metode per mirar si un plat es apte per un client
+	 * @param r son les restriccions alimentaries
+	 * @return true si el plat es apte o false si no es apte 
 	 */
 	public boolean esApte(RestriccionsAlimentaries[] r)
 	{
@@ -45,11 +54,19 @@ public class Plat extends Producte
 		return true;
 		
 	}
-
+	
+	/**
+	 * Getter
+	 * @return les restriccions alimentaries d'aquell plat
+	 */
 	public RestriccionsAlimentaries[] getRestriccions() {
 		return restriccions;
 	}
-
+	
+	/**
+	 * Setter
+	 * @param restriccions son les restriccions alimentaries 
+	 */
 	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
 		this.restriccions = restriccions;
 	}
