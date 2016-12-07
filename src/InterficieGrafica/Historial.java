@@ -21,6 +21,20 @@ public class Historial extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private int numComanda=0;
 	
+	private JLabel titol1;
+	private Comanda[] llistaComandes;
+	private JList<Comanda> llista;
+	private JScrollPane scroll1;
+	private JButton consultar;
+	private JButton tornar;
+	private JLabel titol2 ;
+	private JButton copiar;
+	private JList<Producte> info;
+	private JScrollPane scroll2;
+	private JLabel resum;
+	private JPanel adalt;
+	private JPanel abaix;
+	
 	public Historial(String nom, Client client, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
@@ -36,28 +50,25 @@ public class Historial extends JFrame{
 		container.add(dreta, BorderLayout.EAST);
 	
 		//configurem la banda esquerra (llista de comandes)
-		JLabel titol1 = new JLabel();
-		titol1.setText("Les teves comandes:");
-		Comanda[] llistaComandes = client.getTaulaComandes();
-		JList<Comanda> llista = new JList<Comanda>(llistaComandes);
-		JScrollPane scroll1 = new JScrollPane();
-		scroll1.setViewportView(llista);
-		JButton consultar = new JButton();
-		consultar.setText("Consultar informacio de la comanda");
+		llistaComandes = client.getTaulaComandes();
+		titol1 = new JLabel("Les teves comandes:");
+		llista = new JList<Comanda>(llistaComandes);
+		scroll1 = new JScrollPane(llista);
+		consultar = new JButton("Consultar informacio de la comanda");
 		esquerra.add(consultar, BorderLayout.SOUTH);
 		esquerra.add(titol1, BorderLayout.NORTH);
 		esquerra.add(scroll1, BorderLayout.CENTER);
 		
 		//configurem la banda dreta (informacio detallada de la comanda)
-		JButton tornar = new JButton("Tornar al menu principal");
-		JLabel titol2 = new JLabel("Detalls de la comanda:");
-		JButton copiar = new JButton("Realitzar aquesta mateixa comanda");
-		JList<Producte> info = new JList<Producte>();
-		JScrollPane scroll2 = new JScrollPane();
-		scroll2.setViewportView(info);
-		JLabel resum = new JLabel();
-		JPanel adalt = new JPanel(new BorderLayout());
-		JPanel abaix = new JPanel(new BorderLayout());
+		tornar = new JButton("Tornar al menu principal");
+		titol2 = new JLabel("Detalls de la comanda:");
+		copiar = new JButton("Realitzar aquesta mateixa comanda");
+		copiar.setEnabled(false);
+		info = new JList<Producte>();
+		scroll2 = new JScrollPane(info);
+		resum = new JLabel();
+		adalt = new JPanel(new BorderLayout());
+		abaix = new JPanel(new BorderLayout());
 		
 		dreta.add(adalt, BorderLayout.NORTH);
 		dreta.add(abaix, BorderLayout.SOUTH);
@@ -86,6 +97,7 @@ public class Historial extends JFrame{
 				nf.setRoundingMode( RoundingMode.DOWN);
 				String preu = nf.format(llistaComandes[numComanda].calcularPreu(client.isPreferent()));
 				resum.setText("El preu total de la comanda es de "+preu+"€");
+				if(!copiar.isEnabled()) copiar.setEnabled(true);
 			}
 		});
 		
@@ -95,6 +107,7 @@ public class Historial extends JFrame{
 				client.afegirComanda(c);
 				guardarComanda(client.getIdentificador(), c);
 				JOptionPane.showMessageDialog(null,"S'ha realitzat correctament la comanda!");
+				llista.updateUI();
 			}
 		});
 		
