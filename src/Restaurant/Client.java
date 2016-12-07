@@ -3,6 +3,14 @@ import Excepcions.NotFoundException;
 import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
 
+/**Classe que gestiona les dades dels clients.
+ * 
+ *  
+ *  @author GRUP 10
+ *  
+ *  
+ *  **/
+
 public class Client {
 	
 	private String nom, adreca, nomUsuari, contrasenya;
@@ -11,6 +19,14 @@ public class Client {
 	private boolean preferent;
 	private RestriccionsAlimentaries[] restriccions;
 	
+	/**Constructor de client.
+	 * @param nom Nom del client
+	 * @param adreca Adreça del client
+	 * @param nomUsuari Nom d'usuari 
+	 * @param contrasenya Contrasenya per a accedir a l'usuari del client
+	 * @param numTelefon Numero de telefon
+	 * @param restriccions Taula de les restriccions del client
+	 * @param codiClient Codi identificador unic per a cada client **/
 	public Client(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions, int codiClient){
 		this.nom=nom;
 		this.adreca=adreca;
@@ -40,6 +56,9 @@ public class Client {
 		return taulaComandes[numComandes-1];
 	}
 	
+	/**Reb la referencia d'una comanda i el busca a la taula de comandes del client.
+	 *@param codiComanda Referencia de la comanda
+	 *@return Comanda amb el mateix codi**/
 	public Comanda buscaComanda(int codiComanda) throws NotFoundException{
 		
 		for (int i=0; i < numComandes; i++){
@@ -50,9 +69,9 @@ public class Client {
 	}
 	
 	
-	/** Reb per parametre l'index de la comanda que es vol copiar de l'historial
-	 * i es crea una nova comanda amb les mateixes.
-	 * @param numComanda Index de la comanda a la taula.
+	/** Reb per parametre la referencia de la comanda que es vol copiar de l'historial
+	 * i es crea una nova comanda amb els mateixos productes.
+	 * @param numComanda Referencia de la comanda 
 	 * @return Comanda **/
 
 	public Comanda copiar(Comanda c, int codi){
@@ -67,6 +86,8 @@ public class Client {
 		return copia;
 	}
 	
+	/**Reb el codi d'una comanda i la elimina de la llista de comandes del client.
+	 * @param codi Referencia de al comanda**/
 	public void eliminaComanda(int codi) throws NotFoundException{
 		
 		//Comprova que existeix la comanda.
@@ -80,11 +101,16 @@ public class Client {
 		numComandes--;
 	}
 	
+	/**Comprova si el client ha fet alguna comanda
+	 * @return true si el client ha realitzat alguna comanda o
+	 *false si el client no ha realitzat cap comanda.**/
 	public boolean hiHaComandes(){
 		if (numComandes==0) return false;
 		else return true;
 	}
-	
+	 /**Busca la posicio d'una comanda a la taula de comandes del client.
+	  * @param ref Referencia de la comanda.
+	  * @return Index de la posicio de la comanda a la taula. **/
 	public int buscarElement(int ref) throws NotFoundException{
 		
 		for (int i=0; i < numComandes; i++){

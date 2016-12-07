@@ -16,6 +16,14 @@ import java.text.NumberFormat;
 
 import Restaurant.*;
 
+/**Classe que genera la finestra de l'historial de comandes.
+ * 
+ *  
+ *  @author GRUP 10
+ *  
+ *  
+ *  **/
+
 public class Historial extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
@@ -34,6 +42,14 @@ public class Historial extends JFrame{
 	private JLabel resum;
 	private JPanel adalt;
 	private JPanel abaix;
+	
+	/**Constructor de la finestra de l'historial de comandes d'un client.
+	 * Afegeix tots els elements a la finestra i implementa els action listeners
+	 * dels botons per a consultar una comanda, copiar-la o tornar al menu.
+	 * @param nom Nom de la finestra.
+	 * @param client Client que consulta les comandes.
+	 * @param llistaProductes llista de tots productes.
+	 * @param llistaClients llista de tots els clients.**/
 	
 	public Historial(String nom, Client client, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
@@ -120,7 +136,9 @@ public class Historial extends JFrame{
 		});
 		
 	}
-	
+	/**Afegeix una nova comanda al final de fitxer de text de les comandes.
+	 * @param RefClient Codi identificador del client que ha fet la comanda que es vol guardar.
+	 * @param c Comanda que es vol guardar. **/
 	private void guardarComanda(int RefClient, Comanda c){
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));

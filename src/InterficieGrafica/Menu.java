@@ -96,7 +96,7 @@ public class Menu extends JFrame {
 		
 		veureHistorial.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				if (client.getNumComandes()==0) JOptionPane.showMessageDialog(null,"Encara no has realitzat cap comanda!");
+				if (!client.hiHaComandes()) JOptionPane.showMessageDialog(null,"Encara no has realitzat cap comanda!");
 				else{
 					new Historial("Historial de comandes de "+client.getNom(), client, llistaProductes, llistaClients);
 					setVisible(false);
