@@ -80,7 +80,6 @@ public class LlistaClients {
 	}
 	
 	public int referenciaComanda(){
-		int codiComAnterior = codiComandes;
 		Client c;
 		Comanda[] com;
 		for (int j=0; j<nElements; j++){

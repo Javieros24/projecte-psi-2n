@@ -19,7 +19,7 @@ public class Login extends JFrame{
 	
 	private JLabel eNom  = new JLabel("Usuari      ");
 	private JLabel eContrasenya  = new JLabel("Contrasenya      ");
-	private JLabel eRegistrar  = new JLabel("Registra't fent clic aquí! ");
+	private JLabel eRegistrar  = new JLabel("Encara no està registrat? Registra't fent clic AQUI! ");
 	private JButton bLogin = new JButton ("Entrar");
 	private JTextField tfNom = new JTextField();
 	private JPasswordField pfContrasenya = new JPasswordField();
@@ -28,7 +28,7 @@ public class Login extends JFrame{
 	public Login(String nom, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
-		//Dividim el Frame en 2, amb proporcio 0.3
+		//Dividim el Frame en 2
 		JPanel logo = new JPanel();
 		JPanel info = new JPanel();
 		JPanel dades = new JPanel();

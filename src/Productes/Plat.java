@@ -70,4 +70,8 @@ public class Plat extends Producte
 	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
 		this.restriccions = restriccions;
 	}
+	
+	public String toString(){
+		return super.toString()+"    [Plat]";
+	}
 }

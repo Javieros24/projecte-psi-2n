@@ -51,12 +51,9 @@ public class Beguda extends Producte
 		return alcohol;
 	}
 
-	/**
-	 * Metode per visualitzar per pantalla els atributs de la beguda
-	 */
-	/*public String toString() {
-		return super.toString().concat("Volum: "+volum+ "ml | Beguda alcohòlica: " +alcohol);
-	}*/
+	public String toString(){
+		return super.toString()+"     [Beguda]";
+	}
 	
 	
 

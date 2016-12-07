@@ -13,18 +13,29 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.StringTokenizer;
 
+/**Classe principal que controla tota la excecució del programa
+ * 
+ * @author GRUP 10
+ *
+ */
 public class Main {
 
     static InputStreamReader isr = new InputStreamReader(System.in);
     static BufferedReader teclat = new BufferedReader(isr);
+    
+    /**Guarda tota la informació necessària del productes del restaurant
+     */
 	private static LlistaProductes llistaProductes;
 	private static LlistaClients llistaClients;
 	private static boolean llegit;
     
+	/**Mètode principal que crida als mètodes pertinents per carregar la informació desde els fitxers, així com fer de menú
+	 * interactiu del programa
+	 */
 	public static void main(String[] args) {
 		int opcioMenu=-1;
 		
-		//inicialitzaDades();
+		//inicialitza les dades
 		carregarProductes();
 		carregarClients();
 		carregarComandes();
@@ -51,7 +62,6 @@ public class Main {
 			case 9: eliminarComanda();					break;
 			default: System.out.println("ERROR! Aquesta opció no està disponible, comprovi que ha introduït correctament el valor desitjat.");
 			}
-			
 			mostraMenu();
 			
 			try {
@@ -66,9 +76,7 @@ public class Main {
 		System.out.println("Gràcies per la seva visita! =P");
 		try {
 			teclat.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	/**Mètode que mostra per pantalla el menú del programa
@@ -83,7 +91,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n\n\t****************    [TAKE A BYTE]    ****************");			//TAKE A bitE
+		System.out.println("\n\n\t****************    [TAKE A BYTE]    ****************");
 		System.out.println("\n\t1. Afegir nous productes (plat o beguda)");
 		System.out.println("\t2. Eliminar producte");
 		System.out.println("\t3. Consultar producte");
@@ -134,7 +142,7 @@ public class Main {
 			else			afegirBeguda(nom, preu);
 	}
 	
-	/**Mètode que afegeix un plat a la llista de productes
+	/**Mètode que afegeix un plat a la llista de productes preguntant al usuari tota la informació necessària
 	 * 
 	 * @param nom string amb el nom del plat
 	 * @param preu valor flotant amb el preu del plat
@@ -146,22 +154,22 @@ public class Main {
 		
 		llegit = false;
 		while(!llegit){
-		try {
-			System.out.println("Per quants tipus de persones és apte el plat? 0, 1, 2 o 3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs).");
-			nRestriccions = Integer.parseInt(teclat.readLine());
-			while (nRestriccions > 3) {
-				System.out.println("El valor ha de ser entre 0 i 3.");
+			try {
+				System.out.println("Per quants tipus de persones és apte el plat? 0, 1, 2 o 3 (Celíacs, al·lèrgics lactosa, al·lèrgics fruits secs).");
 				nRestriccions = Integer.parseInt(teclat.readLine());
+				while (nRestriccions > 3) {
+					System.out.println("El valor ha de ser entre 0 i 3.");
+					nRestriccions = Integer.parseInt(teclat.readLine());
+				}
+				restriccions = new RestriccionsAlimentaries[nRestriccions];
+				llegit = true;
+			} catch (NumberFormatException e) {
+				System.out.println("ERROR! Ha d'introduïr un número.");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (NegativeArraySizeException e) {
+				System.out.println("ERROR! El nombre ha de ser positiu.");
 			}
-			restriccions = new RestriccionsAlimentaries[nRestriccions];
-			llegit = true;
-		} catch (NumberFormatException e) {
-			System.out.println("ERROR! Ha d'introduïr un número.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (NegativeArraySizeException e) {
-			System.out.println("ERROR! El nombre ha de ser positiu.");
-		}
 		}
 		
 		if (nRestriccions != 0){		
@@ -210,7 +218,7 @@ public class Main {
 		}
 			
 		try {
-			guardarProducte(llistaProductes.afegirElement(nom, preu, restriccions));
+			guardarProducte(llistaProductes.afegirElement(nom, preu, restriccions));		//Guardem el producte al fitxer i a la llista
 			System.out.println("S'ha afegit el producte correctament.");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
@@ -220,7 +228,7 @@ public class Main {
 	}
 	
 	
-	/**Mètode privat que afegiex una beguda a la llista de productes
+	/**Mètode que afegiex una beguda a la llista de productes preguntant al usuari tota la informació necessària
 	 * 
 	 * @param nom string amb el nom de la beguda
 	 * @param preu valor flotant amb el preu de la beguda
@@ -233,6 +241,10 @@ public class Main {
 		try {
 			System.out.println("-Volum: ");
 			volum = Integer.parseInt(teclat.readLine());
+			while (volum >= 0){
+				System.out.println("ERROR! El volum ha de ser major de 0 ml");
+				volum = Integer.parseInt(teclat.readLine());
+			}
 			System.out.println("-Alcohol SI/NO: ");
 			a = teclat.readLine();
 			while (!a.equalsIgnoreCase("SI") && !a.equalsIgnoreCase("NO")){
@@ -248,7 +260,7 @@ public class Main {
 		alcohol = a.equalsIgnoreCase("SI");
 		
 		try {
-			guardarProducte(llistaProductes.afegirElement(nom, preu, volum, alcohol));
+			guardarProducte(llistaProductes.afegirElement(nom, preu, volum, alcohol));		//Guardem el producte al fitxer i a la llista
 			System.out.println("S'ha afegit el producte correctament.");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
@@ -271,7 +283,7 @@ public class Main {
 				System.out.println("Codi del producte que vol eliminar: ");
 				codi = Integer.parseInt(teclat.readLine());
 				llistaProductes.eliminarElement(codi);
-				sobreescriureProductes();
+				sobreescriureProductes();	//Una vegada eliminat el producte guardem la informació al fitxer
 				System.out.println("S'ha eliminat correctament el producte.");
 				llegit = true;
 			} catch (NumberFormatException e) {
@@ -791,12 +803,18 @@ public class Main {
 		}
 	}	
 	
+//***************************	MÈTODES PER TREBALLAR DESDE FITXERS	  ***************************
+	/**
+	 * Mètode que carrega els productes (plats i begudes) desde un fitxer 
+	 */
 	private static void carregarProductes(){
 		
-		llistaProductes = new LlistaProductes(100);
+		llistaProductes = new LlistaProductes(100);		//Creem la llista de productes
 		try {
 			BufferedReader lectura = new BufferedReader(new FileReader("src/Fitxers/Productes.txt"));
 			String linia;
+			
+			//Variables necessàries per crear un plat o una beguda
 			StringTokenizer token;
 			String tipus, nom;
 			double preu;
@@ -806,32 +824,42 @@ public class Main {
 
 			linia = lectura.readLine();
 			while (linia != null) {
-				token = new StringTokenizer(linia, ",");
-				tipus = token.nextToken();
-				nom = token.nextToken();
-				preu = Double.parseDouble(token.nextToken());
-				ref = Integer.parseInt(token.nextToken());
-				if (tipus.equalsIgnoreCase("PLAT")) {
-					r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
-					for (int i = 0; i < r.length; i++) {
-						r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+				try {
+					token = new StringTokenizer(linia, ",");
+					tipus = token.nextToken();
+					nom = token.nextToken();
+					preu = Double.parseDouble(token.nextToken());
+					ref = Integer.parseInt(token.nextToken());
+					if (tipus.equalsIgnoreCase("PLAT")) {
+						r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
+						for (int i = 0; i < r.length; i++) {
+							r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+						}
+						llistaProductes.afegirElement(nom, preu, r, ref);
+					} else if (tipus.equalsIgnoreCase("BEGUDA")) {
+						volum = Integer.parseInt(token.nextToken());
+						alcohol = token.nextToken().equalsIgnoreCase("SI");
+						llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
 					}
-					llistaProductes.afegirElement(nom, preu, r, ref);
-				} else if (tipus.equalsIgnoreCase("BEGUDA")) {
-					volum = Integer.parseInt(token.nextToken());
-					alcohol = token.nextToken().equalsIgnoreCase("SI");
-					llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
+					linia = lectura.readLine();
+				} catch (IllegalArgumentException e) {
+					/*No mostrem cap missatge per no molestar al usuari i no afegim aquell producte a la llista
+					 * la següent vegada que carreguem els productes ja no existirà aquesta línia que causa error.
+					 */
+					linia=lectura.readLine();		//Llegim la seguent línia
+				} catch (DuplicatedNameException e) {
+					//En cas d'existir un producte amb aquell nom, no s'afegeix a la llista
+					linia = lectura.readLine();//Llegim la seguent línia
 				}
-				linia = lectura.readLine();
 			}
 			lectura.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("ERROR! No s'ha trobat el fitxer per carregar els productes");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("ERROR! La llista de productes és plena.");
-		}
+		} 
 	}
 	
 	private static void carregarClients(){
@@ -915,13 +943,19 @@ public class Main {
 	} catch (ArrayIndexOutOfBoundsException e) {
 		System.out.println("ERROR! La llista de productes és plena.");
 	}
-}
+	}
 	
+	/**Mètode que guarda al final del fitxer el producte passat per paràmetre. Aquesta funció
+	 * és cridada cada vegada que s'afegeix un producte a la llista
+	 * 
+	 * @param p producte que serà afegit al fitxer
+	 */
 	private static void guardarProducte(Producte p){
 		
 		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));
-				
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));	//true per escriure al final del fitxer
+			
+			//Diferenciem entre Plat i Beguda
 			if (p instanceof Plat){
 				escriptura.write("PLAT,");
 				escriptura.write(p.getNom()+",");
@@ -990,10 +1024,13 @@ public class Main {
 		} //nullPointerException
 	}
 	
+	/**Mètode que sobreescriu el fitxer de productes i guarda la llista de productes actual del programa.
+	 * Aquest mètode és cridat cada vegada que s'elimina un producte.
+	 */
 	private static void sobreescriureProductes(){
 		
 		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt"));
+			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt"));	//Creem un nou fitxer buit
 			escriptura.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1001,7 +1038,7 @@ public class Main {
 		
 		Producte[] llista = llistaProductes.getLlistaProductes();
 		for(int i=0; i<llistaProductes.getnElements();i++){
-			guardarProducte(llista[i]);
+			guardarProducte(llista[i]);			//Cridem a la funció que guarda producte a producte dintre del fitxer,aquesta vegada amb un fitxer buit
 		}
 	}
 	

@@ -1,18 +1,15 @@
 package Restaurant;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import Excepcions.DuplicatedNameException;
 import Excepcions.NotFoundException;
 import InterficieGrafica.*;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
-import Productes.Beguda;
-import Productes.Plat;
 import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
 
@@ -30,6 +27,9 @@ public class MainInterficie {
 	
 	//FITXERS
 	
+	/**
+	 * Mètode que carrega els productes (plats i begudes) desde un fitxer 
+	 */
 	private static void carregarProductes(){
 		
 		llistaProductes = new LlistaProductes(100);
@@ -45,23 +45,33 @@ public class MainInterficie {
 
 			linia = lectura.readLine();
 			while (linia != null) {
-				token = new StringTokenizer(linia, ",");
-				tipus = token.nextToken();
-				nom = token.nextToken();
-				preu = Double.parseDouble(token.nextToken());
-				ref = Integer.parseInt(token.nextToken());
-				if (tipus.equalsIgnoreCase("PLAT")) {
-					r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
-					for (int i = 0; i < r.length; i++) {
-						r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+				try {
+					token = new StringTokenizer(linia, ",");
+					tipus = token.nextToken();
+					nom = token.nextToken();
+					preu = Double.parseDouble(token.nextToken());
+					ref = Integer.parseInt(token.nextToken());
+					if (tipus.equalsIgnoreCase("PLAT")) {
+						r = new RestriccionsAlimentaries[Integer.parseInt(token.nextToken())];
+						for (int i = 0; i < r.length; i++) {
+							r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+						}
+						llistaProductes.afegirElement(nom, preu, r, ref);
+					} else if (tipus.equalsIgnoreCase("BEGUDA")) {
+						volum = Integer.parseInt(token.nextToken());
+						alcohol = token.nextToken().equalsIgnoreCase("SI");
+						llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
 					}
-					llistaProductes.afegirElement(nom, preu, r, ref);
-				} else if (tipus.equalsIgnoreCase("BEGUDA")) {
-					volum = Integer.parseInt(token.nextToken());
-					alcohol = token.nextToken().equalsIgnoreCase("SI");
-					llistaProductes.afegirElement(nom, preu, volum, alcohol, ref);
+					linia = lectura.readLine();
+				} catch (IllegalArgumentException e) {
+					/*No mostrem cap missatge per no molestar al usuari i no afegim aquell producte a la llista
+					 * la següent vegada que carreguem els productes ja no existirà aquesta línia que causa error.
+					 */
+					linia=lectura.readLine();		//Llegim la seguent línia
+				} catch (DuplicatedNameException e) {
+					//En cas d'existir un producte amb aquell nom, no s'afegeix a la llista
+					linia = lectura.readLine();//Llegim la seguent línia
 				}
-				linia = lectura.readLine();
 			}
 			lectura.close();
 		} catch (FileNotFoundException e) {
@@ -155,127 +165,4 @@ public class MainInterficie {
 		System.out.println("ERROR! La llista de productes és plena.");
 	}
 }
-	
-	private static void guardarProducte(Producte p){
-		
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt", true));
-				
-			if (p instanceof Plat){
-				escriptura.write("PLAT,");
-				escriptura.write(p.getNom()+",");
-				escriptura.write(p.getPreu()+",");
-				escriptura.write(p.getCodiReferencia()+",");
-				escriptura.write(String.valueOf(((Plat) p).getRestriccions().length));
-				RestriccionsAlimentaries r[] = ((Plat) p).getRestriccions();
-				for (int i=0; i < r.length; i++)
-					escriptura.write(","+r[i]);
-				escriptura.write("\n");
-			}
-			else if (p instanceof Beguda){
-				escriptura.write("BEGUDA,");
-				escriptura.write(p.getNom()+",");
-				escriptura.write(p.getPreu()+",");
-				escriptura.write(p.getCodiReferencia()+",");
-				escriptura.write(((Beguda) p).getVolum()+",");
-				if (((Beguda) p).getAlcohol())
-					escriptura.write("SI\n");
-				else
-					escriptura.write("NO\n");
-			}
-			escriptura.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static void guardarClient(Client c){
-		
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt", true));
-			escriptura.write(c.getNom()+",");
-			escriptura.write(c.getIdentificador()+",");
-			escriptura.write(c.getAdreca()+",");
-			escriptura.write(c.getNomUsuari()+",");
-			escriptura.write(c.getContrasenya()+",");
-			escriptura.write(c.getNumTelefon()+",");
-			escriptura.write(String.valueOf(c.getRestriccions().length));
-			for (int i=0; i < c.getRestriccions().length; i++){
-				escriptura.write(","+c.getRestriccions()[i]);
-			}
-			escriptura.write("\n");
-			escriptura.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static void guardarComanda(int RefClient, Comanda c){
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));
-			Producte[] llista = c.getLlista();
-			escriptura.write(RefClient+",");
-			escriptura.write(c.getCodiComanda()+",");
-			escriptura.write(String.valueOf(c.getNumProd()));
-			for(int i=0;i<c.getNumProd();i++){
-				escriptura.write("," + llista[i].getCodiReferencia());
-			}
-			escriptura.write(c.getHoraComanda()+"\n");
-			escriptura.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} //nullPointerException
-	}
-	
-	private static void sobreescriureProductes(){
-		
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Productes.txt"));
-			escriptura.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Producte[] llista = llistaProductes.getLlistaProductes();
-		for(int i=0; i<llistaProductes.getnElements();i++){
-			guardarProducte(llista[i]);
-		}
-	}
-	
-	private static void sobreescriureComandes(){
-		
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt"));
-			escriptura.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Client[] client=llistaClients.getLlistaClients();
-		Comanda[] llistaComandes;
-		for(int j=0; j<llistaClients.getnElements(); j++){
-			llistaComandes = client[j].getTaulaComandes();
-			for(int i=0; i<client[j].getNumComandes();i++){
-				guardarComanda(client[j].getIdentificador(), llistaComandes[i]);
-			}
-		}
-	}
-	
-	private static void sobreescriureClients(){
-		
-		try {
-			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Clients.txt"));
-			escriptura.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Client[] llista = llistaClients.getLlistaClients();
-		for(int i=0; i<llistaClients.getnElements();i++){
-			guardarClient(llista[i]);
-		}
-	}
-
 }
