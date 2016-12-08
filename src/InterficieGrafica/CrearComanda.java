@@ -31,6 +31,7 @@ public class CrearComanda extends JFrame{
 	
 	private JLabel eMenu = new JLabel("MENÚ");
 	private JLabel eComanda = new JLabel("COMANDA");
+	private JLabel eProductesRestants = new JLabel();
 	private JList<Producte> lProductes;
 	private JList<Producte> lComanda;
 	private JButton bAfegir = new JButton("Afegir producte");
@@ -57,6 +58,7 @@ public class CrearComanda extends JFrame{
 				numProductes = Integer.parseInt(numProd);
 				if (numProductes<=0) throw new NumberFormatException();
 				productesRestants = numProductes;
+				eProductesRestants.setText(productesRestants+" productes restants en la comanda");
 				correcte = true;
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(null, "Valor introduït no correcte!", "ERROR!",JOptionPane.WARNING_MESSAGE);
@@ -97,12 +99,14 @@ public class CrearComanda extends JFrame{
 		pQuantitat.add(bAfegir);
 		pQuantitat.add(eQuantitat);
 		pQuantitat.add(tfQuantitat);
+		pQuantitat.add(eProductesRestants);
 		
 		esquerra.add(pQuantitat);
 		
 		eMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lProductes.setAlignmentX(Component.CENTER_ALIGNMENT);
 		bAfegir.setAlignmentX(Component.CENTER_ALIGNMENT);
+		eProductesRestants.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		
 		//Configuració dreta
@@ -139,6 +143,7 @@ public class CrearComanda extends JFrame{
 		setSize(600,400);
 		setResizable(false);
 		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Listeners que afegeix el producte de la llista seleccionat a la comanda
 		bAfegir.addActionListener( new ActionListener(){
@@ -148,47 +153,51 @@ public class CrearComanda extends JFrame{
 					Producte p = llistaProductes.getLlistaProductes()[i];
 					int quant = Integer.parseInt(tfQuantitat.getText());
 					if (quant<=0 || quant>productesRestants)
-						JOptionPane.showMessageDialog(null, "La quantitat no és correcte!", "ERROR!",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La quantitat no és correcte! Afegeix entre 1 i "+productesRestants+" productes", "ERROR!",JOptionPane.WARNING_MESSAGE);
 					else{
-						if (p instanceof Plat){
-							if(!((Plat)p).esApte(client.getRestriccions())){
+						if (p instanceof Plat){			//Els plats poden tenir restriccions alimentaries
+							if(!((Plat)p).esApte(client.getRestriccions())){	//Si no és apte
 								 int resposta = JOptionPane.showConfirmDialog(null, "Atencio el plat que vol afegir és perillós per la seva salut.\nVol continuar?", "ATENCIO!", JOptionPane.YES_NO_OPTION);
-								 if(resposta == JOptionPane.NO_OPTION){
-									 JOptionPane.showMessageDialog(null, "No s'ha afegit el producte");
-								 }
+								 
+								 if(resposta == JOptionPane.NO_OPTION)	JOptionPane.showMessageDialog(null, "No s'ha afegit el producte");
 								 else{
 									 productesRestants = productesRestants-quant;
-									 comanda.afegirProducte(p, quant);
-									 for (int cont=0; cont<quant;cont++){
-										 list.addElement(p);
-									 }
+									 comanda.afegirProducte(p, quant);		//Afegim el producte a la comanda
+									 for (int cont=0; cont<quant;cont++)	
+										 list.addElement(p);				//Afegim el producte a la llista que veu l'usuari	
 								 }
 							}
-							else{
+							else{		//Si és apte al plat s'afegeix el producte sense preguntar res
 								 productesRestants = productesRestants-quant;
 								 comanda.afegirProducte(p, quant);
-								 for (int cont=0; cont<quant;cont++){
+								 for (int cont=0; cont<quant;cont++)
 									 list.addElement(p);
-								 }
 							}
 						}
-						else{
+						else{		//Si es una beguda la afegim sense preguntar res més
 							productesRestants = productesRestants-quant;
 							comanda.afegirProducte(p, quant);
-							for (int cont=0; cont<quant;cont++){
+							for (int cont=0; cont<quant;cont++)
 								list.addElement(p);
-							}
 						}
+						//Trunquem el valor mostrat del preu de la comanda 
 						NumberFormat nf = NumberFormat.getInstance();
 						nf.setMaximumFractionDigits(2);
 						nf.setRoundingMode( RoundingMode.DOWN);
-						ePreu.setText("TOTAL   "+nf.format(comanda.calcularPreu(client.isPreferent()))+"€");
-						if (productesRestants == 0){
+						ePreu.setText("TOTAL   "+nf.format(comanda.calcularPreu(client.isPreferent()))+"€");	//Actualitzem preu
+						eProductesRestants.setText(productesRestants+" productes restants en la comanda");		//Actualitzem productes restants
+						if (productesRestants == 0){		//En cas d'haver acabat la comanda preguntem al usuari si la desitja afegir o no
+							setVisible(false);
+							int continuar = JOptionPane.showConfirmDialog(null, "Vol confirmar la comanda?", "ATENCIO!", JOptionPane.YES_NO_OPTION);
+							if(continuar == JOptionPane.NO_OPTION){
+								JOptionPane.showMessageDialog(null, "No s'ha afegit la comanda");
+								new Menu("Menu", client, llistaProductes, llistaClients);
+							 }
+						}
+						else{
 							client.afegirComanda(comanda);
 							guardarComanda(client.getIdentificador(), comanda);
 							JOptionPane.showMessageDialog(null,"S'ha creat correctament la comanda!");
-							setVisible(false);
-							setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 							new Menu("Menu", client, llistaProductes, llistaClients);
 						}
 						
@@ -210,7 +219,6 @@ public class CrearComanda extends JFrame{
 				int cancelar = JOptionPane.showConfirmDialog(null, "Està segur que vol cancelar la comanda?","Cancelar comanda",JOptionPane.YES_NO_OPTION);
 				
 				if (cancelar == JOptionPane.YES_OPTION){
-					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					setVisible(false);
 					new Menu("Menu", client, llistaProductes, llistaClients);
 				}
