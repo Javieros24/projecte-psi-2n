@@ -3,6 +3,11 @@ import java.util.GregorianCalendar;
 
 import Productes.Producte;
 
+/** Classe que gestiona una comanda d'un client
+ * 
+ * @author GRUP 10
+ *
+ */
 public class Comanda {
 
 	private Producte[] llista ;
@@ -11,7 +16,8 @@ public class Comanda {
 	private String horaComanda;
 	
 	/**Constructor de Comanda 
-	 * @param num
+	 * @param num Numero de productes que tindrà la comanda
+	 * @param codiRef Codi de referencia de la comanda
 	 */
 	public Comanda(int num, int codiRef)
 	{
@@ -22,7 +28,11 @@ public class Comanda {
 		horaComanda = "["+GregorianCalendar.HOUR_OF_DAY+":"+GregorianCalendar.MINUTE+"] "+GregorianCalendar.DAY_OF_MONTH+"/"+GregorianCalendar.MONTH+"/"+GregorianCalendar.YEAR;
 		
 	}
-	
+	/**Constructor de comanda on es pasa l'hora, utilitzar per a carregar dels fitxers
+	 * @param num Numero de productes que tindrà la comanda
+	 * @param codiRef Codi de referencia de la comanda
+	 * @param horaComanda Data en la que s'ha realitzat la comanda
+	 */
 	public Comanda(int num, int codiRef, String horaComanda)
 	{
 		llista = new Producte[num];
@@ -34,8 +44,8 @@ public class Comanda {
 	}
 	
 	/** Afegeix un producte a la llista
-	 * @param p
-	 * @param quantitat
+	 * @param p Producte que es vol afegir
+	 * @param quantitat Quantitat del producte que es vol
 	 */
 	public void afegirProducte(Producte p, int quantitat)
 	{
@@ -47,7 +57,7 @@ public class Comanda {
 	}
 	
 	/** Elimina un producte de la llista
-	 * @param p
+	 * @param p Producte que es vol eliminar
 	 */
 	public void eliminarProducte(Producte p)
 	{
@@ -64,7 +74,10 @@ public class Comanda {
 			}
 		}
 	}
-	
+	/**Calcula i retorna el preu de la comanda, tenint en compte si el client es preferent
+	 * @param preferent True si el client es preferent (s'aplica descompte) i False si no ho es
+	 * @return preu Preu final de la comanda
+	 */
 	public double calcularPreu(boolean preferent)
 	{
 		double preu=0;
@@ -75,7 +88,8 @@ public class Comanda {
 		}
 		return preu;
 	}
-	
+	/**toString de comanda
+	 */
 	public String toString() 
 	{
 		//return "[Ref: " +codiComanda+"] amb "+numProd+" productes.\t"+horaComanda;

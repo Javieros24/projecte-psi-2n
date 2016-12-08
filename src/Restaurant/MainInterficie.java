@@ -13,6 +13,11 @@ import Llistes.LlistaProductes;
 import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
 
+/**Classe principal per utilitzar interficies gràfiques que controla tota l'execució del programa
+ * 
+ * @author GRUP 10
+ *
+ */
 public class MainInterficie {
 	
 	private static LlistaProductes llistaProductes;
@@ -83,6 +88,9 @@ public class MainInterficie {
 		}
 	}
 	
+	/**
+	 * Mètode que carrega els clients desde un fitxer
+	 */
 	private static void carregarClients(){
 		
 		llistaClients = new LlistaClients(100);
@@ -120,7 +128,10 @@ public class MainInterficie {
 			System.out.println("ERROR! La llista de clients és plena.");
 		}
 		}                        
-
+	
+	/**
+	 * Mètode que carrega totes les comandes realitzades desde un fitxer 
+	 */
 	private static void carregarComandes(){
 	
 	try {

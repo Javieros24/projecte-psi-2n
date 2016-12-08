@@ -228,7 +228,7 @@ public class Main {
 	}
 	
 	
-	/**Mètode que afegiex una beguda a la llista de productes preguntant al usuari tota la informació necessària
+	/**Mètode que afegeix una beguda a la llista de productes preguntant al usuari tota la informació necessària
 	 * 
 	 * @param nom string amb el nom de la beguda
 	 * @param preu valor flotant amb el preu de la beguda
@@ -347,7 +347,8 @@ public class Main {
 		System.out.println("\n****************************************************");
 	}
 	
-
+	/**Mètode que et dona a elegir entre copiar una comanda o fer una nova
+	 */
 	public static void novaComanda()
 	{
 		Client client = escullClient();
@@ -371,6 +372,9 @@ public class Main {
 		else afegirComanda(client);	
 	}
 
+	/**Metode que et eprmet copiar una comanda de la llista de comandes del client
+	 * @param client Client que vol copiar la comanda
+	 */
 	public static void copiarComanda(Client client)
 	{
 		int ref=-1;
@@ -398,8 +402,8 @@ public class Main {
 		
 	}
 	
-	/** Afegeix una comanda a un client
-	 * @param codiClient
+	/**Metode que et pregunta totes les dades necessaries per a poder crear una nova comanda
+	 * @param client Client que vol fer una nova comanda
 	 */
 	public static void afegirComanda(Client client){
 		int numMax = 0, posicio = -1, quantitat = -1, codiProducte;
@@ -505,6 +509,11 @@ public class Main {
 		
 		finalitzarComanda(client,c);	
 	}
+	
+	/**Metode que mostra la comanda realitzada i demana confirmació per part de l'usuari
+	 * @param client Client que vol fer la comanda
+	 * @param c Comanda que es vol guardar
+	 */
 	public static void finalitzarComanda(Client client, Comanda c)
 	{
 		Producte[] p;
@@ -550,6 +559,8 @@ public class Main {
 		
 	}
 	
+	/**Mètode que et permet eliminar una comanda de la llista de comandes d'un client
+	 */
 	private static void eliminarComanda()
 	{
 		int ref=-1;;
@@ -580,6 +591,8 @@ public class Main {
 		}	
 	}
 	
+	/**Mètode que et permet veure la llista de productes d'una determinada comanda d'un client
+	 */
 	private static void consultarComanda()
 	{
 		int ref=-1;	
@@ -612,7 +625,8 @@ public class Main {
 	}
 	
 	/** Demana totes les dades necessaries per a crear un client i crida al constructor de clients.
-	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. **/
+	 *  Afegeix el nou client a la llista de clients i incrementa el comptador de clients. 
+	 */
 	private static void crearClient(){
 		String nom=null, adreca=null, nomUsuari=null, contrasenya=null;
 		int numTelefon=0, numRestriccions=0, cont=0;
@@ -748,11 +762,16 @@ public class Main {
 			}
 	}
 	
+	/**Mostra les dades d'un determinat client
+	 */
 	private static void consultarClient(){
 		Client c = escullClient();
 		System.out.println(c.toString());
 	}
 	
+	/**Mostra totes les comandes realitzades per el client passat epr parametre
+	 * @param c Client del qual es mostran totes les comandes realitzades per ell
+	 */
 	private static void historialComandes(Client c){	
 
 		for(int j=0; j<c.getNumComandes(); j++){
@@ -760,6 +779,9 @@ public class Main {
 		}
 	}
 	
+	/**Mètode que demana a l'usuari a escollir un client a la llista de clients del programa
+	 * @return client Retorna el client escollit
+	 */
 	private static Client escullClient(){
 		int ref;
 		boolean correcte=false;
@@ -791,6 +813,9 @@ public class Main {
 		return c;
 	}
 	
+	/**
+	 * Mètode que elimina un client de la llista de clients
+	 */
 	private static void eliminarClient(){
 		Client c=escullClient();
 		
@@ -862,6 +887,9 @@ public class Main {
 		} 
 	}
 	
+	/**
+	 * Mètode que carrega els clients desde un fitxer 
+	 */
 	private static void carregarClients(){
 		
 		llistaClients = new LlistaClients(100);
@@ -900,6 +928,9 @@ public class Main {
 		}
 		}                        
 
+	/**
+	 * Mètode que carrega les comandes realitzades per un client desde un fitxer 
+	 */
 	private static void carregarComandes(){
 	
 	try {
@@ -984,7 +1015,10 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-	
+	/**Mètode que guarda al final del fitxer el client passat per paràmetre. Aquesta funció
+	 * és cridada cada vegada que es crea un client
+	 * @param c Client que es vol afegir al fitxer
+	 */
 	private static void guardarClient(Client c){
 		
 		try {
@@ -1006,7 +1040,11 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
+	/**Mètode que guarda al final del fitxer la comanda passada per paràmetre. Aquesta funció
+	 * és cridada cada vegada que es crea una comanda
+	 * @param RefClient Referencia del client per saber qui ha fet la comanda
+	 * @param c Comanda creada per el client
+	 */
 	private static void guardarComanda(int RefClient, Comanda c){
 		try {
 			BufferedWriter escriptura = new BufferedWriter(new FileWriter("src/Fitxers/Comandes.txt", true));
@@ -1042,6 +1080,9 @@ public class Main {
 		}
 	}
 	
+	/**Mètode que sobreescriu el fitxer de comandes i guarda les comandes actuals del programa.
+	 * Aquest mètode és cridat cada vegada que s'elimina una comanda.
+	 */
 	private static void sobreescriureComandes(){
 		
 		try {
@@ -1061,6 +1102,9 @@ public class Main {
 		}
 	}
 	
+	/**Mètode que sobreescriu el fitxer de clients i guarda els clients actuals del programa.
+	 * Aquest mètode és cridat cada vegada que s'elimina un client.
+	 */
 	private static void sobreescriureClients(){
 		
 		try {
