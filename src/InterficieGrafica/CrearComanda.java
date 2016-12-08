@@ -193,12 +193,12 @@ public class CrearComanda extends JFrame{
 								JOptionPane.showMessageDialog(null, "No s'ha afegit la comanda");
 								new Menu("Menu", client, llistaProductes, llistaClients);
 							 }
-						}
-						else{
-							client.afegirComanda(comanda);
-							guardarComanda(client.getIdentificador(), comanda);
-							JOptionPane.showMessageDialog(null,"S'ha creat correctament la comanda!");
-							new Menu("Menu", client, llistaProductes, llistaClients);
+							else{
+								client.afegirComanda(comanda);
+								guardarComanda(client.getIdentificador(), comanda);
+								JOptionPane.showMessageDialog(null,"S'ha creat correctament la comanda!");
+								new Menu("Menu", client, llistaProductes, llistaClients);
+							}
 						}
 						
 					}
