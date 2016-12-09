@@ -9,3 +9,4 @@ Sarah Maning,8,Scarborough,Beth_childs,kira,587658784,2,ALERGICSFRUITSSECS,CELIA
 Walter White,9,Albuquerque,Heisenberg,pinkman123,234564323,3,CELIACS,ALERGICSLACTOSA,ALERGICSFRUITSSECS
 Caca,5,caca,caca,caca,8,1,ALERGICSFRUITSSECS
 eva,10,salou,eva,asdfjahdgfj,3726487,1,ALERGICSLACTOSA
+Jeroni,11,caca,caca123,123,7,1,ALERGICSLACTOSA
