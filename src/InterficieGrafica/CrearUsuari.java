@@ -138,10 +138,13 @@ public class CrearUsuari extends JFrame {
 					if((tfNom.getText().isEmpty())||(tfAdreca.getText().isEmpty())|| (tfNomUsuari.getText().isEmpty())|| (tfContrasenya.getText().isEmpty())|| (tfTelefon.getText().isEmpty())){
 						JOptionPane.showMessageDialog(null, "Camps buits", "ERROR!",JOptionPane.WARNING_MESSAGE);
 					}
-					Client c = llistaClients.afegirElement(tfNom.getText(), tfAdreca.getText(), tfNomUsuari.getText(), tfContrasenya.getText(), Integer.parseInt(tfTelefon.getText()), restriccions);
-					guardarClient(c);
-					setVisible(false);
-					new Menu("Menu", c, llistaProductes, llistaClients);
+					else{
+						Client c = llistaClients.afegirElement(tfNom.getText(), tfAdreca.getText(), tfNomUsuari.getText(), tfContrasenya.getText(), Integer.parseInt(tfTelefon.getText()), restriccions);
+						guardarClient(c);
+						setVisible(false);
+						new Menu("Menu", c, llistaProductes, llistaClients);
+					}
+					
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Numero de telefon erroni", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				} catch (DuplicatedNameException e) {
