@@ -1,9 +1,9 @@
 package Productes;
 
 /**
- * @author Sergi Quevedo Garreta
  * Subclasse plat que hereda de la superclasse producte
- * @version 1.0
+ * @author Sergi Quevedo Garreta
+ * 
  */
 public class Plat extends Producte 
 {

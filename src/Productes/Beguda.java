@@ -1,9 +1,9 @@
 package Productes;
 
 /**
- * @author Sergi Quevedo Garreta
  * Subclasse beguda que hereda de la classe producte
- * @version 1.0
+ * @author GRUP 10
+ * 
  */
 public class Beguda extends Producte  
 {

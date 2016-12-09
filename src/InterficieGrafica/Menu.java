@@ -11,8 +11,9 @@ import javax.swing.*;
 
 /**
  * Finestra menu per tal de poder veure l'historial de comandes d'un client o fer una comanda
- * @author Sergi Quevedo Garreta
- * @version 1.0
+ * 
+ * @author GRUP 10
+ * 
  */
 public class Menu extends JFrame {
 	
