@@ -1,7 +1,7 @@
 package Productes;
 /**
  * Superclasse producte amb els seus atributs
- * @author Sergi Quevedo Garreta
+ * @author GRUP 10
  * 
  */
 public abstract class Producte 

@@ -2,7 +2,7 @@ package Productes;
 
 /**
  * Subclasse plat que hereda de la superclasse producte
- * @author Sergi Quevedo Garreta
+ * @author GRUP 10
  * 
  */
 public class Plat extends Producte 
