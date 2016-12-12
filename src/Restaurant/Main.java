@@ -592,28 +592,32 @@ public class Main {
 		Client client = escullClient();
 		Comanda c=null;
 		
-		llegit=false;
-		while(!llegit)
-		{
-			try {
-				System.out.println("Esculli una de les comandes: ");
-				historialComandes(client);
-				ref = Integer.parseInt(teclat.readLine());
-				c = client.buscaComanda(ref);
-				llegit=true;
-			} catch (NumberFormatException e) {
-				System.out.println("ERROR! Ha d'introduïr un número.");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (NotFoundException e) {
-				System.out.println("ERROR! No s'ha trobat l'element.");
-			}	
-		}
-		System.out.println("Informació de la comanda:");
-		Producte[] p = c.getLlista();
-		for (int j=0; j<c.getNumProd(); j++)
-		{
-			System.out.println((j+1)+". "+p[j].getNom());
+		if (!client.hiHaComandes())
+			System.out.println("Aquest client no té cap comanda disponible");
+		else{
+			llegit=false;
+			while(!llegit)
+			{
+				try {
+					System.out.println("Esculli una de les comandes: ");
+					historialComandes(client);
+					ref = Integer.parseInt(teclat.readLine());
+					c = client.buscaComanda(ref);
+					llegit=true;
+				} catch (NumberFormatException e) {
+					System.out.println("ERROR! Ha d'introduïr un número.");
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (NotFoundException e) {
+					System.out.println("ERROR! No s'ha trobat l'element.");
+				}	
+			}
+			System.out.println("Informació de la comanda:");
+			Producte[] p = c.getLlista();
+			for (int j=0; j<c.getNumProd(); j++)
+			{
+				System.out.println((j+1)+". "+p[j].getNom());
+			}
 		}
 	}
 	
@@ -888,20 +892,25 @@ public class Main {
 			
 			linia = lectura.readLine();
 			while(linia != null){
-				token = new StringTokenizer(linia, ",");
-				nom = token.nextToken();
-				codiClient = Integer.parseInt(token.nextToken());
-				adreca = token.nextToken();
-				nomUsuari = token.nextToken();
-				contrasenya = token.nextToken();
-				numTelefon = Integer.parseInt(token.nextToken());
-				numRestriccions = Integer.parseInt(token.nextToken());
-				r = new RestriccionsAlimentaries[numRestriccions];
-				for (int i=0; i < r.length; i++){
-					r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+				try {
+					token = new StringTokenizer(linia, ",");
+					nom = token.nextToken();
+					codiClient = Integer.parseInt(token.nextToken());
+					adreca = token.nextToken();
+					nomUsuari = token.nextToken();
+					contrasenya = token.nextToken();
+					numTelefon = Integer.parseInt(token.nextToken());
+					numRestriccions = Integer.parseInt(token.nextToken());
+					r = new RestriccionsAlimentaries[numRestriccions];
+					for (int i=0; i < r.length; i++){
+						r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+					}
+					llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, r, codiClient);
+					linia = lectura.readLine();
+				} catch (IllegalArgumentException e) {
+					// No es mostra cap missatge i es segueix carregant clients. En la seguent execucio aquesta linia ja no estarà al fitxer
+					linia = lectura.readLine();
 				}
-				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, r, codiClient);
-				linia = lectura.readLine();
 			}
 			lectura.close();
 		} catch (FileNotFoundException e) {
@@ -947,6 +956,9 @@ public class Main {
 			} catch (NotFoundException e) {
 				linia = lectura.readLine();
 				//Si un producte de la llista ha estat eliminat, aquella comanda no s'afegeix
+			} catch (IllegalArgumentException e) {
+				// No es mostra cap missatge i es segueix carregant comandes. En la seguent execucio aquesta linia ja no estarà al fitxer
+				linia = lectura.readLine();
 			}
 		}
 		lectura.close();

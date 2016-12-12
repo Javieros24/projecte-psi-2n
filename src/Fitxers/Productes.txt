@@ -6,4 +6,4 @@ PLAT,Pa Int Egral,6.99,5,1,ALERGICSLACTOSA
 BEGUDA,Cafe de Java,3.99,6,50,no
 PLAT,MACarró,1.99,15,1,CELIACS
 PLAT,JavaDog,6.90,16,1,CELIACS
-PLAT,((arm)GASpatxo),9.99,7,0
+PLAT,((arm)GASpatxo),9.99,7,0PLAT,das,3.0,8,0

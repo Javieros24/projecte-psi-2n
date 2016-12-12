@@ -97,20 +97,25 @@ public class MainInterficie {
 			
 			linia = lectura.readLine();
 			while(linia != null){
-				token = new StringTokenizer(linia, ",");
-				nom = token.nextToken();
-				codiClient = Integer.parseInt(token.nextToken());
-				adreca = token.nextToken();
-				nomUsuari = token.nextToken();
-				contrasenya = token.nextToken();
-				numTelefon = Integer.parseInt(token.nextToken());
-				numRestriccions = Integer.parseInt(token.nextToken());
-				r = new RestriccionsAlimentaries[numRestriccions];
-				for (int i=0; i < r.length; i++){
-					r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+				try {
+					token = new StringTokenizer(linia, ",");
+					nom = token.nextToken();
+					codiClient = Integer.parseInt(token.nextToken());
+					adreca = token.nextToken();
+					nomUsuari = token.nextToken();
+					contrasenya = token.nextToken();
+					numTelefon = Integer.parseInt(token.nextToken());
+					numRestriccions = Integer.parseInt(token.nextToken());
+					r = new RestriccionsAlimentaries[numRestriccions];
+					for (int i=0; i < r.length; i++){
+						r[i] = RestriccionsAlimentaries.valueOf(token.nextToken());
+					}
+					llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, r, codiClient);
+					linia = lectura.readLine();
+				} catch (IllegalArgumentException e) {
+					// No es mostra cap missatge i es segueix carregant clients. En la seguent execucio aquesta linia ja no estarà al fitxer
+					linia = lectura.readLine();
 				}
-				llistaClients.afegirElement(nom, adreca, nomUsuari, contrasenya, numTelefon, r, codiClient);
-				linia = lectura.readLine();
 			}
 			lectura.close();
 		} catch (FileNotFoundException e) {
@@ -155,6 +160,9 @@ public class MainInterficie {
 			} catch (NotFoundException e) {
 				linia = lectura.readLine();
 				//Si un producte de la llista ha estat eliminat, aquella comanda no s'afegeix
+			} catch (IllegalArgumentException e) {
+				// No es mostra cap missatge i es segueix carregant comandes. En la seguent execucio aquesta linia ja no estarà al fitxer
+				linia = lectura.readLine();
 			}
 		}
 		lectura.close();
