@@ -1,5 +1,7 @@
 package Restaurant;
-import java.util.GregorianCalendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import Productes.Producte;
 
@@ -25,7 +27,10 @@ public class Comanda {
 		numProd = 0;
 		codiComanda = codiRef;
 		
-		horaComanda = "["+GregorianCalendar.HOUR_OF_DAY+":"+GregorianCalendar.MINUTE+"] "+GregorianCalendar.DAY_OF_MONTH+"/"+GregorianCalendar.MONTH+"/"+GregorianCalendar.YEAR;
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		horaComanda = format.format(cal.getTime());
+		
 		
 	}
 	/**Constructor de comanda on es pasa l'hora, utilitzar per a carregar dels fitxers
