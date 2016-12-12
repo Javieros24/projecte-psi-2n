@@ -105,15 +105,20 @@ public class Historial extends JFrame{
 		
 		consultar.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
-				numComanda = llista.getSelectedIndex();
-				Producte[] productes = llistaComandes[numComanda].getLlista();
-				info.setListData(productes);
-				NumberFormat nf = NumberFormat.getInstance();
-				nf.setMaximumFractionDigits(2);
-				nf.setRoundingMode( RoundingMode.DOWN);
-				String preu = nf.format(llistaComandes[numComanda].calcularPreu(client.isPreferent()));
-				resum.setText("El preu total de la comanda es de "+preu+"€");
-				if(!copiar.isEnabled()) copiar.setEnabled(true);
+				Producte[] productes;
+				try {
+					numComanda = llista.getSelectedIndex();
+					productes = llistaComandes[numComanda].getLlista();
+					info.setListData(productes);
+					NumberFormat nf = NumberFormat.getInstance();
+					nf.setMaximumFractionDigits(2);
+					nf.setRoundingMode( RoundingMode.DOWN);
+					String preu = nf.format(llistaComandes[numComanda].calcularPreu(client.isPreferent()));
+					resum.setText("El preu total de la comanda es de "+preu+"€");
+					if(!copiar.isEnabled()) copiar.setEnabled(true);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					JOptionPane.showMessageDialog(null, "Has de seleccionar una comanda!");
+				}
 			}
 		});
 		
