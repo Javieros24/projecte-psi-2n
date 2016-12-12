@@ -24,14 +24,7 @@ public class Beguda extends Producte
 		this.volum=volum;
 	}
 	
-	/**
-	 * Setter
-	 * @param volum es el volum de la beguda
-	 */
-	public void setVolum(int volum) 
-	{
-		this.volum = volum;
-	}
+	
 	
 	/**
 	 * Getter

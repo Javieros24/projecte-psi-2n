@@ -62,14 +62,9 @@ public class Plat extends Producte
 	public RestriccionsAlimentaries[] getRestriccions() {
 		return restriccions;
 	}
-	
 	/**
-	 * Setter
-	 * @param restriccions son les restriccions alimentaries 
+	 * Mètode toString de plat que mostra per pantalla els seus atributs
 	 */
-	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
-		this.restriccions = restriccions;
-	}
 	
 	public String toString(){
 		return super.toString()+"    [Plat]";
