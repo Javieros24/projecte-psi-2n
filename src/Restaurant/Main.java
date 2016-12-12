@@ -347,7 +347,7 @@ public class Main {
 		System.out.println("\n****************************************************");
 	}
 	
-
+	/** Metode que et permet crear una nova comanda a partir d'una copia o desde cero. */
 	public static void novaComanda()
 	{
 		Client client = escullClient();
@@ -371,6 +371,7 @@ public class Main {
 		else afegirComanda(client);	
 	}
 
+	/** Mètode que a partir d'una comanda creada anteriorment crea una de nova. */
 	public static void copiarComanda(Client client)
 	{
 		int ref=-1;
@@ -398,7 +399,8 @@ public class Main {
 		
 	}
 	
-	/** Afegeix una comanda a un client
+	/** Mètode que et mostra els productes disponibles i et permet afegir 
+	 *  qualsevol producte a la teva comanda.
 	 * @param codiClient
 	 */
 	public static void afegirComanda(Client client){
@@ -408,7 +410,7 @@ public class Main {
 		Producte[] llista = llistaProductes.getLlistaProductes();
 				
 		
-		//preguntem el numero de productes que tindra la comanda
+		//preguntem el número de productes que tindra la comanda
 		llegit = false;
 		while (!llegit)
 		{
@@ -505,6 +507,8 @@ public class Main {
 		
 		finalitzarComanda(client,c);	
 	}
+	
+	/** Mètode que mostra la comanda al usuari, i permet cancelarla o confirmarla per despés guardarla. */
 	public static void finalitzarComanda(Client client, Comanda c)
 	{
 		Producte[] p;
@@ -550,6 +554,7 @@ public class Main {
 		
 	}
 	
+	/** Permet eliminar qualsevol comanda d'un client. */
 	private static void eliminarComanda()
 	{
 		int ref=-1;;
@@ -580,6 +585,7 @@ public class Main {
 		}	
 	}
 	
+	/** Permet consultar qualsevol comanda de un client. */
 	private static void consultarComanda()
 	{
 		int ref=-1;	
