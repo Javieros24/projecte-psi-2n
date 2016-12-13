@@ -119,7 +119,12 @@ public class CrearComanda extends JFrame{
 		dreta.add(new JSeparator(SwingConstants.HORIZONTAL));
 		dreta.add(scrollComanda, BorderLayout.NORTH);
 		dreta.add(ePreu);
-		JLabel eUsuari = new JLabel("Has iniciat sessió com "+client.getNomUsuari());
+		JLabel eUsuari;
+		if (client.isPreferent())
+			eUsuari = new JLabel("Has iniciat sessió com "+client.getNomUsuari()+", és vostè preferent");
+		else
+			eUsuari = new JLabel("Has iniciat sessió com "+client.getNomUsuari()+", encara no és preferent");
+			
 		JPanel pUsuari = new JPanel();
 		pUsuari.setLayout(new BoxLayout(pUsuari,BoxLayout.PAGE_AXIS ));
 		pUsuari.add(bCancelar);
@@ -140,7 +145,7 @@ public class CrearComanda extends JFrame{
 		lComanda.setFont(new java.awt.Font("Calibri", 0, 20));
 		ePreu.setFont(new java.awt.Font("Calibri", 0, 20));
         //Configuració de la finestra
-		setSize(600,400);
+		setSize(720,400);
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -184,7 +189,10 @@ public class CrearComanda extends JFrame{
 						NumberFormat nf = NumberFormat.getInstance();
 						nf.setMaximumFractionDigits(2);
 						nf.setRoundingMode( RoundingMode.DOWN);
-						ePreu.setText("TOTAL   "+nf.format(comanda.calcularPreu(client.isPreferent()))+"€");	//Actualitzem preu
+						if (client.isPreferent())
+							ePreu.setText("[5% dte] TOTAL   "+nf.format(comanda.calcularPreu(true))+"€");	//Actualitzem preu
+						else
+							ePreu.setText("TOTAL   "+nf.format(comanda.calcularPreu(false))+"€");	//Actualitzem preu
 						eProductesRestants.setText(productesRestants+" productes restants en la comanda");		//Actualitzem productes restants
 						if (productesRestants == 0){		//En cas d'haver acabat la comanda preguntem al usuari si la desitja afegir o no
 							setVisible(false);
