@@ -122,100 +122,48 @@ public class Client {
 	}
 	
 	/*-------------------GETTERS I SETTERS----------------------------------*/
-	
 	public String getNom() {
 		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getadreca() {
-		return adreca;
-	}
-
-	public void setadreca(String adreca) {
-		this.adreca = adreca;
-	}
-
-	public String getNomUsuari() {
-		return nomUsuari;
-	}
-
-	public void setNomUsuari(String nomUsuari) {
-		this.nomUsuari = nomUsuari;
-	}
-
-	public String getContrasenya() {
-		return contrasenya;
-	}
-
-	public void setContrasenya(String contrasenya) {
-		this.contrasenya = contrasenya;
-	}
-
-	public int getIdentificador() {
-		return identificador;
-	}
-
-	public void setIdentificador(int identificador) {
-		this.identificador = identificador;
-	}
-
-	public int getNumTelefon() {
-		return numTelefon;
-	}
-
-	public void setNumTelefon(int numTelefon) {
-		this.numTelefon = numTelefon;
-	}
-
-	public int getNumComandes() {
-		return numComandes;
-	}
-
-	public void setNumComandes(int numComandes) {
-		this.numComandes = numComandes;
-	}
-
-	public Comanda[] getTaulaComandes() {
-		return taulaComandes;
-	}
-
-	public void setTaulaComandes(Comanda[] taulaComandes) {
-		this.taulaComandes = taulaComandes;
-	}
-
-	public boolean isPreferent() {
-		return preferent;
-	}
-
-	public void setPreferent(boolean preferent) {
-		this.preferent = preferent;
-	}
-
-	public RestriccionsAlimentaries[] getRestriccions() {
-		return restriccions;
-	}
-
-	public void setRestriccions(RestriccionsAlimentaries[] restriccions) {
-		this.restriccions = restriccions;
 	}
 
 	public String getAdreca() {
 		return adreca;
 	}
 
-	public void setAdreca(String adreca) {
-		this.adreca = adreca;
+	public String getNomUsuari() {
+		return nomUsuari;
+	}
+
+	public String getContrasenya() {
+		return contrasenya;
+	}
+
+	public int getIdentificador() {
+		return identificador;
+	}
+
+	public int getNumTelefon() {
+		return numTelefon;
+	}
+
+	public int getNumComandes() {
+		return numComandes;
+	}
+
+	public Comanda[] getTaulaComandes() {
+		return taulaComandes;
+	}
+
+	public boolean isPreferent() {
+		return preferent;
+	}
+
+	public RestriccionsAlimentaries[] getRestriccions() {
+		return restriccions;
 	}
 
 	public String toString() {
 		return "Nom:\t "+nom+"\nAdreca:\t "+adreca+"\nNom d'usuari:\t "+nomUsuari+"\nContrasenya:\t "+contrasenya+"\nNumero de telefon:\t "+numTelefon+
 				"\n[Ref: "+identificador+"]\nNumero de Comandes:\t "+numComandes+"\nRestriccions alimentaries:\t "+restriccions;
-	}
-	
-	
-	
+	}	
 }

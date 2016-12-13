@@ -114,17 +114,9 @@ public class Comanda {
 	public int getNumProd() {
 		return numProd;
 	}
-	
-	public void setNumProd(int numProd) {
-		this.numProd = numProd ;
-	}
-	
+		
 	public int getCodiComanda ()
 	{
 		return codiComanda;
-	}
-
-	public void setCodiComanda(int codiComanda) {
-		this.codiComanda = codiComanda;
 	}
 }
