@@ -12,7 +12,11 @@ import Excepcions.NotFoundException;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
 import Restaurant.Client;
-
+/**
+ * Finestra que exten de JFrame que s'obre nomé iniciar el programa on l'usuari pot entrar amb el seu compte o pot registrar-se.
+ *  * @author GRUP 10
+ *
+ */
 public class Login extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +28,12 @@ public class Login extends JFrame{
 	private JTextField tfNom = new JTextField();
 	private JPasswordField pfContrasenya = new JPasswordField();
 	
-	
+	/**
+	 * Constructor on es creen tots els panells per a fer la finestra
+	 * @param nom es el nom de la finestra
+	 * @param llistaProductes es la llista de productes
+	 * @param llistaClients es la llista de clients
+	 */
 	public Login(String nom, LlistaProductes llistaProductes, LlistaClients llistaClients){
 		super(nom);
 		
