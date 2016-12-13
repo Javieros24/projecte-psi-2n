@@ -1,4 +1,6 @@
 package Restaurant;
+import java.util.Arrays;
+
 import Excepcions.NotFoundException;
 import Productes.Producte;
 import Productes.RestriccionsAlimentaries;
@@ -164,6 +166,6 @@ public class Client {
 
 	public String toString() {
 		return "Nom:\t "+nom+"\nAdreca:\t "+adreca+"\nNom d'usuari:\t "+nomUsuari+"\nContrasenya:\t "+contrasenya+"\nNumero de telefon:\t "+numTelefon+
-				"\n[Ref: "+identificador+"]\nNumero de Comandes:\t "+numComandes+"\nRestriccions alimentaries:\t "+restriccions;
+				"\n[Ref: "+identificador+"]\nNumero de Comandes:\t "+numComandes+"\nRestriccions alimentaries:\t "+Arrays.toString(restriccions);
 	}	
 }
