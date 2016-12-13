@@ -6,12 +6,21 @@ import Productes.RestriccionsAlimentaries;
 import Restaurant.Client;
 import Restaurant.Comanda;
 
+/**
+ * Classe LlistaClients per a poder guardar els clients en una lista
+ * @author GRUP 10
+ *
+ */
 public class LlistaClients {
 	private Client[] llistaClients;
 	private int nElements;
 	private int codiClient;
 	private int codiComandes;
 	
+	/**Constructor on s eli passa per paràmetre el tamany i l'inicialitza
+	 * 
+	 * @param num es el tamany de la llista de clients
+	 */
 	public LlistaClients(int num){
 		llistaClients = new Client[num];
 		codiClient=1;
