@@ -1,5 +1,6 @@
 package Llistes;
 import Excepcions.DuplicatedNameException;
+import Excepcions.IllegalCharException;
 import Excepcions.NotFoundException;
 import Productes.RestriccionsAlimentaries;
 import Restaurant.Client;
@@ -27,9 +28,11 @@ public class LlistaClients {
 	 * @param restriccions Taula de RestriccionsAlimentaries amb les restrccions del client
 	 * @return	retorna el client que s'acava d'afegir a la llista
 	 * @throws DuplicatedNameException excepció que és llançada en cas d'haver intentat afegir un client amb el mateix nom
+	 * @throws IllegalCharException excepció que és llançada en cas d'haver afeigt un element amb alguna ","
 	 */
-	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions) throws DuplicatedNameException{
+	public Client afegirElement(String nom, String adreca, String nomUsuari, String contrasenya, int numTelefon, RestriccionsAlimentaries[] restriccions) throws DuplicatedNameException, IllegalCharException{
 		if (!existeixNom(nomUsuari)){
+			caracterIlegal(nom, adreca, nomUsuari, contrasenya);
 			referencia();
 			llistaClients[nElements] = new Client(nom, adreca, nomUsuari, contrasenya, numTelefon, restriccions, codiClient);
 			nElements++;
@@ -122,6 +125,31 @@ public class LlistaClients {
 			}
 		}
 	}
+	
+	/**Mètode que busca el  caràcter ',' entre els strings ja que és l'utilitzat com a token al llegir de fitxers
+	 * 
+	 * @param nom String a analitzar
+	 * @param adreca String a analitzar
+	 * @param nomUsuari String a analitzar
+	 * @throws IllegalCharException
+	 */
+	private void caracterIlegal(String nom,String adreca,String nomUsuari, String contrasenya) throws IllegalCharException{
+		int i;
+		char valor = ',';
+		for(i=0; i<nom.length(); i++){
+			if (valor == nom.charAt(i)) throw new IllegalCharException();
+		}
+		for(i=0; i<adreca.length(); i++){
+			if (valor == adreca.charAt(i)) throw new IllegalCharException();
+		}
+		for(i=0; i<nomUsuari.length(); i++){
+			if (valor == nomUsuari.charAt(i)) throw new IllegalCharException();
+		}
+		for(i=0; i<contrasenya.length(); i++){
+			if (valor == contrasenya.charAt(i)) throw new IllegalCharException();
+		}
+	}
+
 	
 	/**Mètode privat que s'encarrega de deixar un codi de referència no utilitat abans de afegir una comanda
 	 * a la taula d'un client. Aquest mètode és cridat just abans d'afegir una comanda a la taula.

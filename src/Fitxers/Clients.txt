@@ -8,3 +8,7 @@ Elliot Alderson,7,New York,mr.Robot,fsociety,684354663,2,ALERGICSFRUITSSECS,ALER
 Sarah Maning,8,Scarborough,Beth_childs,kira,587658784,2,ALERGICSFRUITSSECS,CELIACS
 Walter White,9,Albuquerque,Heisenberg,pinkman123,234564323,3,CELIACS,ALERGICSLACTOSA,ALERGICSFRUITSSECS
 sadfasfas,5,sdfgasfgas,asdfasd,sdfsdf,684565,0
+sdfsdds,10,sdf,sr,sdf,,45,0
+sasfsdfsd,11,fsdsdf,,54sdsd,wetgfhd,4325,1,ALERGICSFRUITSSECS
+fsdsdf,12,,sdf,asd,asd,43467,0
+wetyj,13,sfdofmdf,34,wretrt,356,0

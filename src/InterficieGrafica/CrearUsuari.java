@@ -3,6 +3,7 @@ package InterficieGrafica;
 import javax.swing.*;
 
 import Excepcions.DuplicatedNameException;
+import Excepcions.IllegalCharException;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
 import Productes.RestriccionsAlimentaries;
@@ -149,7 +150,9 @@ public class CrearUsuari extends JFrame {
 					JOptionPane.showMessageDialog(null, "Numero de telefon erroni", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				} catch (DuplicatedNameException e) {
 					JOptionPane.showMessageDialog(null, "Aquest nom d'usuari ja existeix.", "ERROR!",JOptionPane.WARNING_MESSAGE);
-				}	
+				} catch (IllegalCharException e) {
+					JOptionPane.showMessageDialog(null, "ERROR! Cap camp pot contenir el valor ','", "ERROR!",JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		bTornar.addActionListener( new ActionListener(){

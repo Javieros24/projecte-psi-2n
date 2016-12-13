@@ -1,5 +1,6 @@
 package Llistes;
 import Excepcions.DuplicatedNameException;
+import Excepcions.IllegalCharException;
 import Excepcions.NotFoundException;
 import Productes.Beguda;
 import Productes.Plat;
@@ -44,10 +45,12 @@ public class LlistaProductes {
 	 * @param r taula de restriccions alimentàries del plat
 	 * @return	retorna el plat que s'acava d'afegir a la llista
 	 * @throws DuplicatedNameException excepció que és llançada en cas d'haver intentat afegir un plat amb el mateix nom
+	 * @throws IllegalCharException 
 	 */
-	public Plat afegirElement(String nom, double preu, RestriccionsAlimentaries[] r) throws DuplicatedNameException{
+	public Plat afegirElement(String nom, double preu, RestriccionsAlimentaries[] r) throws DuplicatedNameException, IllegalCharException{
 		if (existeixNom(nom)) throw new DuplicatedNameException();
 		else{
+			caracterIlegal(nom);
 			referencia();
 			llistaProductes[nElements] = new Plat(nom, preu, r, codiReferencia);
 			nElements++;
@@ -64,9 +67,11 @@ public class LlistaProductes {
 	 * @param alcohol booleà que indica si la beguda conté o no alcohol
 	 * @return	retorna la beguda que s'acava d'afegir a la llista
 	 * @throws DuplicatedNameException excepció que és llançada en cas d'haver intentat afegir una beguda amb el mateix nom
+	 * @throws IllegalCharException 
 	 */
-	public Beguda afegirElement(String nom, double preu, int volum, boolean alcohol) throws DuplicatedNameException{
+	public Beguda afegirElement(String nom, double preu, int volum, boolean alcohol) throws DuplicatedNameException, IllegalCharException{
 		if (!existeixNom(nom)){
+			caracterIlegal(nom);
 			referencia();
 			llistaProductes[nElements] = new Beguda(nom, preu, volum, alcohol, codiReferencia);
 			nElements++;
@@ -110,6 +115,19 @@ public class LlistaProductes {
 			nElements++;
 		}
 		throw new DuplicatedNameException();
+	}
+	
+	/**Mètode que busca el  caràcter ',' entre els strings ja que és l'utilitzat com a token al llegir de fitxers
+	 * 
+	 * @param nom String a analitzar
+	 * @throws IllegalCharException excepció que és llançada quan un string contè el valor ','
+	 */
+	private void caracterIlegal(String nom) throws IllegalCharException{
+		int i;
+		char valor = ',';
+		for(i=0; i<nom.length(); i++){
+			if (valor == nom.charAt(i)) throw new IllegalCharException();
+		}
 	}
 	
 	/**Mètode que permet eliminar un plat o una beguda de la llista. Utilitza el codi de referència d'aquest per eliminar-lo.

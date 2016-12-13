@@ -1,5 +1,6 @@
 package Restaurant;
 import Excepcions.DuplicatedNameException;
+import Excepcions.IllegalCharException;
 import Excepcions.NotFoundException;
 import Llistes.LlistaClients;
 import Llistes.LlistaProductes;
@@ -224,6 +225,8 @@ public class Main {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
 		} catch (DuplicatedNameException e) {
 			System.out.println("ERROR! El producte que està intentant afegir ja existeix");
+		} catch (IllegalCharException e) {
+			System.out.println("ERROR! Algun valor introduit contè un caràcter invàlid. Recorda que no es poden utilitzar ','");
 		}
 	}
 	
@@ -266,6 +269,8 @@ public class Main {
 			System.out.println("ERROR! No es pot afegir cap més producte.");
 		} catch (DuplicatedNameException e) {
 			System.out.println("ERROR! El producte que està intentant afegir ja existeix");
+		} catch (IllegalCharException e) {
+			System.out.println("ERROR! Algun valor introduit contè un caràcter invàlid. Recorda que no es poden utilitzar ','");
 		}
 	}
 	
@@ -755,6 +760,8 @@ public class Main {
 				System.out.println("ERROR! No s'ha pogut crear el client. Llista plena.");
 			} catch (DuplicatedNameException e) {
 				System.out.println("ERROR! El producte que està intentant afegir ja existeix");
+			} catch (IllegalCharException e) {
+				System.out.println("ERROR! Algun valor introduit contè un caràcter invàlid. Recorda que no es poden utilitzar ','");
 			}
 	}
 	
