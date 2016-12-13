@@ -117,7 +117,9 @@ public class Historial extends JFrame{
 					resum.setText("El preu total de la comanda es de "+preu+"€");
 					if(!copiar.isEnabled()) copiar.setEnabled(true);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					JOptionPane.showMessageDialog(null, "Has de seleccionar una comanda!");
+					JOptionPane.showMessageDialog(null, "No ha seleccionat cap comanda!", "ERROR!",JOptionPane.WARNING_MESSAGE);
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "No ha seleccionat cap comanda!", "ERROR!",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
